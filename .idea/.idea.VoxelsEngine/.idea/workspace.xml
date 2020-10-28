@@ -1,10 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="2f28268c-c204-405c-b1d8-30202cdf9ae9" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/CubeMeshData.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/CubeMeshData.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/VoxelData.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/VoxelData.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/VoxelRenderer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/VoxelRenderer.cs.meta" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelRenderer.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelData.cs" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1jVkPL5uxSa8hgADV96FsYsLe2U" />
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Discover.Launch.Via.Unity" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
@@ -25,5 +63,46 @@
       </option>
       <method v="2" />
     </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2f28268c-c204-405c-b1d8-30202cdf9ae9" name="Default Changelist" comment="" />
+      <created>1603896622470</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1603896622470</updated>
+      <workItem from="1603896644202" duration="1215000" />
+    </task>
+    <task id="LOCAL-00001" summary="initial commit;">
+      <created>1603896756787</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1603896756787</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_NEW_TODO" value="false" />
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="initial commit;" />
+    <option name="LAST_COMMIT_MESSAGE" value="initial commit;" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="-1337" y="129" key="CommitChangelistDialog2" timestamp="1603896755801">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-1337" y="129" key="CommitChangelistDialog2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1603896755801" />
+    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2" timestamp="1603896789195">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1603896789195" />
   </component>
 </project>

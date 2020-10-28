@@ -29,22 +29,25 @@ public class VoxelRenderer : MonoBehaviour
         verticies = new List<Vector3>();
         triangles = new List<int>();
         
-        for (int z = 0; z < data.Depth; z++)
+        for (int x = 0; x < data.Width; x++)
         {
-            for (int x = 0; x < data.Width; x++)
+            for (int y = 0; y < data.Height; y++)
             {
-                if (data.GetCell(x, z) == 0) continue;
+                for (int z = 0; z < data.Depth; z++)
+                {
+                    if (data.GetCell(x, y, z) == 0) continue;
                 
-                MakeCube(adjustedScale, new Vector3(x, 0, z) * scale, x, z, data);
+                    MakeCube(adjustedScale, new Vector3(x, y, z) * scale, x, y, z, data);
+                }
             }
         }
     }
 
-    private void MakeCube(float scale, Vector3 cubePos, int x, int z, VoxelData data)
+    private void MakeCube(float scale, Vector3 cubePos, int x, int y, int z, VoxelData data)
     {
         for (int i = 0; i < 6; i++)
         {
-            if (data.GetNeighbor(x, z, (Direction) i) == 0)
+            if (data.GetNeighbor(x, y, z, (Direction) i) == 0)
                 MakeFace((Direction)i, scale, cubePos);
         }
     }
