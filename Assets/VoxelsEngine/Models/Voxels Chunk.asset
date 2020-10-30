@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70e5885115022764ebe964c657dd0c1c, type: 3}
   m_Name: Voxels Chunk
   m_EditorClassIdentifier: 
+  size: {x: 5, y: 5, z: 5}
