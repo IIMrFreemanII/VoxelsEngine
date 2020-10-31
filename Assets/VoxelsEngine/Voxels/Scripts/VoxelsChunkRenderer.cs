@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using VoxelsEngine.Utils;
 
 namespace VoxelsEngine.Voxels.Scripts
 {
@@ -25,6 +24,7 @@ namespace VoxelsEngine.Voxels.Scripts
         private void OnValidate()
         {
             _adjustedScale = scale * 0.5f;
+            pointsSize = pointsSize > 0 ? pointsSize : 0;
         }
 
         private void Start()
@@ -39,37 +39,13 @@ namespace VoxelsEngine.Voxels.Scripts
             UpdateMesh();
         }
 
-        public bool TestGizmo;
-        private void OnDrawGizmosSelected()
-        {
-            if (!voxelsChunk) return;
-
-            Gizmos.color = Color.white;
-
-            if (TestGizmo)
-            {
-                GizmosUtils.DrawWireRect(
-                    transform.position,
-                    new Vector3(voxelsChunk.Width, voxelsChunk.Height, voxelsChunk.Depth) * scale
-                );
-            }
-            else
-            {
-                for (int x = 0; x < voxelsChunk.Width; x++)
-                {
-                    for (int y = 0; y < voxelsChunk.Height; y++)
-                    {
-                        for (int z = 0; z < voxelsChunk.Depth; z++)
-                        {
-                            Vector3 cubePos = new Vector3(x, y, z) * scale;
-                            Vector3 offset = Vector3.one * scale * 0.5f;
-
-                            Gizmos.DrawWireCube(cubePos + offset, Vector3.one * scale);
-                        }
-                    }
-                }
-            }
-        }
+        [Header("Gizmos")]
+        public bool drawBorder;
+        public Color borderColor = Color.white;
+        [Space]
+        public bool drawVolume;
+        public Color volumeColor = Color.white;
+        public float pointsSize = 1f;
 
         private void GenerateVoxelsMesh(VoxelsChunk data)
         {
