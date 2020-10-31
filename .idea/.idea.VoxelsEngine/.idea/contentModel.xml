@@ -16,8 +16,8 @@
           </e>
         </e>
         <e p="VoxelsEngine" t="Include">
-          <e p="Extensions" t="Include">
-            <e p="GizmosExtention.cs" t="Include" />
+          <e p="Utils" t="Include">
+            <e p="GizmosUtilscs.cs" t="Include" />
           </e>
           <e p="Voxels" t="Include">
             <e p="Scripts" t="Include">

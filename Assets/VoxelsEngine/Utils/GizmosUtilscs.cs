@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace VoxelsEngine.Extensions
+namespace VoxelsEngine.Utils
 {
-    public static class GizmosExtension
+    public static class GizmosUtils
     {
         public static void DrawWireRect(Vector3 origin, Vector3 size)
         {

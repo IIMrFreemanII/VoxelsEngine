@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using VoxelsEngine.Extensions;
+using VoxelsEngine.Utils;
 
 namespace VoxelsEngine.Voxels.Scripts
 {
@@ -48,7 +48,7 @@ namespace VoxelsEngine.Voxels.Scripts
 
             if (TestGizmo)
             {
-                GizmosExtension.DrawWireRect(
+                GizmosUtils.DrawWireRect(
                     transform.position,
                     new Vector3(voxelsChunk.Width, voxelsChunk.Height, voxelsChunk.Depth) * scale
                 );

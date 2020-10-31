@@ -19,17 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2f28268c-c204-405c-b1d8-30202cdf9ae9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Extensions.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Extensions/GizmosExtention.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Extensions/GizmosExtention.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/Voxels Chunk.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/Voxels Chunk.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/VoxelsScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/VoxelsScene.unity" afterDir="false" />
-    </list>
+    <list default="true" id="2f28268c-c204-405c-b1d8-30202cdf9ae9" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -47,8 +37,11 @@
     <setting file="mock://F:/UnityProjects/TestProjects/VoxelsEngine/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://F:/UnityProjects/TestProjects/VoxelsEngine/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04258D1C-DC10-4424-8C2A-17A6A31A3CF7/bb/719799d3/Gizmos.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://F:/UnityProjects/TestProjects/VoxelsEngine/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://F:/UnityProjects/TestProjects/VoxelsEngine/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04258D1C-DC10-4424-8C2A-17A6A31A3CF7/09/d648a749/Vector3Int.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04258D1C-DC10-4424-8C2A-17A6A31A3CF7/d2/9cd780fd/Vector3.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://F:/UnityProjects/TestProjects/VoxelsEngine/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://F:/UnityProjects/TestProjects/VoxelsEngine/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
@@ -115,7 +108,7 @@
       <updated>1603896622470</updated>
       <workItem from="1603896644202" duration="1215000" />
       <workItem from="1604066263793" duration="1159000" />
-      <workItem from="1604086543149" duration="7955000" />
+      <workItem from="1604086543149" duration="8114000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit;">
       <created>1603896756787</created>
@@ -131,7 +124,14 @@
       <option name="project" value="LOCAL" />
       <updated>1604001871749</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="implement DrawWireRect;&#10;implement storing voxels chunk data in scriptable object;">
+      <created>1604094636628</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1604094636628</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -157,20 +157,21 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="initial commit;" />
     <MESSAGE value="implement storing voxels chunk in scriptable object" />
-    <option name="LAST_COMMIT_MESSAGE" value="implement storing voxels chunk in scriptable object" />
+    <MESSAGE value="implement DrawWireRect;&#10;implement storing voxels chunk data in scriptable object;" />
+    <option name="LAST_COMMIT_MESSAGE" value="implement DrawWireRect;&#10;implement storing voxels chunk data in scriptable object;" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="-1337" y="129" key="CommitChangelistDialog2" timestamp="1604001870293">
+    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2" timestamp="1604094635222">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1337" y="129" key="CommitChangelistDialog2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604001870293" />
-    <state x="-1828" y="92" width="1736" height="856" key="DiffContextDialog" timestamp="1604005347582">
+    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604094635222" />
+    <state x="-1828" y="92" width="1736" height="856" key="DiffContextDialog" timestamp="1604094664285">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1828" y="92" width="1736" height="856" key="DiffContextDialog/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604005347582" />
-    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2" timestamp="1604001875228">
+    <state x="-1828" y="92" width="1736" height="856" key="DiffContextDialog/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604094664285" />
+    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2" timestamp="1604094642124">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604001875228" />
+    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604094642124" />
   </component>
 </project>
