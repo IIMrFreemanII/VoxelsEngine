@@ -83,14 +83,13 @@ namespace VoxelsEngine.Voxels.Editor
                         )
                         {
                             Vector3Int posInArr = new Vector3Int(x, y, z);
-                            if (_voxelsChunkRenderer.voxelsChunk.GetCell(posInArr) == null)
-                            {
-                                _voxelsChunkRenderer.voxelsChunk.SetSell(new VoxelData(), posInArr);
-                            }
-                            else
-                            {
-                                _voxelsChunkRenderer.voxelsChunk.SetSell(null, posInArr);
-                            }
+                            VoxelData voxelData = _voxelsChunkRenderer.voxelsChunk.GetCell(posInArr);
+                            
+                            voxelData.active = voxelData.active == false;
+
+                            Debug.Log($"{posInArr}: {voxelData.active}");
+                            
+                            _voxelsChunkRenderer.voxelsChunk.SetSell(voxelData, posInArr);
 
                             _voxelsChunkRenderer.UpdateChunk();
                         }
@@ -98,16 +97,5 @@ namespace VoxelsEngine.Voxels.Editor
                 }
             }
         }
-
-        // private void VoxelsChunkUpdate(SceneView sceneView)
-        // {
-        //     Event @event = Event.current;
-        //
-        //     // if (@event.keyCode == KeyCode.Space)
-        //     // {
-        //     //     Debug.Log("Space");
-        //     // }
-        //     
-        // }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -32,12 +33,24 @@ namespace VoxelsEngine.Voxels.Scripts
 
         private void OnEnable()
         {
+            Debug.Log("enable test");
             voxelsChunk.OnDataChange += UpdateChunk;
         }
         
         private void OnDisable()
         {
+            Debug.Log("disable test");
             voxelsChunk.OnDataChange -= UpdateChunk;
+        }
+
+        private void Start()
+        {
+            UpdateChunk();
+        }
+
+        private void OnValidate()
+        {
+            UpdateChunk();
         }
 
         private void ValidateAdjustedScale()
@@ -74,7 +87,8 @@ namespace VoxelsEngine.Voxels.Scripts
                 {
                     for (int z = 0; z < data.Depth; z++)
                     {
-                        if (data.GetCell(x, y, z) == null) continue;
+                        VoxelData voxelData = data.GetCell(x, y, z);
+                        if (voxelData.active == false) continue;
 
                         Vector3 cubePos = new Vector3(x, y, z) * scale;
                         Vector3 offset = Vector3.one * scale * 0.5f;
@@ -94,7 +108,7 @@ namespace VoxelsEngine.Voxels.Scripts
         {
             for (int i = 0; i < 6; i++)
             {
-                if (data.GetNeighbor(coordinate, (Direction) i) == null)
+                if (data.GetNeighbor(coordinate, (Direction)i) == false)
                     MakeFace((Direction) i, scale, cubePos);
             }
         }

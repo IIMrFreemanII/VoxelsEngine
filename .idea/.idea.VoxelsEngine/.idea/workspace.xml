@@ -20,7 +20,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2f28268c-c204-405c-b1d8-30202cdf9ae9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/Voxels Chunk.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/Voxels Chunk.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Editor/VoxelsChunkRendererEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Editor/VoxelsChunkRendererEditor.cs" afterDir="false" />
@@ -28,7 +27,6 @@
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/VoxelsScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/VoxelsScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,8 +43,10 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/CDC1918C-B795-429D-BBD4-6F2DE52CB053/40/4b1a30ed/FreeMove.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://F:/UnityProjects/TestProjects/VoxelsEngine/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04258D1C-DC10-4424-8C2A-17A6A31A3CF7/bb/719799d3/Gizmos.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/CDC1918C-B795-429D-BBD4-6F2DE52CB053/f5/fe5e933c/Handles.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/093C556E-C887-4046-94FA-24256CBB8043/4a/a5f06d73/SerializedScriptableObject.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04258D1C-DC10-4424-8C2A-17A6A31A3CF7/09/d648a749/Vector3Int.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04258D1C-DC10-4424-8C2A-17A6A31A3CF7/d2/9cd780fd/Vector3.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/CDC1918C-B795-429D-BBD4-6F2DE52CB053/5e/ffdc36e1/HandleUtility.cs" root0="SKIP_HIGHLIGHTING" />
@@ -63,10 +63,10 @@
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Extensions/GizmosExtention.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/GizmosExtention.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/HandlesUtils.cs" />
-        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Editor/VoxelsChunkRendererEditor.cs" />
-        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelData.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Editor/VoxelsChunkRendererEditor.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" />
       </list>
     </option>
   </component>
@@ -122,7 +122,8 @@
       <workItem from="1604133253232" duration="508000" />
       <workItem from="1604147516804" duration="22000" />
       <workItem from="1604147564240" duration="26632000" />
-      <workItem from="1604216785473" duration="2635000" />
+      <workItem from="1604216785473" duration="20473000" />
+      <workItem from="1604246261675" duration="1411000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit;">
       <created>1603896756787</created>
@@ -159,7 +160,21 @@
       <option name="project" value="LOCAL" />
       <updated>1604154974101</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="add Odin inspector package;">
+      <created>1604224627473</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1604224627473</updated>
+    </task>
+    <task id="LOCAL-00007" summary="implement editing voxels data in editor">
+      <created>1604224701152</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1604224701152</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -188,20 +203,30 @@
     <MESSAGE value="implement DrawWireRect;&#10;implement storing voxels chunk data in scriptable object;" />
     <MESSAGE value="rename GizmosExtention.cs to GizmosUtils.cs" />
     <MESSAGE value="move gizmos visual debug to custom editor script using Handles;" />
-    <option name="LAST_COMMIT_MESSAGE" value="move gizmos visual debug to custom editor script using Handles;" />
+    <MESSAGE value="add Odin inspector package;" />
+    <MESSAGE value="implement editing voxels data in editor" />
+    <option name="LAST_COMMIT_MESSAGE" value="implement editing voxels data in editor" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2" timestamp="1604181596763">
+    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2" timestamp="1604247000164">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604181596763" />
-    <state x="-1828" y="92" width="1736" height="856" key="DiffContextDialog" timestamp="1604181595640">
+    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604247000164" />
+    <state width="306" height="606" key="Diff.GoToChangePopup" timestamp="1604230495066">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1828" y="92" width="1736" height="856" key="DiffContextDialog/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604181595640" />
-    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2" timestamp="1604154977078">
+    <state width="306" height="606" key="Diff.GoToChangePopup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604230495066" />
+    <state x="-1818" y="116" width="1736" height="856" key="DiffContextDialog" timestamp="1604247181687">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604154977078" />
+    <state x="-1818" y="116" width="1736" height="856" key="DiffContextDialog/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604247181687" />
+    <state x="-1126" y="134" key="RiderGenerateDialog" timestamp="1604232611672">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-1126" y="134" key="RiderGenerateDialog/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604232611672" />
+    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2" timestamp="1604224706135">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604224706135" />
   </component>
 </project>

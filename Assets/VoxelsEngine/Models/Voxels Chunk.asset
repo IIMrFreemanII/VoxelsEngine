@@ -21,6 +21,4 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  size: {x: 5, y: 5, z: 5}
-  chunkData3D:
-    chunkDataX: []
+  size: {x: 2, y: 2, z: 2}

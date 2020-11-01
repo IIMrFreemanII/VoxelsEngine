@@ -9,9 +9,8 @@ namespace VoxelsEngine.Voxels.Scripts
     [CreateAssetMenu(fileName = "Voxels Chunk", menuName = "Voxels Engine/Voxels Chunk")]
     public class VoxelsChunk : SerializedScriptableObject
     {
-        [OnValueChanged("ValidateSize")] public Vector3Int size = new Vector3Int(3, 3, 3);
+        public Vector3Int size = new Vector3Int(3, 3, 3);
 
-        public ChunkData3D chunkData3D;
         private VoxelData[,,] _data;
 
         private VoxelData[,,] Data
@@ -26,7 +25,7 @@ namespace VoxelsEngine.Voxels.Scripts
 
         public event Action OnDataChange;
 
-        private void ValidateSize()
+        private void OnValidate()
         {
             size.x = size.x >= 1 ? size.x : 1;
             size.y = size.y >= 1 ? size.y : 1;
@@ -61,7 +60,7 @@ namespace VoxelsEngine.Voxels.Scripts
         {
             // find all set values
             Dictionary<Vector3Int, VoxelData> savedVoxels = new Dictionary<Vector3Int, VoxelData>();
-
+        
             for (int x = 0; x < Width; x++)
             {
                 for (int y = 0; y < Height; y++)
@@ -70,11 +69,8 @@ namespace VoxelsEngine.Voxels.Scripts
                     {
                         Vector3Int curPos = new Vector3Int(x, y, z);
                         VoxelData temp = GetCell(curPos);
-                        if (temp != null)
-                        {
-                            // Debug.Log(temp);
+                        if (temp.active)
                             savedVoxels.Add(curPos, temp);
-                        }
                     }
                 }
             }
@@ -86,17 +82,17 @@ namespace VoxelsEngine.Voxels.Scripts
                 int x = savedVoxel.Key.x;
                 int y = savedVoxel.Key.y;
                 int z = savedVoxel.Key.z;
-
+        
                 if (x >= 0 && x < Width && y >= 0 && y < Height && z >= 0 && z < Depth)
                 {
                     SetSell(savedVoxel.Value, savedVoxel.Key);
                 }
             }
-
+        
             OnDataChange?.Invoke();
         }
 
-        public VoxelData GetNeighbor(Vector3Int coordinate, Direction dir)
+        public bool GetNeighbor(Vector3Int coordinate, Direction dir)
         {
             Vector3Int offsetToCheck = _offsets[(int) dir];
             Vector3Int neighborCoord = coordinate + offsetToCheck;
@@ -107,10 +103,10 @@ namespace VoxelsEngine.Voxels.Scripts
                 neighborCoord.z < 0 || neighborCoord.z >= Depth
             )
             {
-                return null;
+                return false;
             }
 
-            return GetCell(neighborCoord.x, neighborCoord.y, neighborCoord.z);
+            return GetCell(neighborCoord.x, neighborCoord.y, neighborCoord.z).active;
         }
 
         private readonly Vector3Int[] _offsets =
@@ -122,54 +118,6 @@ namespace VoxelsEngine.Voxels.Scripts
             new Vector3Int(0, 1, 0),
             new Vector3Int(0, -1, 0),
         };
-    }
-
-    [Serializable]
-    public class ChunkData3D
-    {
-        public ChunkDataX[] chunkDataX;
-
-        public ChunkDataX this[int index]
-        {
-            get => chunkDataX[index];
-            set => chunkDataX[index] = value;
-        }
-
-        [Serializable]
-        public class ChunkDataX
-        {
-            public ChunkDataY[] chunkDataY;
-
-            public ChunkDataY this[int index]
-            {
-                get => chunkDataY[index];
-                set => chunkDataY[index] = value;
-            }
-
-            [Serializable]
-            public class ChunkDataY
-            {
-                public ChunkDataZ[] chunkDataZ;
-
-                public ChunkDataZ this[int index]
-                {
-                    get => chunkDataZ[index];
-                    set => chunkDataZ[index] = value;
-                }
-
-                [Serializable]
-                public class ChunkDataZ
-                {
-                    public VoxelData[] voxelsData;
-
-                    public VoxelData this[int index]
-                    {
-                        get => voxelsData[index];
-                        set => voxelsData[index] = value;
-                    }
-                }
-            }
-        }
     }
 
     public enum Direction

@@ -4,8 +4,9 @@ using UnityEngine;
 namespace VoxelsEngine.Voxels.Scripts
 {
     [Serializable]
-    public class VoxelData
+    public struct VoxelData
     {
-        public Color color = Color.white;
+        public Color color;
+        public bool active;
     }
 }
