@@ -1,33 +1,57 @@
 ﻿using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace VoxelsEngine.Voxels.Scripts
 {
-    [RequireComponent(typeof(MeshFilter)), RequireComponent(typeof(MeshRenderer))]
+    [ExecuteInEditMode, RequireComponent(typeof(MeshFilter)), RequireComponent(typeof(MeshRenderer))]
     public class VoxelsChunkRenderer : MonoBehaviour
     {
         public VoxelsChunk voxelsChunk;
+        [OnValueChanged("ValidateAdjustedScale")]
         public float scale = 1f;
 
         private float _adjustedScale;
 
+        private MeshFilter _meshFilter;
+        private MeshFilter MeshFilter => _meshFilter ? _meshFilter : _meshFilter = GetComponent<MeshFilter>();
         private Mesh _mesh;
+        private Mesh Mesh => _mesh ? _mesh : _mesh = MeshFilter.sharedMesh;
+        
         private List<Vector3> _vertices;
         private List<int> _triangles;
+        
+        [Header("Gizmos")] 
+        public bool drawBorder;
+        public Color borderColor = Color.white;
+        [Space]
+        public bool drawVolume;
+        public Color volumeColor = Color.white;
+        [OnValueChanged("ValidatePointsSize")]
+        public float pointsSize = 0.02f;
 
-        private void Awake()
+        private void OnEnable()
         {
-            _mesh = GetComponent<MeshFilter>().mesh;
-            _adjustedScale = scale * 0.5f;
+            voxelsChunk.OnDataChange += UpdateChunk;
+        }
+        
+        private void OnDisable()
+        {
+            voxelsChunk.OnDataChange -= UpdateChunk;
         }
 
-        private void OnValidate()
+        private void ValidateAdjustedScale()
         {
             _adjustedScale = scale * 0.5f;
+            UpdateChunk();
+        }
+
+        private void ValidatePointsSize()
+        {
             pointsSize = pointsSize > 0 ? pointsSize : 0;
         }
 
-        private void Start()
+        public void UpdateChunk()
         {
             if (!voxelsChunk)
             {
@@ -38,14 +62,6 @@ namespace VoxelsEngine.Voxels.Scripts
             GenerateVoxelsMesh(voxelsChunk);
             UpdateMesh();
         }
-
-        [Header("Gizmos")]
-        public bool drawBorder;
-        public Color borderColor = Color.white;
-        [Space]
-        public bool drawVolume;
-        public Color volumeColor = Color.white;
-        public float pointsSize = 1f;
 
         private void GenerateVoxelsMesh(VoxelsChunk data)
         {
@@ -99,12 +115,12 @@ namespace VoxelsEngine.Voxels.Scripts
 
         private void UpdateMesh()
         {
-            _mesh.Clear();
+            Mesh.Clear();
 
-            _mesh.vertices = _vertices.ToArray();
-            _mesh.triangles = _triangles.ToArray();
+            Mesh.vertices = _vertices.ToArray();
+            Mesh.triangles = _triangles.ToArray();
 
-            _mesh.RecalculateNormals();
+            Mesh.RecalculateNormals();
         }
     }
 }

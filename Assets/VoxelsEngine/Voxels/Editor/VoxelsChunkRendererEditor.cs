@@ -40,9 +40,9 @@ namespace VoxelsEngine.Voxels.Editor
         private void DrawChunkBorder()
         {
             if (!_voxelsChunkRenderer.drawBorder) return;
-            
+
             Handles.color = _voxelsChunkRenderer.borderColor;
-            
+
             HandlesUtils.DrawWireRect(
                 Vector3.zero,
                 new Vector3(_voxelsChunkRenderer.voxelsChunk.Width, _voxelsChunkRenderer.voxelsChunk.Height,
@@ -65,9 +65,35 @@ namespace VoxelsEngine.Voxels.Editor
                         Vector3 cubePos = new Vector3(x, y, z) * _voxelsChunkRenderer.scale;
                         Vector3 offset = Vector3.one * _voxelsChunkRenderer.scale * 0.5f;
 
-                        Handles.DrawWireCube(cubePos + offset,
-                            new Vector3(_voxelsChunkRenderer.pointsSize, _voxelsChunkRenderer.pointsSize,
-                                _voxelsChunkRenderer.pointsSize));
+                        // Handles.FreeMoveHandle(
+                        //     cubePos + offset,
+                        //     Quaternion.identity,
+                        //     _voxelsChunkRenderer.pointsSize,
+                        //     Vector3.zero,
+                        //     Handles.DotHandleCap
+                        // );
+
+                        if (
+                            Handles.Button(cubePos + offset,
+                                Quaternion.identity,
+                                _voxelsChunkRenderer.pointsSize,
+                                0.02f,
+                                Handles.DotHandleCap
+                            )
+                        )
+                        {
+                            Vector3Int posInArr = new Vector3Int(x, y, z);
+                            if (_voxelsChunkRenderer.voxelsChunk.GetCell(posInArr) == null)
+                            {
+                                _voxelsChunkRenderer.voxelsChunk.SetSell(new VoxelData(), posInArr);
+                            }
+                            else
+                            {
+                                _voxelsChunkRenderer.voxelsChunk.SetSell(null, posInArr);
+                            }
+
+                            _voxelsChunkRenderer.UpdateChunk();
+                        }
                     }
                 }
             }

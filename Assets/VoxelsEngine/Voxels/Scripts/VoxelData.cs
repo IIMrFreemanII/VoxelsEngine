@@ -1,14 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace VoxelsEngine.Voxels.Scripts
 {
+    [Serializable]
     public class VoxelData
     {
-        public Color color;
-        
-        public VoxelData(Color color)
-        {
-            this.color = color;
-        }
+        public Color color = Color.white;
     }
 }
