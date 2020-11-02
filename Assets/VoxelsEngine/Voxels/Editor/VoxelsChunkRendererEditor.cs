@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 using VoxelsEngine.Utils;
 using VoxelsEngine.Voxels.Scripts;
@@ -14,12 +13,6 @@ namespace VoxelsEngine.Voxels.Editor
         private void OnEnable()
         {
             _voxelsChunkRenderer = (VoxelsChunkRenderer) target;
-            // SceneView.duringSceneGui += VoxelsChunkUpdate;
-        }
-
-        private void OnDisable()
-        {
-            // SceneView.duringSceneGui -= VoxelsChunkUpdate;
         }
 
         private void OnSceneGUI()
@@ -64,6 +57,14 @@ namespace VoxelsEngine.Voxels.Editor
                     {
                         Vector3 cubePos = new Vector3(x, y, z) * _voxelsChunkRenderer.scale;
                         Vector3 offset = Vector3.one * _voxelsChunkRenderer.scale * 0.5f;
+                        
+                        // Vector3Int posInArr1 = new Vector3Int(x, y, z);
+                        // VoxelData voxelData1 = _voxelsChunkRenderer.voxelsChunk.GetCell(posInArr1);
+                        //
+                        // if (voxelData1.active)
+                        // {
+                        //     Handles.DrawWireCube(cubePos + offset, Vector3.one);
+                        // }
 
                         // Handles.FreeMoveHandle(
                         //     cubePos + offset,
@@ -83,15 +84,11 @@ namespace VoxelsEngine.Voxels.Editor
                         )
                         {
                             Vector3Int posInArr = new Vector3Int(x, y, z);
-                            VoxelData voxelData = _voxelsChunkRenderer.voxelsChunk.GetCell(posInArr);
+                            VoxelData voxelData = _voxelsChunkRenderer.GetSell(posInArr);
                             
                             voxelData.active = voxelData.active == false;
 
-                            Debug.Log($"{posInArr}: {voxelData.active}");
-                            
-                            _voxelsChunkRenderer.voxelsChunk.SetSell(voxelData, posInArr);
-
-                            _voxelsChunkRenderer.UpdateChunk();
+                            _voxelsChunkRenderer.SetSell(voxelData, posInArr);
                         }
                     }
                 }

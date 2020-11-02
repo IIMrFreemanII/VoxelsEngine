@@ -9,87 +9,91 @@ namespace VoxelsEngine.Voxels.Scripts
     [CreateAssetMenu(fileName = "Voxels Chunk", menuName = "Voxels Engine/Voxels Chunk")]
     public class VoxelsChunk : SerializedScriptableObject
     {
-        public Vector3Int size = new Vector3Int(3, 3, 3);
+        [SerializeField, HideInInspector] private Vector3Int _size;
 
-        private VoxelData[,,] _data;
-
-        private VoxelData[,,] Data
+        public Vector3Int Size
         {
-            get => _data ?? (_data = new VoxelData[size.x, size.y, size.z]);
-            set => _data = value;
+            get => _size;
+            set
+            {
+                _size.x = value.x >= 1 ? value.x : 1;
+                _size.y = value.y >= 1 ? value.y : 1;
+                _size.z = value.z >= 1 ? value.z : 1;
+
+                Resize();
+            }
         }
 
-        public int Width => Data.GetLength(0);
-        public int Height => Data.GetLength(1);
-        public int Depth => Data.GetLength(2);
+        public int Width => Size.x;
+        public int Height => Size.y;
+        public int Depth => Size.z;
 
-        public event Action OnDataChange;
+        [SerializeField, HideInInspector] private VoxelData[] data;
+
+        private VoxelData[] Data
+        {
+            get => data ?? (data = new VoxelData[Size.x * Size.y * Size.z]);
+            set => data = value;
+        }
 
         private void OnValidate()
         {
-            size.x = size.x >= 1 ? size.x : 1;
-            size.y = size.y >= 1 ? size.y : 1;
-            size.z = size.z >= 1 ? size.z : 1;
+            if (Width <= 0 || Height <= 0 || Depth <= 0)
+            {
+                Debug.Log($"Invalid size in {name}!");
+            }
+        }
 
-            Resize();
+        private int From3DTo1DIndex(int x, int y, int z)
+        {
+            return (x * Height * Depth) + (y * Depth + z);
+        }
+        private int From3DTo1DIndex(Vector3Int position)
+        {
+            return From3DTo1DIndex(position.x, position.y, position.z);
         }
 
         public VoxelData GetCell(int x, int y, int z)
         {
-            return Data[x, y, z];
+            return Data[From3DTo1DIndex(x, y, z)];
         }
-
         public VoxelData GetCell(Vector3Int posInArr)
         {
             return GetCell(posInArr.x, posInArr.y, posInArr.z);
         }
-
+        public void SetSell(VoxelData data, int x, int y, int z)
+        {
+            Data[From3DTo1DIndex(x, y, z)] = data;
+        }
         public void SetSell(VoxelData data, Vector3Int position)
         {
-            Data[position.x, position.y, position.z] = data;
+            SetSell(data, position.x, position.y, position.z);
         }
 
-        [Button(ButtonSizes.Small)]
         public void Clear()
         {
-            Data = new VoxelData[size.x, size.y, size.z];
-            OnDataChange?.Invoke();
+            Data = new VoxelData[Size.x * Size.y * Size.z];
         }
 
         public void Resize()
         {
             // find all set values
-            Dictionary<Vector3Int, VoxelData> savedVoxels = new Dictionary<Vector3Int, VoxelData>();
-        
-            for (int x = 0; x < Width; x++)
+            Dictionary<int, VoxelData> savedVoxels = new Dictionary<int, VoxelData>();
+
+            for (int i = 0; i < Data.Length; i++)
             {
-                for (int y = 0; y < Height; y++)
-                {
-                    for (int z = 0; z < Depth; z++)
-                    {
-                        Vector3Int curPos = new Vector3Int(x, y, z);
-                        VoxelData temp = GetCell(curPos);
-                        if (temp.active)
-                            savedVoxels.Add(curPos, temp);
-                    }
-                }
+                VoxelData temp = Data[i];
+                if (temp.active)
+                    savedVoxels.Add(i, temp);
             }
 
-            Data = new VoxelData[size.x, size.y, size.z];
+            Data = new VoxelData[Size.x * Size.y * Size.z];
 
-            foreach (KeyValuePair<Vector3Int, VoxelData> savedVoxel in savedVoxels)
+            foreach (var savedVoxel in savedVoxels)
             {
-                int x = savedVoxel.Key.x;
-                int y = savedVoxel.Key.y;
-                int z = savedVoxel.Key.z;
-        
-                if (x >= 0 && x < Width && y >= 0 && y < Height && z >= 0 && z < Depth)
-                {
-                    SetSell(savedVoxel.Value, savedVoxel.Key);
-                }
+                if (savedVoxel.Key < Data.Length)
+                    Data[savedVoxel.Key] = savedVoxel.Value;
             }
-        
-            OnDataChange?.Invoke();
         }
 
         public bool GetNeighbor(Vector3Int coordinate, Direction dir)

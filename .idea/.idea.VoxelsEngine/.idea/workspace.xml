@@ -23,15 +23,19 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/Voxels Chunk.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/Voxels Chunk.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Editor/VoxelsChunkRendererEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Editor/VoxelsChunkRendererEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelData.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/VoxelsScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/VoxelsScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Pull.Settings">
+    <option name="BRANCH" value="dev" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -40,10 +44,10 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/CDC1918C-B795-429D-BBD4-6F2DE52CB053/40/4b1a30ed/FreeMove.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://F:/UnityProjects/TestProjects/VoxelsEngine/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04258D1C-DC10-4424-8C2A-17A6A31A3CF7/bb/719799d3/Gizmos.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/CDC1918C-B795-429D-BBD4-6F2DE52CB053/f5/fe5e933c/Handles.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/093C556E-C887-4046-94FA-24256CBB8043/4a/a5f06d73/SerializedScriptableObject.cs" root0="SKIP_HIGHLIGHTING" />
@@ -64,9 +68,12 @@
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/GizmosExtention.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/HandlesUtils.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelData.cs" />
-        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/Test.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/HandleValueChange.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Editor/VoxelsChunkRendererEditor.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelChunkEditor.cs" />
       </list>
     </option>
   </component>
@@ -124,6 +131,9 @@
       <workItem from="1604147564240" duration="26632000" />
       <workItem from="1604216785473" duration="20473000" />
       <workItem from="1604246261675" duration="1411000" />
+      <workItem from="1604252432185" duration="14484000" />
+      <workItem from="1604310376646" duration="2031000" />
+      <workItem from="1604320962011" duration="13633000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit;">
       <created>1603896756787</created>
@@ -216,10 +226,10 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state width="306" height="606" key="Diff.GoToChangePopup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604230495066" />
-    <state x="-1818" y="116" width="1736" height="856" key="DiffContextDialog" timestamp="1604247181687">
+    <state x="-1818" y="116" width="1736" height="856" key="DiffContextDialog" timestamp="1604310875401">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1818" y="116" width="1736" height="856" key="DiffContextDialog/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604247181687" />
+    <state x="-1818" y="116" width="1736" height="856" key="DiffContextDialog/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604310875401" />
     <state x="-1126" y="134" key="RiderGenerateDialog" timestamp="1604232611672">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
