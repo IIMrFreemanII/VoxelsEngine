@@ -46,12 +46,13 @@
           </e>
           <e p="Voxels" t="Include">
             <e p="Editor" t="Include">
-              <e p="VoxelsChunkRendererEditor.cs" t="Include" />
+              <e p="VoxelsChunkDebuggerEditor.cs" t="Include" />
             </e>
             <e p="Scripts" t="Include">
               <e p="VoxelData.cs" t="Include" />
               <e p="VoxelMeshData.cs" t="Include" />
               <e p="VoxelsChunk.cs" t="Include" />
+              <e p="VoxelsChunkDebugger.cs" t="Include" />
               <e p="VoxelsChunkRenderer.cs" t="Include" />
             </e>
           </e>

@@ -6,12 +6,16 @@ using UnityEngine;
 
 namespace VoxelsEngine.Voxels.Scripts
 {
-    [RequireComponent(typeof(MeshFilter)), RequireComponent(typeof(MeshRenderer))]
+    [RequireComponent
+        (
+            typeof(MeshFilter),
+            typeof(MeshRenderer),
+            typeof(VoxelsChunkDebugger)
+        )
+    ]
     public class VoxelsChunkRenderer : MonoBehaviour
     {
-        [InlineButton("CreateAsset")]
-        public VoxelsChunk voxelsChunk;
-
+        [InlineButton("CreateAsset")] public VoxelsChunk voxelsChunk;
         private void CreateAsset()
         {
             Debug.Log("Create asset!");
@@ -19,6 +23,7 @@ namespace VoxelsEngine.Voxels.Scripts
 
         [DelayedProperty] public Vector3Int size = new Vector3Int(3, 3, 3);
         [SerializeField, HideInInspector] private Vector3Int _size;
+
         private void ValidateSize()
         {
             if (_size != size)
@@ -30,17 +35,17 @@ namespace VoxelsEngine.Voxels.Scripts
             }
         }
 
-        [Delayed]
-        public float scale = 1f;
+        [Delayed] public float scale = 1f;
         [SerializeField, HideInInspector] private float prevScale;
         [SerializeField, HideInInspector] private float adjustedScale;
+
         private void ValidateScale()
         {
             if (scale != prevScale)
             {
                 prevScale = scale;
                 adjustedScale = scale * 0.5f;
-                
+
                 UpdateChunk();
             }
         }
@@ -53,33 +58,30 @@ namespace VoxelsEngine.Voxels.Scripts
         private List<Vector3> _vertices;
         private List<int> _triangles;
 
-        [Header("Debug")] public bool drawBorder;
-        public Color borderColor = Color.white;
-        [Space] public bool drawVolume;
-        public Color volumeColor = Color.white;
-        [OnValueChanged("ValidatePointsSize"), Delayed] 
-        public float pointsSize = 0.02f;
-
         [ContextMenu("Clear chunk")]
         public void ClearChunk()
         {
             voxelsChunk.Clear();
             UpdateChunk();
         }
+
         [ContextMenu("Resize chunk")]
         public void ResizeChunk()
         {
             voxelsChunk.Resize();
         }
+
         public void SetSell(VoxelData voxelData, Vector3Int posInArr)
         {
             voxelsChunk.SetSell(voxelData, posInArr);
             UpdateChunk();
         }
+
         public VoxelData GetSell(Vector3Int posInArr)
         {
             return voxelsChunk.GetCell(posInArr);
         }
+
         [ContextMenu("Update chunk")]
         public void UpdateChunk()
         {
@@ -99,10 +101,6 @@ namespace VoxelsEngine.Voxels.Scripts
         {
             ValidateScale();
             ValidateSize();
-        }
-        private void ValidatePointsSize()
-        {
-            pointsSize = pointsSize > 0 ? pointsSize : 0;
         }
 
         private void GenerateVoxelsMesh(VoxelsChunk data)
@@ -141,6 +139,7 @@ namespace VoxelsEngine.Voxels.Scripts
                     MakeFace((Direction) i, scale, cubePos);
             }
         }
+
         private void MakeFace(Direction dir, float scale, Vector3 facePos)
         {
             _vertices.AddRange(VoxelMeshData.FaceVertices(dir, scale, facePos));
@@ -154,7 +153,7 @@ namespace VoxelsEngine.Voxels.Scripts
             _triangles.Add(vertCount - 4 + 2);
             _triangles.Add(vertCount - 4 + 3);
         }
-        
+
         private void UpdateMesh()
         {
             Mesh.Clear();

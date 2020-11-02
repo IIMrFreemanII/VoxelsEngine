@@ -5,16 +5,22 @@ using VoxelsEngine.Voxels.Scripts;
 
 namespace VoxelsEngine.Voxels.Editor
 {
-    [CustomEditor(typeof(VoxelsChunkRenderer))]
-    public class VoxelsChunkRendererEditor : UnityEditor.Editor
+    [CustomEditor(typeof(VoxelsChunkDebugger))]
+    public class VoxelsChunkDebuggerEditor : UnityEditor.Editor
     {
+        private VoxelsChunkDebugger _voxelsChunkDebugger;
         private VoxelsChunkRenderer _voxelsChunkRenderer;
-
+        
         private void OnEnable()
         {
-            _voxelsChunkRenderer = (VoxelsChunkRenderer) target;
-        }
+            _voxelsChunkDebugger = target as VoxelsChunkDebugger;
 
+            if (_voxelsChunkDebugger && _voxelsChunkDebugger.VoxelsChunkRenderer)
+            {
+                _voxelsChunkRenderer = _voxelsChunkDebugger.VoxelsChunkRenderer;
+            }
+        }
+        
         private void OnSceneGUI()
         {
             EditVoxels();
@@ -32,9 +38,9 @@ namespace VoxelsEngine.Voxels.Editor
 
         private void DrawChunkBorder()
         {
-            if (!_voxelsChunkRenderer.drawBorder) return;
+            if (!_voxelsChunkDebugger.drawBorder) return;
 
-            Handles.color = _voxelsChunkRenderer.borderColor;
+            Handles.color = _voxelsChunkDebugger.borderColor;
 
             HandlesUtils.DrawWireRect(
                 Vector3.zero,
@@ -45,9 +51,9 @@ namespace VoxelsEngine.Voxels.Editor
 
         private void DrawChunkVolume()
         {
-            if (!_voxelsChunkRenderer.drawVolume) return;
+            if (!_voxelsChunkDebugger.drawVolume) return;
 
-            Handles.color = _voxelsChunkRenderer.volumeColor;
+            Handles.color = _voxelsChunkDebugger.volumeColor;
 
             for (int x = 0; x < _voxelsChunkRenderer.voxelsChunk.Width; x++)
             {
@@ -77,7 +83,7 @@ namespace VoxelsEngine.Voxels.Editor
                         if (
                             Handles.Button(cubePos + offset,
                                 Quaternion.identity,
-                                _voxelsChunkRenderer.pointsSize,
+                                _voxelsChunkDebugger.pointsSize,
                                 0.02f,
                                 Handles.DotHandleCap
                             )
