@@ -15,8 +15,32 @@ namespace VoxelsEngine.Voxels.Scripts
     ]
     public class VoxelsChunkRenderer : MonoBehaviour
     {
-        [InlineButton("CreateAsset")]
+        [HorizontalGroup("VoxelsChunk")]
         public VoxelsChunk voxelsChunk;
+        [Button][HorizontalGroup("VoxelsChunk")]
+        private void CreateAsset()
+        {
+            string path = EditorUtility.SaveFilePanelInProject(
+                "Save VoxelsChunk as asset",
+                "Voxels Chunk",
+                "asset",
+                "Enter a file name to save the voxels chunk to"
+            );
+
+            if (path.Length != 0)
+            {
+                voxelsChunk = ScriptableObject.CreateInstance<VoxelsChunk>();
+                AssetDatabase.CreateAsset(voxelsChunk, path);
+                AssetDatabase.SaveAssets();
+
+                // order matter
+                ValidateVoxelsChunk();
+                ValidateSize();
+                //---------------------
+
+                Debug.Log(path);
+            }
+        }
         [SerializeField, HideInInspector]
         private VoxelsChunk prevVoxelsChunk;
         private void ValidateVoxelsChunk()
@@ -33,10 +57,6 @@ namespace VoxelsEngine.Voxels.Scripts
                 prevVoxelsChunk = null;
                 UpdateChunk();
             }
-        }
-        private void CreateAsset()
-        {
-            Debug.Log("Create asset!");
         }
 
         [DelayedProperty] public Vector3Int size = new Vector3Int(3, 3, 3);
@@ -144,8 +164,11 @@ namespace VoxelsEngine.Voxels.Scripts
         private void OnValidate()
         {
             ValidateScale();
-            ValidateSize();
+            
+            // order matter
             ValidateVoxelsChunk();
+            ValidateSize();
+            //---------------------
         }
 
         private void GenerateVoxelsMesh(VoxelsChunk data)

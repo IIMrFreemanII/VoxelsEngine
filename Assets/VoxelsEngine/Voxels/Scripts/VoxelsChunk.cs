@@ -7,7 +7,7 @@ namespace VoxelsEngine.Voxels.Scripts
     [CreateAssetMenu(fileName = "Voxels Chunk", menuName = "Voxels Engine/Voxels Chunk")]
     public class VoxelsChunk : ScriptableObject
     {
-        [SerializeField, HideInInspector] private Vector3Int _size;
+        [SerializeField, HideInInspector] private Vector3Int _size = new Vector3Int(3, 3, 3);
 
         public Vector3Int Size
         {

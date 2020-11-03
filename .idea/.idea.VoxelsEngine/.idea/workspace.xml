@@ -20,9 +20,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2f28268c-c204-405c-b1d8-30202cdf9ae9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/indexLayout.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/Voxels Chunk.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/Voxels Chunk.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/Voxels Chunk 1.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/Voxels Chunk 1.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/Voxels Chunk.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/Voxels Chunk.asset.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/VoxelsScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/VoxelsScene.unity" afterDir="false" />
@@ -79,6 +82,7 @@
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Editor/VoxelsChunkDebuggerEditor.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Test.cs" />
       </list>
     </option>
   </component>
@@ -139,7 +143,7 @@
       <workItem from="1604252432185" duration="14484000" />
       <workItem from="1604310376646" duration="2031000" />
       <workItem from="1604320962011" duration="16340000" />
-      <workItem from="1604404114258" duration="13705000" />
+      <workItem from="1604404114258" duration="19103000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit;">
       <created>1603896756787</created>
@@ -204,7 +208,14 @@
       <option name="project" value="LOCAL" />
       <updated>1604354490438</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="implement saving mesh between sessions;">
+      <created>1604430818885</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1604430818885</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -237,13 +248,14 @@
     <MESSAGE value="implement editing voxels data in editor" />
     <MESSAGE value="implement proper array index calculation from 3d to 1d" />
     <MESSAGE value="implement visual chunk debugging in separate component" />
-    <option name="LAST_COMMIT_MESSAGE" value="implement visual chunk debugging in separate component" />
+    <MESSAGE value="implement saving mesh between sessions;" />
+    <option name="LAST_COMMIT_MESSAGE" value="implement saving mesh between sessions;" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2" timestamp="1604354488992">
+    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2" timestamp="1604430817303">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604354488992" />
+    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604430817303" />
     <state width="306" height="606" key="Diff.GoToChangePopup" timestamp="1604230495066">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
@@ -256,9 +268,9 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1126" y="134" key="RiderGenerateDialog/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604232611672" />
-    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2" timestamp="1604354498489">
+    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2" timestamp="1604430824112">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604354498489" />
+    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604430824112" />
   </component>
 </project>
