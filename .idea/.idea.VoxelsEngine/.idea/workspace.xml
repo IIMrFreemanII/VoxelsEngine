@@ -1,10 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2f28268c-c204-405c-b1d8-30202cdf9ae9" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/indexLayout.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/Voxels Chunk.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/Voxels Chunk.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/VoxelsScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/VoxelsScene.unity" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Pull.Settings">
+    <option name="BRANCH" value="dev" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="quad-tree-test" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/CDC1918C-B795-429D-BBD4-6F2DE52CB053/40/4b1a30ed/FreeMove.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04258D1C-DC10-4424-8C2A-17A6A31A3CF7/9d/b7e69cf2/MeshFilter.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04258D1C-DC10-4424-8C2A-17A6A31A3CF7/bb/719799d3/Gizmos.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/CDC1918C-B795-429D-BBD4-6F2DE52CB053/f5/fe5e933c/Handles.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/093C556E-C887-4046-94FA-24256CBB8043/4a/a5f06d73/SerializedScriptableObject.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04258D1C-DC10-4424-8C2A-17A6A31A3CF7/09/d648a749/Vector3Int.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04258D1C-DC10-4424-8C2A-17A6A31A3CF7/d2/9cd780fd/Vector3.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/CDC1918C-B795-429D-BBD4-6F2DE52CB053/5e/ffdc36e1/HandleUtility.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04258D1C-DC10-4424-8C2A-17A6A31A3CF7/08/3a9993e5/Mesh.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelRenderer.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelMeshData.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelChunkRenderer.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsData.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Extentions/GizmosExtentions.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Extensions/GizmosExtentions.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Extensions/GizmosExtention.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/GizmosExtention.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/HandlesUtils.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelData.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/Test.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/HandleValueChange.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelChunkEditor.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelChunkDebuger.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Editor/VoxelsChunkDebugerEditor.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkDebuger.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Editor/VoxelsChunkRendererEditor.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkDebugger.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Editor/VoxelsChunkDebuggerEditor.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1jVkPL5uxSa8hgADV96FsYsLe2U" />
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Discover.Launch.Via.Unity" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
@@ -25,5 +119,146 @@
       </option>
       <method v="2" />
     </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2f28268c-c204-405c-b1d8-30202cdf9ae9" name="Default Changelist" comment="" />
+      <created>1603896622470</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1603896622470</updated>
+      <workItem from="1603896644202" duration="1215000" />
+      <workItem from="1604066263793" duration="1159000" />
+      <workItem from="1604086543149" duration="8114000" />
+      <workItem from="1604133253232" duration="508000" />
+      <workItem from="1604147516804" duration="22000" />
+      <workItem from="1604147564240" duration="26632000" />
+      <workItem from="1604216785473" duration="20473000" />
+      <workItem from="1604246261675" duration="1411000" />
+      <workItem from="1604252432185" duration="14484000" />
+      <workItem from="1604310376646" duration="2031000" />
+      <workItem from="1604320962011" duration="16340000" />
+      <workItem from="1604404114258" duration="13705000" />
+    </task>
+    <task id="LOCAL-00001" summary="initial commit;">
+      <created>1603896756787</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1603896756787</updated>
+    </task>
+    <task id="LOCAL-00002" summary="implement storing voxels chunk in scriptable object">
+      <created>1604001871749</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1604001871749</updated>
+    </task>
+    <task id="LOCAL-00003" summary="implement DrawWireRect;&#10;implement storing voxels chunk data in scriptable object;">
+      <created>1604094636628</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1604094636628</updated>
+    </task>
+    <task id="LOCAL-00004" summary="rename GizmosExtention.cs to GizmosUtils.cs">
+      <created>1604133434992</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1604133434992</updated>
+    </task>
+    <task id="LOCAL-00005" summary="move gizmos visual debug to custom editor script using Handles;">
+      <created>1604154974101</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1604154974101</updated>
+    </task>
+    <task id="LOCAL-00006" summary="add Odin inspector package;">
+      <created>1604224627473</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1604224627473</updated>
+    </task>
+    <task id="LOCAL-00007" summary="implement editing voxels data in editor">
+      <created>1604224701152</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1604224701152</updated>
+    </task>
+    <task id="LOCAL-00008" summary="implement proper array index calculation from 3d to 1d">
+      <created>1604351919266</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1604351919266</updated>
+    </task>
+    <task id="LOCAL-00009" summary="implement visual chunk debugging in separate component">
+      <created>1604354490438</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1604354490438</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_NEW_TODO" value="false" />
+    <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="false" />
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="initial commit;" />
+    <MESSAGE value="implement storing voxels chunk in scriptable object" />
+    <MESSAGE value="implement DrawWireRect;&#10;implement storing voxels chunk data in scriptable object;" />
+    <MESSAGE value="rename GizmosExtention.cs to GizmosUtils.cs" />
+    <MESSAGE value="move gizmos visual debug to custom editor script using Handles;" />
+    <MESSAGE value="add Odin inspector package;" />
+    <MESSAGE value="implement editing voxels data in editor" />
+    <MESSAGE value="implement proper array index calculation from 3d to 1d" />
+    <MESSAGE value="implement visual chunk debugging in separate component" />
+    <option name="LAST_COMMIT_MESSAGE" value="implement visual chunk debugging in separate component" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2" timestamp="1604354488992">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604354488992" />
+    <state width="306" height="606" key="Diff.GoToChangePopup" timestamp="1604230495066">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="306" height="606" key="Diff.GoToChangePopup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604230495066" />
+    <state x="-1818" y="116" width="1736" height="856" key="DiffContextDialog" timestamp="1604351835022">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-1818" y="116" width="1736" height="856" key="DiffContextDialog/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604351835022" />
+    <state x="-1126" y="134" key="RiderGenerateDialog" timestamp="1604232611672">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-1126" y="134" key="RiderGenerateDialog/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604232611672" />
+    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2" timestamp="1604354498489">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604354498489" />
   </component>
 </project>

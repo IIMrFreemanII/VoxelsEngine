@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using VoxelsEngine.Voxels.Scripts;
 
 namespace ProceduralMesh.ProceduralCube
 {
@@ -42,7 +43,7 @@ namespace ProceduralMesh.ProceduralCube
 
         private void MakeFace(int dir, float scale, Vector3 facePos)
         {
-            verticies.AddRange(CubeMeshData.FaceVertices(dir, scale, facePos));
+            verticies.AddRange(VoxelMeshData.FaceVertices(dir, scale, facePos));
 
             int vertCount = verticies.Count;
             
