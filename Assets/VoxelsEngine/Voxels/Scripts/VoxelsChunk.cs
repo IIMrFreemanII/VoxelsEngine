@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
-using UnityEditor;
 using UnityEngine;
 
 namespace VoxelsEngine.Voxels.Scripts
 {
     [CreateAssetMenu(fileName = "Voxels Chunk", menuName = "Voxels Engine/Voxels Chunk")]
-    public class VoxelsChunk : SerializedScriptableObject
+    public class VoxelsChunk : ScriptableObject
     {
         [SerializeField, HideInInspector] private Vector3Int _size;
 

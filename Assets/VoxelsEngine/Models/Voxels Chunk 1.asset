@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 70e5885115022764ebe964c657dd0c1c, type: 3}
-  m_Name: Voxels Chunk
+  m_Name: Voxels Chunk 1
   m_EditorClassIdentifier: 
   _size: {x: 3, y: 3, z: 3}
   data:
@@ -27,12 +27,6 @@ MonoBehaviour:
   - color: {r: 0, g: 0, b: 0, a: 0}
     active: 0
   - color: {r: 0, g: 0, b: 0, a: 0}
-    active: 1
-  - color: {r: 0, g: 0, b: 0, a: 0}
-    active: 0
-  - color: {r: 0, g: 0, b: 0, a: 0}
-    active: 1
-  - color: {r: 0, g: 0, b: 0, a: 0}
     active: 0
   - color: {r: 0, g: 0, b: 0, a: 0}
     active: 0
@@ -50,12 +44,6 @@ MonoBehaviour:
     active: 0
   - color: {r: 0, g: 0, b: 0, a: 0}
     active: 0
-  - color: {r: 0, g: 0, b: 0, a: 0}
-    active: 1
-  - color: {r: 0, g: 0, b: 0, a: 0}
-    active: 0
-  - color: {r: 0, g: 0, b: 0, a: 0}
-    active: 1
   - color: {r: 0, g: 0, b: 0, a: 0}
     active: 0
   - color: {r: 0, g: 0, b: 0, a: 0}
@@ -67,4 +55,16 @@ MonoBehaviour:
   - color: {r: 0, g: 0, b: 0, a: 0}
     active: 0
   - color: {r: 0, g: 0, b: 0, a: 0}
-    active: 1
+    active: 0
+  - color: {r: 0, g: 0, b: 0, a: 0}
+    active: 0
+  - color: {r: 0, g: 0, b: 0, a: 0}
+    active: 0
+  - color: {r: 0, g: 0, b: 0, a: 0}
+    active: 0
+  - color: {r: 0, g: 0, b: 0, a: 0}
+    active: 0
+  - color: {r: 0, g: 0, b: 0, a: 0}
+    active: 0
+  - color: {r: 0, g: 0, b: 0, a: 0}
+    active: 0

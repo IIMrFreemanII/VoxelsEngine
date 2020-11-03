@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 
 namespace VoxelsEngine.Voxels.Scripts
 {
+    [ExecuteInEditMode]
     [RequireComponent
         (
             typeof(MeshFilter),
@@ -15,23 +15,44 @@ namespace VoxelsEngine.Voxels.Scripts
     ]
     public class VoxelsChunkRenderer : MonoBehaviour
     {
-        [InlineButton("CreateAsset")] public VoxelsChunk voxelsChunk;
+        [InlineButton("CreateAsset")]
+        public VoxelsChunk voxelsChunk;
+        [SerializeField, HideInInspector]
+        private VoxelsChunk prevVoxelsChunk;
+        private void ValidateVoxelsChunk()
+        {
+            if (voxelsChunk && prevVoxelsChunk != voxelsChunk)
+            {
+                prevVoxelsChunk = voxelsChunk;
+                size = voxelsChunk.Size;
+                UpdateChunk();
+            }
+
+            if (!voxelsChunk && prevVoxelsChunk)
+            {
+                prevVoxelsChunk = null;
+                UpdateChunk();
+            }
+        }
         private void CreateAsset()
         {
             Debug.Log("Create asset!");
         }
 
         [DelayedProperty] public Vector3Int size = new Vector3Int(3, 3, 3);
-        [SerializeField, HideInInspector] private Vector3Int _size;
+        [SerializeField, HideInInspector] private Vector3Int _prevSize;
 
         private void ValidateSize()
         {
-            if (_size != size)
+            if (size != _prevSize)
             {
-                _size = size;
-                voxelsChunk.Size = size;
-                UpdateChunk();
-                Debug.Log("Resize");
+                _prevSize = size;
+
+                if (voxelsChunk)
+                {
+                    voxelsChunk.Size = size;
+                    UpdateChunk();
+                }
             }
         }
 
@@ -52,11 +73,33 @@ namespace VoxelsEngine.Voxels.Scripts
 
         private MeshFilter _meshFilter;
         private MeshFilter MeshFilter => _meshFilter ? _meshFilter : _meshFilter = GetComponent<MeshFilter>();
-        private Mesh _mesh;
-        private Mesh Mesh => _mesh ? _mesh : _mesh = MeshFilter.sharedMesh;
+        [SerializeField, HideInInspector]
+        private Mesh oldMesh;
+        [SerializeField, HideInInspector]
+        private Mesh meshCopy;
+
+        private Mesh Mesh => meshCopy;
 
         private List<Vector3> _vertices;
         private List<int> _triangles;
+
+        private void Awake()
+        {
+            if (!meshCopy || !oldMesh)
+            {
+                Debug.Log("Init mesh");
+                oldMesh = MeshFilter.sharedMesh ? MeshFilter.sharedMesh : new Mesh();
+            
+                meshCopy = new Mesh();
+                meshCopy.name = $"{name} clone";
+                meshCopy.vertices = oldMesh.vertices;
+                meshCopy.triangles = oldMesh.triangles;
+                meshCopy.normals = oldMesh.normals;
+                meshCopy.uv = oldMesh.uv;
+                    
+                MeshFilter.mesh = meshCopy;
+            }
+        }
 
         [ContextMenu("Clear chunk")]
         public void ClearChunk()
@@ -88,6 +131,7 @@ namespace VoxelsEngine.Voxels.Scripts
             if (!voxelsChunk)
             {
                 Debug.LogWarning("There is not voxels chunk to render!");
+                Mesh.Clear();
                 return;
             }
 
@@ -101,6 +145,7 @@ namespace VoxelsEngine.Voxels.Scripts
         {
             ValidateScale();
             ValidateSize();
+            ValidateVoxelsChunk();
         }
 
         private void GenerateVoxelsMesh(VoxelsChunk data)
