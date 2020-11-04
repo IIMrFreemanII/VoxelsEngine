@@ -9,8 +9,7 @@ namespace VoxelsEngine.Voxels.Scripts
     [RequireComponent
         (
             typeof(MeshFilter),
-            typeof(MeshRenderer),
-            typeof(VoxelsChunkDebugger)
+            typeof(MeshRenderer)
         )
     ]
     public class VoxelsChunkRenderer : MonoBehaviour
@@ -91,6 +90,13 @@ namespace VoxelsEngine.Voxels.Scripts
             }
         }
 
+        [Button]
+        private void Edit()
+        {
+            VoxelsChunkEditorWindow.Open();
+        }
+        
+
         private MeshFilter _meshFilter;
         private MeshFilter MeshFilter => _meshFilter ? _meshFilter : _meshFilter = GetComponent<MeshFilter>();
         [SerializeField, HideInInspector]
@@ -104,6 +110,12 @@ namespace VoxelsEngine.Voxels.Scripts
         private List<int> _triangles;
 
         private void Awake()
+        {
+            InitMesh();
+            InitVoxelsChunkEditorWindow();
+        }
+
+        private void InitMesh()
         {
             if (!meshCopy || !oldMesh)
             {
@@ -119,6 +131,12 @@ namespace VoxelsEngine.Voxels.Scripts
                     
                 MeshFilter.mesh = meshCopy;
             }
+        }
+
+        private void InitVoxelsChunkEditorWindow()
+        {
+            if (EditorWindow.HasOpenInstances<VoxelsChunkEditorWindow>())
+                VoxelsChunkEditorWindow.HandleVoxelsChunkRenderer();
         }
 
         [ContextMenu("Clear chunk")]
