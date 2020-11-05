@@ -1,6 +1,7 @@
 ﻿#if UNITY_EDITOR
 
 using System;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using UnityEditor;
@@ -86,23 +87,25 @@ namespace VoxelsEngine.Voxels.Scripts
         private void OnSceneGUI(SceneView sceneView)
         {
             EditVoxels();
-            HandleClicks();
+            // HandleClicks()
         }
 
-        private void HandleClicks()
-        {
-            Event e = Event.current;
-
-            if (e.type == EventType.MouseDown && e.button == 0)
-            {
-                Debug.Log("Left click");
-            }
-
-            if (e.type == EventType.MouseMove)
-            {
-                Debug.Log("Mouse move");
-            }
-        }
+        // private void HandleClicks()
+        // {
+        //     Event e = Event.current;
+        //
+        //     if (e.type == EventType.MouseDown && e.button == 0)
+        //     {
+        //         Debug.Log("Left click");
+        //         
+        //         
+        //     }
+        //
+        //     if (e.type == EventType.MouseMove)
+        //     {
+        //         // Debug.Log("Mouse move");
+        //     }
+        // }
 
         private void EditVoxels()
         {
@@ -120,11 +123,13 @@ namespace VoxelsEngine.Voxels.Scripts
 
             Handles.color = borderColor;
 
-            HandlesUtils.DrawWireRect(
-                Vector3.zero,
-                new Vector3(_voxelsChunkRenderer.voxelsChunk.Width, _voxelsChunkRenderer.voxelsChunk.Height,
-                    _voxelsChunkRenderer.voxelsChunk.Depth) * _voxelsChunkRenderer.scale
-            );
+            int x = _voxelsChunkRenderer.voxelsChunk.Width;
+            int y = _voxelsChunkRenderer.voxelsChunk.Height;
+            int z = _voxelsChunkRenderer.voxelsChunk.Depth;
+            
+            float scale = _voxelsChunkRenderer.scale;
+            
+            HandlesUtils.DrawWireCube(new Vector3(x, y, z) * scale * 0.5f, new Vector3(x, y, z) * scale, true, true);
         }
 
         private void DrawChunkVolume()
@@ -141,22 +146,6 @@ namespace VoxelsEngine.Voxels.Scripts
                     {
                         Vector3 cubePos = new Vector3(x, y, z) * _voxelsChunkRenderer.scale;
                         Vector3 offset = Vector3.one * _voxelsChunkRenderer.scale * 0.5f;
-
-                        // Vector3Int posInArr1 = new Vector3Int(x, y, z);
-                        // VoxelData voxelData1 = _voxelsChunkRenderer.voxelsChunk.GetCell(posInArr1);
-                        //
-                        // if (voxelData1.active)
-                        // {
-                        //     Handles.DrawWireCube(cubePos + offset, Vector3.one);
-                        // }
-
-                        // Handles.FreeMoveHandle(
-                        //     cubePos + offset,
-                        //     Quaternion.identity,
-                        //     _voxelsChunkRenderer.pointsSize,
-                        //     Vector3.zero,
-                        //     Handles.DotHandleCap
-                        // );
 
                         if (
                             Handles.Button(cubePos + offset,
