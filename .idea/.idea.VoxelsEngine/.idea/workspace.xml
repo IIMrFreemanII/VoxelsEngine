@@ -20,14 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2f28268c-c204-405c-b1d8-30202cdf9ae9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/Event.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/Event.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/Test2.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/Test2.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkEditorWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkEditorWindow.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/VoxelsScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/VoxelsScene.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,7 +162,7 @@
       <workItem from="1604510266523" duration="13015000" />
       <workItem from="1604564975731" duration="1230000" />
       <workItem from="1604592507595" duration="13390000" />
-      <workItem from="1604650961642" duration="36576000" />
+      <workItem from="1604650961642" duration="38147000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit;">
       <created>1603896756787</created>
@@ -261,7 +255,14 @@
       <option name="project" value="LOCAL" />
       <updated>1604611621267</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="implement custom utils for Event;&#10;implement cube volume selection;">
+      <created>1604695898210</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1604695898210</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -298,13 +299,14 @@
     <MESSAGE value="implement create asset button in VoxelsChunkRenderer inspector;" />
     <MESSAGE value="implement editor window for editing selected voxels chunk" />
     <MESSAGE value="implement back face culling and normals inverting for HandlesUtils.DrawWireCube method;" />
-    <option name="LAST_COMMIT_MESSAGE" value="implement back face culling and normals inverting for HandlesUtils.DrawWireCube method;" />
+    <MESSAGE value="implement custom utils for Event;&#10;implement cube volume selection;" />
+    <option name="LAST_COMMIT_MESSAGE" value="implement custom utils for Event;&#10;implement cube volume selection;" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2" timestamp="1604611619067">
+    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2" timestamp="1604695894957">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604611619067" />
+    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604695894957" />
     <state width="306" height="606" key="Diff.GoToChangePopup" timestamp="1604230495066">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
@@ -325,10 +327,10 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1828" y="92" width="1736" height="856" key="VCS.FileHistoryDialog/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604605212890" />
-    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2" timestamp="1604611645020">
+    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2" timestamp="1604695901869">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604611645020" />
+    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604695901869" />
     <state x="-1304" y="240" key="run.anything.popup" timestamp="1604659973952">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>

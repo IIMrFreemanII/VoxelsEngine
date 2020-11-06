@@ -49,8 +49,15 @@ namespace VoxelsEngine.Voxels.Scripts
 
         private void RepaintScene()
         {
-            if (SceneView.lastActiveSceneView)
+            if (SceneView.currentDrawingSceneView)
+            {
+                SceneView.currentDrawingSceneView.Repaint();
+                Debug.Log("currentDrawingSceneView");
+            } else if (SceneView.lastActiveSceneView)
+            {
                 SceneView.lastActiveSceneView.Repaint();
+                Debug.Log("lastActiveSceneView");
+            }
         }
 
         private void OnSelectionChange()
@@ -83,8 +90,6 @@ namespace VoxelsEngine.Voxels.Scripts
 
         private void DrawSelectedVoxel()
         {
-            bool mouseMove = Event.Mouse.Move;
-
             if (_posInVolume.HasValue)
             {
                 Transform transform = _voxelsChunkRenderer.transform;
@@ -106,8 +111,6 @@ namespace VoxelsEngine.Voxels.Scripts
                 Vector3 localCubePos = transform.InverseTransformPoint(drawPos);
                 Handles.color = Color.red;
                 Handles.DrawWireCube(localCubePos, Vector3.one * scale);
-                
-                if (mouseMove) HandleUtility.Repaint();
             }
         }
 
@@ -163,7 +166,6 @@ namespace VoxelsEngine.Voxels.Scripts
                 Vector3 camPos = SceneView.lastActiveSceneView.camera.transform.position;
 
                 Ray ray = MousePosToWorldRay();
-                float dist;
 
                 MeshCollider meshCollider = _voxelsChunkRenderer.MeshCollider;
 
@@ -179,7 +181,7 @@ namespace VoxelsEngine.Voxels.Scripts
                         Plane plane = planes[i];
                         if (plane.GetSide(camPos))
                         {
-                            if (plane.Raycast(ray, out dist))
+                            if (plane.Raycast(ray, out float dist))
                             {
                                 Vector3 hitPoint = ray.GetPoint(dist);
 
@@ -221,6 +223,8 @@ namespace VoxelsEngine.Voxels.Scripts
             DrawChunkBorder();
             HandleVolumeSelection();
             DrawSelectedVoxel();
+            
+            if (Event.Mouse.Move) RepaintScene();
         }
 
         private void DrawChunkBorder()
