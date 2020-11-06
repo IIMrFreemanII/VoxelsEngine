@@ -9,7 +9,8 @@ namespace VoxelsEngine.Voxels.Scripts
     [RequireComponent
         (
             typeof(MeshFilter),
-            typeof(MeshRenderer)
+            typeof(MeshRenderer),
+            typeof(MeshCollider)
         )
     ]
     public class VoxelsChunkRenderer : MonoBehaviour
@@ -99,12 +100,16 @@ namespace VoxelsEngine.Voxels.Scripts
 
         private MeshFilter _meshFilter;
         private MeshFilter MeshFilter => _meshFilter ? _meshFilter : _meshFilter = GetComponent<MeshFilter>();
+        private MeshCollider _meshCollider;
+        public MeshCollider MeshCollider =>
+            _meshCollider ? _meshCollider : _meshCollider = GetComponent<MeshCollider>();
+        
         [SerializeField, HideInInspector]
         private Mesh oldMesh;
         [SerializeField, HideInInspector]
         private Mesh meshCopy;
 
-        private Mesh Mesh => meshCopy;
+        public Mesh Mesh => meshCopy;
 
         private List<Vector3> _vertices;
         private List<int> _triangles;
@@ -248,6 +253,9 @@ namespace VoxelsEngine.Voxels.Scripts
             Mesh.triangles = _triangles.ToArray();
 
             Mesh.RecalculateNormals();
+
+            MeshCollider.enabled = false;
+            MeshCollider.enabled = true;
         }
     }
 }

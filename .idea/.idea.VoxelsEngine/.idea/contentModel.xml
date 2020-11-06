@@ -40,6 +40,7 @@
         </e>
         <e p="VoxelsEngine" t="Include">
           <e p="Utils" t="Include">
+            <e p="Event.cs" t="Include" />
             <e p="GizmosUtilscs.cs" t="Include" />
             <e p="HandlesUtils.cs" t="Include" />
           </e>
