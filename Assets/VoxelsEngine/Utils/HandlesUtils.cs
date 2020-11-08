@@ -30,7 +30,7 @@ namespace VoxelsEngine.Utils
 
         public static void DrawWireCube(Vector3 localCenter, Transform transform, Vector3 localSize, bool invertedNormals, bool culling)
         {
-            Vector3 camDir = transform.position - SceneView.currentDrawingSceneView.camera.transform.position;
+            Vector3 camDir = (transform.position - SceneView.currentDrawingSceneView.camera.transform.position).normalized;
 
             float[] mapFloatsToDir =
             {
@@ -58,7 +58,7 @@ namespace VoxelsEngine.Utils
                 Vector3 worldFarDir = transform.TransformDirection(faceDir);
 
                 bool culled = invertedNormals
-                    ? Vector3.Dot(camDir, worldFarDir) < -0.9f
+                    ? Vector3.Dot(camDir, worldFarDir) < -0.28f
                     : Vector3.Dot(camDir, worldFarDir) > 0;
 
                 if (culled && culling) continue;

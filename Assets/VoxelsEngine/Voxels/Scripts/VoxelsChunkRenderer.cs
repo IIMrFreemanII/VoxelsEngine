@@ -68,7 +68,7 @@ namespace VoxelsEngine.Voxels.Scripts
         public MeshCollider chunkBoundsMeshCollider;
         private void UpdateChunkBounds(Vector3Int size)
         {
-            chunkBoundsGO.transform.localScale = size;
+            chunkBoundsGO.transform.localScale = size.ToFloat() * scale;
         }
 
         [DelayedProperty] public Vector3Int size = new Vector3Int(3, 3, 3);
@@ -99,7 +99,7 @@ namespace VoxelsEngine.Voxels.Scripts
             {
                 prevScale = scale;
                 adjustedScale = scale * 0.5f;
-
+                UpdateChunkBounds(size);
                 UpdateChunk();
             }
         }

@@ -100,7 +100,7 @@ namespace VoxelsEngine.Voxels.Scripts
             VoxelData voxelData = _voxelsChunkRenderer.GetSell(posInArr);
             voxelData.active = true;
             _voxelsChunkRenderer.SetSell(voxelData, posInArr);
-
+            
             _needRepaint = true;
         }
         private void RemoveVoxel(Vector3Int posInArr)
@@ -119,20 +119,23 @@ namespace VoxelsEngine.Voxels.Scripts
                 int width = _voxelsChunkRenderer.voxelsChunk.Width;
                 int height = _voxelsChunkRenderer.voxelsChunk.Height;
                 int depth = _voxelsChunkRenderer.voxelsChunk.Depth;
-                Vector3 pointInLocalSpace = transform.InverseTransformPoint(_posInVolume.Value);
+                // Vector3 pointInLocalSpace = transform.InverseTransformPoint(_posInVolume.Value);
+                Vector3 normalizedPointInLocalSpace = transform.InverseTransformPoint(_posInVolume.Value) / scale;
 
                 // we do " + _voxelsChunkRenderer.size.ToFloat() * 0.5f;"
                 // because before in VoxelChunkRenderer.GenerateVoxelMesh()
                 // we subtracted " - _voxelsChunkRenderer.size.ToFloat() * 0.5f;"
                 // in order to revert value array index format
-                Vector3 rawIndexPos = pointInLocalSpace + _voxelsChunkRenderer.size.ToFloat() * 0.5f;
+                // Vector3 rawIndexPos = pointInLocalSpace + _voxelsChunkRenderer.size.ToFloat() * 0.5f;
+                Vector3 rawIndexPos = normalizedPointInLocalSpace + _voxelsChunkRenderer.size.ToFloat() * 0.5f;
 
                 int x = Mathf.Clamp(Mathf.FloorToInt(rawIndexPos.x), 0, width - 1);
                 int y = Mathf.Clamp(Mathf.FloorToInt(rawIndexPos.y), 0, height - 1);
                 int z = Mathf.Clamp(Mathf.FloorToInt(rawIndexPos.z), 0, depth - 1);
 
                 Vector3 posInArray = new Vector3(x, y, z);
-                Vector3 drawPos = (posInArray - _voxelsChunkRenderer.size.ToFloat() * 0.5f) + Vector3.one * scale * 0.5f;
+                
+                Vector3 drawPos = ((posInArray - _voxelsChunkRenderer.size.ToFloat() * 0.5f) + (Vector3.one * 0.5f)) * scale;
 
                 Handles.color = Color.red;
                 HandlesUtils.DrawWireCube(drawPos, transform, Vector3.one * scale, false, false);
@@ -153,6 +156,8 @@ namespace VoxelsEngine.Voxels.Scripts
             Vector3.up,
             Vector3.down,
         };
+        
+        
 
         private void HandleVolumeSelection()
         {
@@ -160,6 +165,7 @@ namespace VoxelsEngine.Voxels.Scripts
             {
                 Ray ray = MousePosToWorldRay();
                 MeshCollider meshCollider = _voxelsChunkRenderer.MeshCollider;
+                float littleNumber = 0.001f;
 
                 if (!meshCollider.sharedMesh)
                 {
@@ -169,7 +175,10 @@ namespace VoxelsEngine.Voxels.Scripts
                 if (meshCollider.Raycast(ray, out RaycastHit hit, float.MaxValue))
                 {
                     Vector3 hitPoint = hit.point;
-                    _posInVolume = hitPoint + hit.normal * 0.1f;
+                    _posInVolume = hitPoint + hit.normal * littleNumber;
+
+                    if (Event.IsUsed) SetSelection(_voxelsChunkRenderer.gameObject);
+                    
                     return;
                 }
                 
@@ -180,7 +189,10 @@ namespace VoxelsEngine.Voxels.Scripts
                 if (boundsCollider.Raycast(ray, out RaycastHit hit1, float.MaxValue))
                 {
                     Vector3 hitPoint = hit1.point;
-                    _posInVolume = hitPoint + hit1.normal * 0.1f;
+                    _posInVolume = hitPoint + hit1.normal * littleNumber;
+                    
+                    if (Event.IsUsed) SetSelection(_voxelsChunkRenderer.gameObject);
+                    
                     return;
                 }
                 
@@ -192,6 +204,8 @@ namespace VoxelsEngine.Voxels.Scripts
         }
 
         private Ray MousePosToWorldRay() => HandleUtility.GUIPointToWorldRay(Event.MousePosition);
+        
+        private void SetSelection(Object activeObject) => Selection.activeObject = activeObject;
 
         private void DrawChunkBorder()
         {
