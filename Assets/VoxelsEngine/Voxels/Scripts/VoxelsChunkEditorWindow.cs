@@ -1,9 +1,11 @@
 ﻿#if UNITY_EDITOR
 
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using UnityEditor;
 using UnityEngine;
+using VoxelsEngine.Extensions;
 using VoxelsEngine.Utils;
 using Event = VoxelsEngine.Utils.Event;
 
@@ -13,6 +15,7 @@ namespace VoxelsEngine.Voxels.Scripts
     {
         private static VoxelsChunkRenderer _voxelsChunkRenderer;
         private Vector3? _posInVolume;
+        private bool _needRepaint;
 
         [ToggleGroup("drawBorder", 0, "Draw Border")] [OnValueChanged("RepaintScene")]
         public bool drawBorder = true;
@@ -52,11 +55,10 @@ namespace VoxelsEngine.Voxels.Scripts
             if (SceneView.currentDrawingSceneView)
             {
                 SceneView.currentDrawingSceneView.Repaint();
-                Debug.Log("currentDrawingSceneView");
-            } else if (SceneView.lastActiveSceneView)
+            }
+            else if (SceneView.lastActiveSceneView)
             {
                 SceneView.lastActiveSceneView.Repaint();
-                Debug.Log("lastActiveSceneView");
             }
         }
 
@@ -73,44 +75,72 @@ namespace VoxelsEngine.Voxels.Scripts
 
         private void OnSceneGUI(SceneView sceneView)
         {
-            EditVoxels();
-        }
+            if (!_voxelsChunkRenderer || !_voxelsChunkRenderer.voxelsChunk) return;
 
-        private void AddVoxel(Vector3Int posInArr)
-        {
-            bool leftClick = Event.Mouse.Click.Left;
+            DrawChunkBorder();
+            HandleVolumeSelection();
+            HandleSelectedVoxel();
 
-            if (leftClick)
+            if (_needRepaint)
             {
-                VoxelData voxelData = _voxelsChunkRenderer.GetSell(posInArr);
-                voxelData.active = true;
-                _voxelsChunkRenderer.SetSell(voxelData, posInArr);
+                RepaintScene();
+                _needRepaint = false;
             }
         }
 
-        private void DrawSelectedVoxel()
+        private void HandleAddVoxel(Vector3Int posInArr)
         {
-            if (_posInVolume.HasValue)
+            if (Event.LeftMouseDown)
+            {
+                AddVoxel(posInArr);
+            }
+        }
+        private void AddVoxel(Vector3Int posInArr)
+        {
+            VoxelData voxelData = _voxelsChunkRenderer.GetSell(posInArr);
+            voxelData.active = true;
+            _voxelsChunkRenderer.SetSell(voxelData, posInArr);
+
+            _needRepaint = true;
+        }
+        private void RemoveVoxel(Vector3Int posInArr)
+        {
+            VoxelData voxelData = _voxelsChunkRenderer.GetSell(posInArr);
+            voxelData.active = false;
+            _voxelsChunkRenderer.SetSell(voxelData, posInArr);
+        }
+
+        private void HandleSelectedVoxel()
+        {
+            if (_posInVolume.HasValue && !Event.Alt)
             {
                 Transform transform = _voxelsChunkRenderer.transform;
                 float scale = _voxelsChunkRenderer.scale;
-
                 int width = _voxelsChunkRenderer.voxelsChunk.Width;
                 int height = _voxelsChunkRenderer.voxelsChunk.Height;
                 int depth = _voxelsChunkRenderer.voxelsChunk.Depth;
+                Vector3 pointInLocalSpace = transform.InverseTransformPoint(_posInVolume.Value);
 
-                int x = Mathf.Clamp(Mathf.FloorToInt(_posInVolume.Value.x), 0, width - 1);
-                int y = Mathf.Clamp(Mathf.FloorToInt(_posInVolume.Value.y), 0, height - 1);
-                int z = Mathf.Clamp(Mathf.FloorToInt(_posInVolume.Value.z), 0, depth - 1);
+                // we do " + _voxelsChunkRenderer.size.ToFloat() * 0.5f;"
+                // because before in VoxelChunkRenderer.GenerateVoxelMesh()
+                // we subtracted " - _voxelsChunkRenderer.size.ToFloat() * 0.5f;"
+                // in order to revert value array index format
+                Vector3 rawIndexPos = pointInLocalSpace + _voxelsChunkRenderer.size.ToFloat() * 0.5f;
+
+                int x = Mathf.Clamp(Mathf.FloorToInt(rawIndexPos.x), 0, width - 1);
+                int y = Mathf.Clamp(Mathf.FloorToInt(rawIndexPos.y), 0, height - 1);
+                int z = Mathf.Clamp(Mathf.FloorToInt(rawIndexPos.z), 0, depth - 1);
 
                 Vector3 posInArray = new Vector3(x, y, z);
-                Vector3 drawPos = posInArray + Vector3.one * scale * 0.5f;
+                Vector3 drawPos = (posInArray - _voxelsChunkRenderer.size.ToFloat() * 0.5f) + Vector3.one * scale * 0.5f;
 
-                AddVoxel(new Vector3Int(x, y, z));
-
-                Vector3 localCubePos = transform.InverseTransformPoint(drawPos);
                 Handles.color = Color.red;
-                Handles.DrawWireCube(localCubePos, Vector3.one * scale);
+                HandlesUtils.DrawWireCube(drawPos, transform, Vector3.one * scale, false, false);
+                
+                HandleAddVoxel(posInArray.ToInt());
+
+                if (Event.MouseMove)
+                    _needRepaint = true;
             }
         }
 
@@ -126,112 +156,49 @@ namespace VoxelsEngine.Voxels.Scripts
 
         private void HandleVolumeSelection()
         {
-            bool mouseMove = Event.Mouse.Move;
-
-            if (_voxelsChunkRenderer && mouseMove)
+            if (_voxelsChunkRenderer && Event.MouseMove || Event.IsUsed && Event.IsLeftBtn)
             {
-                Plane[] planes = new Plane[Offsets.Length];
-                Transform cubeTransform = _voxelsChunkRenderer.transform;
-
-                int x = _voxelsChunkRenderer.voxelsChunk.Width;
-                int y = _voxelsChunkRenderer.voxelsChunk.Height;
-                int z = _voxelsChunkRenderer.voxelsChunk.Depth;
-
-                float scale = _voxelsChunkRenderer.scale;
-
-                Vector3 cubeWorldCenter =
-                    cubeTransform.TransformPoint(cubeTransform.position + new Vector3(x, y, z) * scale * 0.5f);
-
-                for (int i = 0; i < Offsets.Length; i++)
-                {
-                    Vector3 faceDir = Offsets[i];
-
-                    if (faceDir == Vector3.forward || faceDir == Vector3.back)
-                    {
-                        Vector3 planeCenter = cubeWorldCenter + faceDir * z * scale * 0.5f;
-                        planes[i] = new Plane(-faceDir, planeCenter);
-                    }
-                    else if (faceDir == Vector3.left || faceDir == Vector3.right)
-                    {
-                        Vector3 planeCenter = cubeWorldCenter + faceDir * x * scale * 0.5f;
-                        planes[i] = new Plane(-faceDir, planeCenter);
-                    }
-                    else if (faceDir == Vector3.up || faceDir == Vector3.down)
-                    {
-                        Vector3 planeCenter = cubeWorldCenter + faceDir * y * scale * 0.5f;
-                        planes[i] = new Plane(-faceDir, planeCenter);
-                    }
-                }
-
-                Vector3 camPos = SceneView.lastActiveSceneView.camera.transform.position;
-
                 Ray ray = MousePosToWorldRay();
-
                 MeshCollider meshCollider = _voxelsChunkRenderer.MeshCollider;
 
+                if (!meshCollider.sharedMesh)
+                {
+                    meshCollider.sharedMesh = _voxelsChunkRenderer.Mesh;
+                }
+                
                 if (meshCollider.Raycast(ray, out RaycastHit hit, float.MaxValue))
                 {
                     Vector3 hitPoint = hit.point;
                     _posInVolume = hitPoint + hit.normal * 0.1f;
+                    return;
                 }
-                else
+                
+                //===========================================================================
+                
+                MeshCollider boundsCollider = _voxelsChunkRenderer.chunkBoundsMeshCollider;
+                
+                if (boundsCollider.Raycast(ray, out RaycastHit hit1, float.MaxValue))
                 {
-                    for (int i = 0; i < planes.Length; i++)
-                    {
-                        Plane plane = planes[i];
-                        if (plane.GetSide(camPos))
-                        {
-                            if (plane.Raycast(ray, out float dist))
-                            {
-                                Vector3 hitPoint = ray.GetPoint(dist);
-
-                                if (InPlaneBounds(cubeWorldCenter, new Vector3(x, y, z), hitPoint))
-                                {
-                                    _posInVolume = hitPoint;
-                                }
-                            }
-                        }
-                    }
+                    Vector3 hitPoint = hit1.point;
+                    _posInVolume = hitPoint + hit1.normal * 0.1f;
+                    return;
                 }
+                
+                //===========================================================================
+
+                if (_posInVolume.HasValue)_needRepaint = true;
+                _posInVolume = null;
             }
         }
 
-        private Ray MousePosToWorldRay() => HandleUtility.GUIPointToWorldRay(Event.Mouse.Position);
-
-        private bool InPlaneBounds(Vector3 center, Vector3 size, Vector3 point)
-        {
-            Vector3 bound = center + size * 0.5f;
-
-            if (
-                bound.x >= point.x && (bound.x - bound.x) <= point.x &&
-                bound.y >= point.y && (bound.y - bound.y) <= point.y &&
-                bound.z >= point.z && (bound.z - bound.z) <= point.z
-            )
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        private void EditVoxels()
-        {
-            if (!_voxelsChunkRenderer || !_voxelsChunkRenderer.voxelsChunk) return;
-
-            Handles.matrix = _voxelsChunkRenderer.transform.localToWorldMatrix;
-
-            DrawChunkBorder();
-            HandleVolumeSelection();
-            DrawSelectedVoxel();
-            
-            if (Event.Mouse.Move) RepaintScene();
-        }
+        private Ray MousePosToWorldRay() => HandleUtility.GUIPointToWorldRay(Event.MousePosition);
 
         private void DrawChunkBorder()
         {
             if (!drawBorder) return;
 
             Handles.color = borderColor;
+            Transform transform = _voxelsChunkRenderer.transform;
 
             int x = _voxelsChunkRenderer.voxelsChunk.Width;
             int y = _voxelsChunkRenderer.voxelsChunk.Height;
@@ -239,7 +206,7 @@ namespace VoxelsEngine.Voxels.Scripts
 
             float scale = _voxelsChunkRenderer.scale;
 
-            HandlesUtils.DrawWireCube(new Vector3(x, y, z) * scale * 0.5f, new Vector3(x, y, z) * scale, true, true);
+            HandlesUtils.DrawWireCube(Vector3.zero, transform, new Vector3(x, y, z) * scale, true, true);
         }
     }
 }

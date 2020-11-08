@@ -15,7 +15,23 @@ MonoBehaviour:
   _size: {x: 3, y: 3, z: 3}
   data:
   - color: {r: 0, g: 0, b: 0, a: 0}
+    active: 1
+  - color: {r: 0, g: 0, b: 0, a: 0}
     active: 0
+  - color: {r: 0, g: 0, b: 0, a: 0}
+    active: 1
+  - color: {r: 0, g: 0, b: 0, a: 0}
+    active: 1
+  - color: {r: 0, g: 0, b: 0, a: 0}
+    active: 0
+  - color: {r: 0, g: 0, b: 0, a: 0}
+    active: 1
+  - color: {r: 0, g: 0, b: 0, a: 0}
+    active: 1
+  - color: {r: 0, g: 0, b: 0, a: 0}
+    active: 0
+  - color: {r: 0, g: 0, b: 0, a: 0}
+    active: 1
   - color: {r: 0, g: 0, b: 0, a: 0}
     active: 0
   - color: {r: 0, g: 0, b: 0, a: 0}
@@ -35,36 +51,20 @@ MonoBehaviour:
   - color: {r: 0, g: 0, b: 0, a: 0}
     active: 0
   - color: {r: 0, g: 0, b: 0, a: 0}
-    active: 0
+    active: 1
   - color: {r: 0, g: 0, b: 0, a: 0}
     active: 0
   - color: {r: 0, g: 0, b: 0, a: 0}
-    active: 0
+    active: 1
+  - color: {r: 0, g: 0, b: 0, a: 0}
+    active: 1
   - color: {r: 0, g: 0, b: 0, a: 0}
     active: 0
   - color: {r: 0, g: 0, b: 0, a: 0}
-    active: 0
+    active: 1
+  - color: {r: 0, g: 0, b: 0, a: 0}
+    active: 1
   - color: {r: 0, g: 0, b: 0, a: 0}
     active: 0
   - color: {r: 0, g: 0, b: 0, a: 0}
-    active: 0
-  - color: {r: 0, g: 0, b: 0, a: 0}
-    active: 0
-  - color: {r: 0, g: 0, b: 0, a: 0}
-    active: 0
-  - color: {r: 0, g: 0, b: 0, a: 0}
-    active: 0
-  - color: {r: 0, g: 0, b: 0, a: 0}
-    active: 0
-  - color: {r: 0, g: 0, b: 0, a: 0}
-    active: 0
-  - color: {r: 0, g: 0, b: 0, a: 0}
-    active: 0
-  - color: {r: 0, g: 0, b: 0, a: 0}
-    active: 0
-  - color: {r: 0, g: 0, b: 0, a: 0}
-    active: 0
-  - color: {r: 0, g: 0, b: 0, a: 0}
-    active: 0
-  - color: {r: 0, g: 0, b: 0, a: 0}
-    active: 0
+    active: 1

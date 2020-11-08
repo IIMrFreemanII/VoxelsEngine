@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
+using VoxelsEngine.Extensions;
 
 namespace VoxelsEngine.Voxels.Scripts
 {
@@ -49,6 +51,7 @@ namespace VoxelsEngine.Voxels.Scripts
             {
                 prevVoxelsChunk = voxelsChunk;
                 size = voxelsChunk.Size;
+                UpdateChunkBounds(size);
                 UpdateChunk();
             }
 
@@ -57,6 +60,15 @@ namespace VoxelsEngine.Voxels.Scripts
                 prevVoxelsChunk = null;
                 UpdateChunk();
             }
+        }
+
+        [HideInInspector]
+        public GameObject chunkBoundsGO;
+        [HideInInspector]
+        public MeshCollider chunkBoundsMeshCollider;
+        private void UpdateChunkBounds(Vector3Int size)
+        {
+            chunkBoundsGO.transform.localScale = size;
         }
 
         [DelayedProperty] public Vector3Int size = new Vector3Int(3, 3, 3);
@@ -71,6 +83,7 @@ namespace VoxelsEngine.Voxels.Scripts
                 if (voxelsChunk)
                 {
                     voxelsChunk.Size = size;
+                    UpdateChunkBounds(size);
                     UpdateChunk();
                 }
             }
@@ -99,7 +112,7 @@ namespace VoxelsEngine.Voxels.Scripts
         
 
         private MeshFilter _meshFilter;
-        private MeshFilter MeshFilter => _meshFilter ? _meshFilter : _meshFilter = GetComponent<MeshFilter>();
+        public MeshFilter MeshFilter => _meshFilter ? _meshFilter : _meshFilter = GetComponent<MeshFilter>();
         private MeshCollider _meshCollider;
         public MeshCollider MeshCollider =>
             _meshCollider ? _meshCollider : _meshCollider = GetComponent<MeshCollider>();
@@ -117,6 +130,7 @@ namespace VoxelsEngine.Voxels.Scripts
         private void Awake()
         {
             InitMesh();
+            InitChunkBounds();
             InitVoxelsChunkEditorWindow();
         }
 
@@ -135,6 +149,32 @@ namespace VoxelsEngine.Voxels.Scripts
                 meshCopy.uv = oldMesh.uv;
                     
                 MeshFilter.mesh = meshCopy;
+            }
+        }
+
+        private void InitChunkBounds()
+        {
+            if (!chunkBoundsGO)
+            {
+                chunkBoundsGO = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                chunkBoundsGO.name = "ChunkBounds";
+            
+                MeshFilter meshFilter = chunkBoundsGO.GetComponent<MeshFilter>();
+            
+                Mesh chunkBoundsOldMesh = meshFilter.sharedMesh;
+                Mesh chunkBoundsCopyMesh = new Mesh();
+                chunkBoundsCopyMesh.name = $"{chunkBoundsGO.name} clone";
+                chunkBoundsCopyMesh.vertices = chunkBoundsOldMesh.vertices;
+                chunkBoundsCopyMesh.triangles = chunkBoundsOldMesh.triangles.Reverse().ToArray();
+                chunkBoundsCopyMesh.normals = chunkBoundsOldMesh.normals;
+                chunkBoundsCopyMesh.uv = chunkBoundsOldMesh.uv;
+                meshFilter.mesh = chunkBoundsCopyMesh;
+            
+                DestroyImmediate(chunkBoundsGO.GetComponent<MeshRenderer>());
+                DestroyImmediate(chunkBoundsGO.GetComponent<BoxCollider>());
+                chunkBoundsMeshCollider = chunkBoundsGO.AddComponent<MeshCollider>();
+                chunkBoundsGO.transform.SetParent(transform);
+                chunkBoundsGO.transform.localPosition = Vector3.zero;
             }
         }
 
@@ -181,7 +221,7 @@ namespace VoxelsEngine.Voxels.Scripts
             GenerateVoxelsMesh(voxelsChunk);
             UpdateMesh();
             EditorUtility.SetDirty(voxelsChunk);
-            Debug.Log($"Update Chunk! {name} saved!");
+            // Debug.Log($"Update Chunk! {name} saved!");
         }
 
         private void OnValidate()
@@ -207,8 +247,8 @@ namespace VoxelsEngine.Voxels.Scripts
                     {
                         VoxelData voxelData = data.GetCell(x, y, z);
                         if (voxelData.active == false) continue;
-
-                        Vector3 cubePos = new Vector3(x, y, z) * scale;
+                        
+                        Vector3 cubePos = (new Vector3(x, y, z) - data.Size.ToFloat() * 0.5f) * scale;
                         Vector3 offset = Vector3.one * scale * 0.5f;
 
                         MakeCube(
@@ -247,12 +287,13 @@ namespace VoxelsEngine.Voxels.Scripts
 
         private void UpdateMesh()
         {
-            Mesh.Clear();
-            Mesh.name = name;
-            Mesh.vertices = _vertices.ToArray();
-            Mesh.triangles = _triangles.ToArray();
+            Mesh mesh = Mesh;
+            mesh.Clear();
+            mesh.name = name;
+            mesh.vertices = _vertices.ToArray();
+            mesh.triangles = _triangles.ToArray();
 
-            Mesh.RecalculateNormals();
+            mesh.RecalculateNormals();
 
             MeshCollider.enabled = false;
             MeshCollider.enabled = true;
