@@ -1,12 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 
 namespace VoxelsEngine.Voxels.Scripts
 {
     [CreateAssetMenu(fileName = "Voxels Chunk", menuName = "Voxels Engine/Voxels Chunk")]
-    public class VoxelsChunk : ScriptableObject
+    public class VoxelsChunk : SerializedScriptableObject
     {
+        public List<VoxelsSubMesh> voxelsSubMeshes;
+        public VoxelsSubMesh selectedVoxelsSubMesh;
+        [OdinSerialize]
+        public Dictionary<Material, VoxelsSubMesh> matToSubMesh;
+        public void MapMaterialToSubMesh()
+        {
+            matToSubMesh = new Dictionary<Material, VoxelsSubMesh>();
+            
+            foreach (VoxelsSubMesh voxelsSubMesh in voxelsSubMeshes)
+            {
+                Material material = voxelsSubMesh.material;
+                if (material)
+                {
+                    matToSubMesh.Add(material, voxelsSubMesh);
+                }
+            }
+        }
+        
         [SerializeField, HideInInspector] private Vector3Int _size = new Vector3Int(3, 3, 3);
 
         public Vector3Int Size

@@ -55,6 +55,18 @@
               <e p="VoxelsChunk.cs" t="Include" />
               <e p="VoxelsChunkEditorWindow.cs" t="Include" />
               <e p="VoxelsChunkRenderer.cs" t="Include" />
+              <e p="VoxelsSubMesh.cs" t="Include" />
+            </e>
+            <e p="UIElements" t="Include">
+              <e p="MaterialListView.cs" t="Include" />
+              <e p="MaterialMenuButtonContainer.cs" t="Include" />
+              <e p="MaterialScrollItem.cs" t="Include" />
+              <e p="Menu.cs" t="Include" />
+              <e p="MenuButton.cs" t="Include" />
+              <e p="MenuButtonContainer.cs" t="Include" />
+              <e p="React" t="Include">
+                <e p="ReactElement.cs" t="Include" />
+              </e>
             </e>
           </e>
         </e>
