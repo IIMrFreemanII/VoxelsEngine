@@ -6,13 +6,13 @@ using VoxelsEngine.Voxels.Scripts;
 
 namespace VoxelsEngine.Voxels.UIElements
 {
-    public class MaterialMenuButtonContainer : MenuButtonContainer
+    public class MaterialsContainer : VisualElement
     {
         private VoxelsChunkRenderer _voxelsChunkRenderer;
         private MaterialListView _materialsListView;
         public VisualElement materialFieldContainer;
         
-        public MaterialMenuButtonContainer()
+        public MaterialsContainer()
         {
             _voxelsChunkRenderer = VoxelsChunkEditorWindow.voxelsChunkRenderer;
             materialFieldContainer = new VisualElement();

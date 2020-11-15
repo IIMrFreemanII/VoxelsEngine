@@ -1,6 +1,7 @@
-﻿using UnityEngine.UIElements;
+﻿using System.Collections.Generic;
+using UnityEngine.UIElements;
 
-namespace VoxelsEngine.Voxels.UIElements.React
+namespace ReactElements.Core
 {
     public class ReactElement<TState, TProps> : ReactElement<TState>
     {
@@ -25,9 +26,21 @@ namespace VoxelsEngine.Voxels.UIElements.React
 
     public class ReactElement : VisualElement
     {
+        public IEnumerable<VisualElement> children { get; set; }
+        
         public virtual VisualElement Render()
         {
             Clear();
+            return this;
+        }
+
+        protected VisualElement Append(params VisualElement[] elements)
+        {
+            foreach (VisualElement element in elements)
+            {
+                Add(element);
+            }
+
             return this;
         }
     }

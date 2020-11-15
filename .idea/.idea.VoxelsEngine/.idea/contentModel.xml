@@ -38,8 +38,21 @@
             <e p="DescreteProceduralGrid.cs" t="Include" />
           </e>
         </e>
+        <e p="ReactElements" t="Include">
+          <e p="Core" t="Include">
+            <e p="React.cs" t="Include" />
+            <e p="ReactElement.cs" t="Include" />
+          </e>
+          <e p="Libraries" t="Include">
+            <e p="ReactTabs" t="Include">
+              <e p="Tab.cs" t="Include" />
+              <e p="Tabs.cs" t="Include" />
+            </e>
+          </e>
+        </e>
         <e p="VoxelsEngine" t="Include">
           <e p="Extensions" t="Include">
+            <e p="TypeExtension.cs" t="Include" />
             <e p="Vector3Extension.cs" t="Include" />
             <e p="Vector3IntExtension.cs" t="Include" />
           </e>
@@ -59,14 +72,10 @@
             </e>
             <e p="UIElements" t="Include">
               <e p="MaterialListView.cs" t="Include" />
-              <e p="MaterialMenuButtonContainer.cs" t="Include" />
-              <e p="MaterialScrollItem.cs" t="Include" />
-              <e p="Menu.cs" t="Include" />
-              <e p="MenuButton.cs" t="Include" />
-              <e p="MenuButtonContainer.cs" t="Include" />
-              <e p="React" t="Include">
-                <e p="ReactElement.cs" t="Include" />
-              </e>
+              <e p="Materials.cs" t="Include" />
+              <e p="MaterialsContainer.cs" t="Include" />
+              <e p="Settings.cs" t="Include" />
+              <e p="VoxelsChunkEditor.cs" t="Include" />
             </e>
           </e>
         </e>

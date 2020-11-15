@@ -1,10 +1,12 @@
 ﻿#if UNITY_EDITOR
 
+using ReactElements.Core;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using VoxelsEngine.Extensions;
 using VoxelsEngine.Utils;
+using VoxelsEngine.Voxels.UIElements;
 using Event = VoxelsEngine.Utils.Event;
 using Object = UnityEngine.Object;
 
@@ -23,14 +25,13 @@ namespace VoxelsEngine.Voxels.Scripts
         public static void Open()
         {
             VoxelsChunkEditorWindow window = GetWindow<VoxelsChunkEditorWindow>();
-            window.minSize = new Vector2(250f, 20f);
             window.Show();
         }
 
         private void OnEnable()
         {
             root = rootVisualElement;
-            
+
             HandleVoxelsChunkRenderer();
             SceneView.duringSceneGui += OnSceneGUI;
             DrawMenu();
@@ -48,12 +49,12 @@ namespace VoxelsEngine.Voxels.Scripts
         }
 
         public static string lastActiveMenu;
+
         private static void DrawMenu()
         {
             root.Clear();
-            
-            VisualElement menu = new UIElements.Menu().Render();
-            root.Add(menu);
+
+            root.Add(React.CreateElement<VoxelsChunkEditor>());
         }
 
         private void RepaintScene()
@@ -77,7 +78,7 @@ namespace VoxelsEngine.Voxels.Scripts
         {
             GameObject selectedGO = Selection.activeGameObject;
             voxelsChunkRenderer = selectedGO ? selectedGO.GetComponent<VoxelsChunkRenderer>() : null;
-            
+
             if (voxelsChunkRenderer)
             {
                 DrawMenu();
@@ -110,15 +111,17 @@ namespace VoxelsEngine.Voxels.Scripts
                 AddVoxel(posInArr);
             }
         }
+
         private void AddVoxel(Vector3Int posInArr)
         {
             VoxelData voxelData = voxelsChunkRenderer.GetSell(posInArr);
             voxelData.active = true;
             voxelData.material = voxelsChunkRenderer.voxelsChunk.selectedVoxelsSubMesh.material;
             voxelsChunkRenderer.SetSell(voxelData, posInArr);
-            
+
             _needRepaint = true;
         }
+
         private void RemoveVoxel(Vector3Int posInArr)
         {
             VoxelData voxelData = voxelsChunkRenderer.GetSell(posInArr);
@@ -149,12 +152,13 @@ namespace VoxelsEngine.Voxels.Scripts
                 int z = Mathf.Clamp(Mathf.FloorToInt(rawIndexPos.z), 0, depth - 1);
 
                 Vector3 posInArray = new Vector3(x, y, z);
-                
-                Vector3 drawPos = ((posInArray - voxelsChunkRenderer.size.ToFloat() * 0.5f) + (Vector3.one * 0.5f)) * scale;
+
+                Vector3 drawPos = ((posInArray - voxelsChunkRenderer.size.ToFloat() * 0.5f) + (Vector3.one * 0.5f)) *
+                                  scale;
 
                 Handles.color = Color.red;
                 HandlesUtils.DrawWireCube(drawPos, transform, Vector3.one * scale, false, false);
-                
+
                 HandleAddVoxel(posInArray.ToInt());
 
                 if (Event.MouseMove)
@@ -174,40 +178,40 @@ namespace VoxelsEngine.Voxels.Scripts
                 {
                     meshCollider.sharedMesh = voxelsChunkRenderer.Mesh;
                 }
-                
+
                 if (meshCollider.Raycast(ray, out RaycastHit hit, float.MaxValue))
                 {
                     Vector3 hitPoint = hit.point;
                     _posInVolume = hitPoint + hit.normal * littleNumber;
 
                     if (Event.IsUsed) SetSelection(voxelsChunkRenderer.gameObject);
-                    
+
                     return;
                 }
-                
+
                 //===========================================================================
-                
+
                 MeshCollider boundsCollider = voxelsChunkRenderer.chunkBoundsMeshCollider;
-                
+
                 if (boundsCollider.Raycast(ray, out RaycastHit hit1, float.MaxValue))
                 {
                     Vector3 hitPoint = hit1.point;
                     _posInVolume = hitPoint + hit1.normal * littleNumber;
-                    
+
                     if (Event.IsUsed) SetSelection(voxelsChunkRenderer.gameObject);
-                    
+
                     return;
                 }
-                
+
                 //===========================================================================
 
-                if (_posInVolume.HasValue)_needRepaint = true;
+                if (_posInVolume.HasValue) _needRepaint = true;
                 _posInVolume = null;
             }
         }
 
         private Ray MousePosToWorldRay() => HandleUtility.GUIPointToWorldRay(Event.MousePosition);
-        
+
         private void SetSelection(Object activeObject) => Selection.activeObject = activeObject;
 
         private void DrawChunkBorder()

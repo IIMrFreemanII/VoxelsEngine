@@ -8,13 +8,13 @@ namespace VoxelsEngine.Voxels.UIElements
 {
     public class MaterialListView : VisualElement
     {
-        private MaterialMenuButtonContainer _materialMenuButtonContainer;
+        private MaterialsContainer _materialsContainer;
         public VoxelsChunkRenderer voxelsChunkRenderer;
         public ListView listView;
 
-        public MaterialListView(MaterialMenuButtonContainer materialMenuButtonContainer)
+        public MaterialListView(MaterialsContainer materialsContainer)
         {
-            _materialMenuButtonContainer = materialMenuButtonContainer;
+            _materialsContainer = materialsContainer;
             voxelsChunkRenderer = VoxelsChunkEditorWindow.voxelsChunkRenderer;
 
             style.display = new StyleEnum<DisplayStyle>(DisplayStyle.Flex);
@@ -87,7 +87,7 @@ namespace VoxelsEngine.Voxels.UIElements
                     voxelsChunkRenderer.voxelsChunk.voxelsSubMeshes.FindIndex(subMesh =>
                         subMesh.material == selectedVoxelsSubMesh.material);
                 listView.SetSelection(posInArr);
-                _materialMenuButtonContainer.HandleSelectedMaterial(selectedVoxelsSubMesh);
+                _materialsContainer.HandleSelectedMaterial(selectedVoxelsSubMesh);
             }
 
             //========================================================
@@ -112,23 +112,23 @@ namespace VoxelsEngine.Voxels.UIElements
 
         private void HandleAdd()
         {
-            MaterialMenuButtonContainer materialMenuButtonContainer =
-                VoxelsChunkEditorWindow.root.Q<MaterialMenuButtonContainer>();
+            MaterialsContainer materialsContainer =
+                VoxelsChunkEditorWindow.root.Q<MaterialsContainer>();
 
             voxelsChunkRenderer.voxelsChunk.voxelsSubMeshes.Add(new VoxelsSubMesh());
             listView.Refresh();
             listView.SetSelection(voxelsChunkRenderer.voxelsChunk.voxelsSubMeshes.Count - 1);
 
             VoxelsSubMesh voxelsSubMesh = listView.selectedItem as VoxelsSubMesh;
-            materialMenuButtonContainer.HandleSelectedMaterial(voxelsSubMesh);
+            materialsContainer.HandleSelectedMaterial(voxelsSubMesh);
         }
 
         private void HandleRemove()
         {
             if (voxelsChunkRenderer.voxelsChunk.voxelsSubMeshes.Count > 1)
             {
-                MaterialMenuButtonContainer materialMenuButtonContainer =
-                    VoxelsChunkEditorWindow.root.Q<MaterialMenuButtonContainer>();
+                MaterialsContainer materialsContainer =
+                    VoxelsChunkEditorWindow.root.Q<MaterialsContainer>();
 
                 VoxelsSubMesh selectedVoxelsSubMesh = listView.selectedItem as VoxelsSubMesh;
                 voxelsChunkRenderer.voxelsChunk.voxelsSubMeshes.Remove(selectedVoxelsSubMesh);
@@ -137,7 +137,7 @@ namespace VoxelsEngine.Voxels.UIElements
                 int selectedItemIndex = voxelsChunkRenderer.voxelsChunk.voxelsSubMeshes.Count - 1;
                 listView.SetSelection(selectedItemIndex);
 
-                materialMenuButtonContainer.HandleSelectedMaterial(
+                materialsContainer.HandleSelectedMaterial(
                     voxelsChunkRenderer.voxelsChunk.voxelsSubMeshes[selectedItemIndex]);
                 
                 voxelsChunkRenderer.voxelsChunk.MapMaterialToSubMesh();
