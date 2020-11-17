@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 using VoxelsEngine.Extensions;
+using VoxelsEngine.Utils;
 
 namespace VoxelsEngine.Voxels.Scripts
 {
@@ -24,7 +26,7 @@ namespace VoxelsEngine.Voxels.Scripts
         {
             string path = EditorUtility.SaveFilePanelInProject(
                 "Save VoxelsChunk as asset",
-                "Voxels Chunk",
+                "voxel",
                 "asset",
                 "Enter a file name to save the voxels chunk to"
             );
@@ -32,6 +34,21 @@ namespace VoxelsEngine.Voxels.Scripts
             if (path.Length != 0)
             {
                 voxelsChunk = ScriptableObject.CreateInstance<VoxelsChunk>();
+                
+                // init voxels chunk asset with default material data
+                Material defaultVoxelMaterial =
+                    AssetDatabase.LoadAssetAtPath<Material>("Assets/VoxelsEngine/Voxels/Materials/DefaultVoxel.mat");
+                voxelsChunk.voxelsSubMeshes = new List<VoxelsSubMesh>
+                {
+                    new VoxelsSubMesh
+                    {
+                        material = defaultVoxelMaterial
+                    }
+                };
+                voxelsChunk.selectedVoxelsSubMesh = voxelsChunk.voxelsSubMeshes[0];
+                voxelsChunk.MapMaterialToSubMesh();
+                //---------------------------------------------
+                
                 AssetDatabase.CreateAsset(voxelsChunk, path);
                 AssetDatabase.SaveAssets();
 
@@ -53,12 +70,14 @@ namespace VoxelsEngine.Voxels.Scripts
                 size = voxelsChunk.Size;
                 UpdateChunkBounds(size);
                 UpdateChunk();
+                VoxelsChunkEditorWindow.HandleDrawChunkEditor();
             }
 
             if (!voxelsChunk && prevVoxelsChunk)
             {
                 prevVoxelsChunk = null;
                 UpdateChunk();
+                VoxelsChunkEditorWindow.HandleDrawChunkEditor();
             }
         }
 

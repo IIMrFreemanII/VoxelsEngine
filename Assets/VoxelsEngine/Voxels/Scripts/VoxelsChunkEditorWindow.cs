@@ -34,7 +34,7 @@ namespace VoxelsEngine.Voxels.Scripts
 
             HandleVoxelsChunkRenderer();
             SceneView.duringSceneGui += OnSceneGUI;
-            DrawMenu();
+            DrawChunkEditor();
 
             Debug.Log("Open");
         }
@@ -50,11 +50,39 @@ namespace VoxelsEngine.Voxels.Scripts
 
         public static string lastActiveMenu;
 
-        private static void DrawMenu()
+        public static void DrawChunkEditor()
         {
             root.Clear();
 
-            root.Add(React.CreateElement<VoxelsChunkEditor>());
+            if (voxelsChunkRenderer && voxelsChunkRenderer.voxelsChunk)
+            {
+                root.Add(React.CreateElement<VoxelsChunkEditor>());
+            }
+            else
+            {
+                Box box = new Box();
+                box.style.paddingTop = 10;
+                box.style.paddingBottom = 10;
+                box.style.paddingLeft = 10;
+                box.style.paddingRight = 10;
+                box.style.width = 400;
+
+                Label warn =
+                    new Label(
+                        "Select GameObject with VoxelsChunkRenderer component attached and VoxelsChunk field should be assigned!");
+                warn.style.whiteSpace = new StyleEnum<WhiteSpace>(WhiteSpace.Normal);
+                warn.style.color = Color.yellow;
+                
+                box.Add(warn);
+                root.Add(box);
+            }
+        }
+        public static void HandleDrawChunkEditor()
+        {
+            if (HasOpenInstances<VoxelsChunkEditorWindow>())
+            {
+                DrawChunkEditor();
+            }
         }
 
         private void RepaintScene()
@@ -81,7 +109,7 @@ namespace VoxelsEngine.Voxels.Scripts
 
             if (voxelsChunkRenderer)
             {
-                DrawMenu();
+                DrawChunkEditor();
             }
             else
             {

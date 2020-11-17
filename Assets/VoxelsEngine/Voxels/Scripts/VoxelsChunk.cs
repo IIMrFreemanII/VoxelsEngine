@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using UnityEditor;
 using UnityEngine;
 
 namespace VoxelsEngine.Voxels.Scripts
@@ -9,6 +10,7 @@ namespace VoxelsEngine.Voxels.Scripts
     public class VoxelsChunk : SerializedScriptableObject
     {
         public List<VoxelsSubMesh> voxelsSubMeshes;
+        
         public VoxelsSubMesh selectedVoxelsSubMesh;
         [OdinSerialize]
         public Dictionary<Material, VoxelsSubMesh> matToSubMesh;
@@ -95,20 +97,7 @@ namespace VoxelsEngine.Voxels.Scripts
         public void Resize()
         {
             Data = new VoxelData[Size.x * Size.y * Size.z];
-            
-            // debug -------------------------------------
-            // for (int x = 0; x < Width; x++)
-            // {
-            //     for (int y = 0; y < Height; y++)
-            //     {
-            //         for (int z = 0; z < Depth; z++)
-            //         {
-            //             SetSell(new VoxelData { active = true}, new Vector3Int(x, y, z));
-            //         }
-            //     }
-            // }
-            // ------------------------------------------
-            
+
             // find all set values
             Dictionary<int, VoxelData> savedVoxels = new Dictionary<int, VoxelData>();
             

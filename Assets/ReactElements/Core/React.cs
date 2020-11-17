@@ -59,22 +59,6 @@ namespace ReactElements.Core
             return elem;
         }
 
-        public static Dictionary<string, object> DictionaryFromType(object type)
-        {
-            if (type == null) return new Dictionary<string, object>();
-            Type t = type.GetType();
-            PropertyInfo[] props =
-                t.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.SetProperty);
-            Dictionary<string, object> dict = new Dictionary<string, object>();
-            foreach (PropertyInfo prp in props)
-            {
-                object value = prp.GetValue(type, new object[] { });
-                dict.Add(prp.Name, value);
-            }
-
-            return dict;
-        }
-
         private static bool IsSameOrSubclass(Type potentialBase, Type potentialDescendant)
         {
             return potentialDescendant.IsSubclassOf(potentialBase)

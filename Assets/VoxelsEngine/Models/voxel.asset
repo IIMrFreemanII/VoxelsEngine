@@ -1,0 +1,136 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70e5885115022764ebe964c657dd0c1c, type: 3}
+  m_Name: voxel
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 2100000, guid: 3d16836ae4c14c946ba5d8255541c6d4, type: 2}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: matToSubMesh
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[UnityEngine.Material, UnityEngine.CoreModule],[VoxelsEngine.Voxels.Scripts.VoxelsSubMesh,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.ObjectEqualityComparer`1[[UnityEngine.Material,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 10
+      Data: 0
+    - Name: $v
+      Entry: 7
+      Data: 2|VoxelsEngine.Voxels.Scripts.VoxelsSubMesh, Assembly-CSharp
+    - Name: triangles
+      Entry: 7
+      Data: 3|System.Collections.Generic.List`1[[System.Int32, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: material
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  voxelsSubMeshes:
+  - triangles: 
+    material: {fileID: 2100000, guid: 3d16836ae4c14c946ba5d8255541c6d4, type: 2}
+  selectedVoxelsSubMesh:
+    triangles: 
+    material: {fileID: 2100000, guid: 3d16836ae4c14c946ba5d8255541c6d4, type: 2}
+  _size: {x: 3, y: 3, z: 3}
+  data:
+  - material: {fileID: 0}
+    active: 0
+  - material: {fileID: 0}
+    active: 0
+  - material: {fileID: 0}
+    active: 0
+  - material: {fileID: 0}
+    active: 0
+  - material: {fileID: 0}
+    active: 0
+  - material: {fileID: 0}
+    active: 0
+  - material: {fileID: 0}
+    active: 0
+  - material: {fileID: 0}
+    active: 0
+  - material: {fileID: 0}
+    active: 0
+  - material: {fileID: 0}
+    active: 0
+  - material: {fileID: 0}
+    active: 0
+  - material: {fileID: 0}
+    active: 0
+  - material: {fileID: 0}
+    active: 0
+  - material: {fileID: 0}
+    active: 0
+  - material: {fileID: 0}
+    active: 0
+  - material: {fileID: 0}
+    active: 0
+  - material: {fileID: 0}
+    active: 0
+  - material: {fileID: 0}
+    active: 0
+  - material: {fileID: 0}
+    active: 0
+  - material: {fileID: 0}
+    active: 0
+  - material: {fileID: 0}
+    active: 0
+  - material: {fileID: 0}
+    active: 0
+  - material: {fileID: 0}
+    active: 0
+  - material: {fileID: 0}
+    active: 0
+  - material: {fileID: 0}
+    active: 0
+  - material: {fileID: 0}
+    active: 0
+  - material: {fileID: 0}
+    active: 0
