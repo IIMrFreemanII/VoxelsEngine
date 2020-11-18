@@ -60,6 +60,7 @@
             <e p="Event.cs" t="Include" />
             <e p="GizmosUtilscs.cs" t="Include" />
             <e p="HandlesUtils.cs" t="Include" />
+            <e p="HandleUnityObjectChange.cs" t="Include" />
             <e p="HandleValueChange.cs" t="Include" />
             <e p="TypeUtils.cs" t="Include" />
           </e>
@@ -67,10 +68,13 @@
             <e p="Scripts" t="Include">
               <e p="CustomValues" t="Include">
                 <e p="Example" t="Include">
-                  <e p="HandleIntChange.cs" t="Include" />
                   <e p="Health.cs" t="Include" />
                   <e p="TestValueChange.cs" t="Include" />
                 </e>
+                <e p="HandleIntChange.cs" t="Include" />
+                <e p="HandleScaleChange.cs" t="Include" />
+                <e p="HandleVoxelsChunkChange.cs" t="Include" />
+                <e p="HandleVoxelsChunkSizeChange.cs" t="Include" />
               </e>
               <e p="VoxelData.cs" t="Include" />
               <e p="VoxelMeshData.cs" t="Include" />

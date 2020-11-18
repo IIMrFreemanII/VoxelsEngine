@@ -28,7 +28,7 @@ namespace VoxelsEngine.Voxels.UIElements
             foreach (object obj in objects)
             {
                 VoxelsSubMesh voxelsSubMesh = obj as VoxelsSubMesh;
-                _voxelsChunkRenderer.voxelsChunk.selectedVoxelsSubMesh = voxelsSubMesh;
+                _voxelsChunkRenderer.voxelsChunk.Value.selectedVoxelsSubMesh = voxelsSubMesh;
 
                 HandleSelectedMaterial(voxelsSubMesh);
             }
@@ -47,7 +47,7 @@ namespace VoxelsEngine.Voxels.UIElements
                 { 
                     Material material = evt.newValue as Material;
                     voxelsSubMesh.material = material;
-                    _voxelsChunkRenderer.voxelsChunk.MapMaterialToSubMesh();
+                    _voxelsChunkRenderer.voxelsChunk.Value.MapMaterialToSubMesh();
                     _materialsListView.listView.Refresh();
                 });
 

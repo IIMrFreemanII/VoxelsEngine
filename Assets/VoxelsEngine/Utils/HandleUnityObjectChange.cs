@@ -1,45 +1,36 @@
 ﻿using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace VoxelsEngine.Utils
 {
+    /// <summary>
+    /// Used for handling of value change of Unity build in types which inherits from UnityEngine.Object
+    /// </summary>
     [Serializable]
-    public class HandleValueChange<T>
+    public class HandleUnityObjectChange<T> where T : Object
     {
         [SerializeField, HideInInspector] private T _value;
         [SerializeField, HideInInspector] protected T prevValue;
-        private bool _isValueType;
 
         public event Action<T> onChange;
 
-        public HandleValueChange()
-        {
-            _isValueType = typeof(T).IsValueType;
-        }
-
-        [DelayedProperty, ShowInInspector]
+        [ShowInInspector]
         public T Value
         {
             get => _value;
             set
             {
-                if (!IsValid(value)) return;
-                
-                if (!_isValueType && value != null)
+                if (value != null)
                 {
-                    prevValue = TypeUtils.DeepCopy(value);
+                    prevValue = Object.Instantiate(value);
                 }
                 
                 if (!IsEqual(_value, value))
                 {
                     _value = value;
-                    
-                    if (_isValueType)
-                    {
-                        prevValue = value;
-                    }
-                    
+
                     onChange?.Invoke(value);
                 }
             }
@@ -56,21 +47,14 @@ namespace VoxelsEngine.Utils
         /// <param name="value"></param>
         public virtual void HandleChange(T value)
         {
-            if (!IsValid(value)) return;
-            
             _value = value;
 
-            if (!_isValueType && value != null)
+            if (value != null)
             {
-                prevValue = TypeUtils.DeepCopy(value);
+                prevValue = Object.Instantiate(value);
             }
 
             onChange?.Invoke(Value);
-        }
-
-        public virtual bool IsValid(T value)
-        {
-            return true;
         }
     }
 }

@@ -54,7 +54,7 @@ namespace VoxelsEngine.Voxels.Scripts
         {
             root.Clear();
 
-            if (voxelsChunkRenderer && voxelsChunkRenderer.voxelsChunk)
+            if (voxelsChunkRenderer && voxelsChunkRenderer.voxelsChunk.Value)
             {
                 root.Add(React.CreateElement<VoxelsChunkEditor>());
             }
@@ -119,7 +119,7 @@ namespace VoxelsEngine.Voxels.Scripts
 
         private void OnSceneGUI(SceneView sceneView)
         {
-            if (!voxelsChunkRenderer || !voxelsChunkRenderer.voxelsChunk) return;
+            if (!voxelsChunkRenderer || !voxelsChunkRenderer.voxelsChunk.Value) return;
 
             DrawChunkBorder();
             HandleVolumeSelection();
@@ -144,7 +144,7 @@ namespace VoxelsEngine.Voxels.Scripts
         {
             VoxelData voxelData = voxelsChunkRenderer.GetSell(posInArr);
             voxelData.active = true;
-            voxelData.material = voxelsChunkRenderer.voxelsChunk.selectedVoxelsSubMesh.material;
+            voxelData.material = voxelsChunkRenderer.voxelsChunk.Value.selectedVoxelsSubMesh.material;
             voxelsChunkRenderer.SetSell(voxelData, posInArr);
 
             _needRepaint = true;
@@ -162,10 +162,10 @@ namespace VoxelsEngine.Voxels.Scripts
             if (_posInVolume.HasValue && !Event.Alt)
             {
                 Transform transform = voxelsChunkRenderer.transform;
-                float scale = voxelsChunkRenderer.scale;
-                int width = voxelsChunkRenderer.voxelsChunk.Width;
-                int height = voxelsChunkRenderer.voxelsChunk.Height;
-                int depth = voxelsChunkRenderer.voxelsChunk.Depth;
+                float scale = voxelsChunkRenderer.scale.Value;
+                int width = voxelsChunkRenderer.voxelsChunk.Value.Width;
+                int height = voxelsChunkRenderer.voxelsChunk.Value.Height;
+                int depth = voxelsChunkRenderer.voxelsChunk.Value.Depth;
                 Vector3 normalizedPointInLocalSpace = transform.InverseTransformPoint(_posInVolume.Value) / scale;
 
                 // we do " + _voxelsChunkRenderer.size.ToFloat() * 0.5f;"
@@ -173,7 +173,7 @@ namespace VoxelsEngine.Voxels.Scripts
                 // we subtracted " - _voxelsChunkRenderer.size.ToFloat() * 0.5f;"
                 // in order to revert value array index format
                 // Vector3 rawIndexPos = pointInLocalSpace + _voxelsChunkRenderer.size.ToFloat() * 0.5f;
-                Vector3 rawIndexPos = normalizedPointInLocalSpace + voxelsChunkRenderer.size.ToFloat() * 0.5f;
+                Vector3 rawIndexPos = normalizedPointInLocalSpace + voxelsChunkRenderer.size.Value.ToFloat() * 0.5f;
 
                 int x = Mathf.Clamp(Mathf.FloorToInt(rawIndexPos.x), 0, width - 1);
                 int y = Mathf.Clamp(Mathf.FloorToInt(rawIndexPos.y), 0, height - 1);
@@ -181,7 +181,7 @@ namespace VoxelsEngine.Voxels.Scripts
 
                 Vector3 posInArray = new Vector3(x, y, z);
 
-                Vector3 drawPos = ((posInArray - voxelsChunkRenderer.size.ToFloat() * 0.5f) + (Vector3.one * 0.5f)) *
+                Vector3 drawPos = ((posInArray - voxelsChunkRenderer.size.Value.ToFloat() * 0.5f) + (Vector3.one * 0.5f)) *
                                   scale;
 
                 Handles.color = Color.red;
@@ -249,11 +249,11 @@ namespace VoxelsEngine.Voxels.Scripts
             Handles.color = Color.white;
             Transform transform = voxelsChunkRenderer.transform;
 
-            int x = voxelsChunkRenderer.voxelsChunk.Width;
-            int y = voxelsChunkRenderer.voxelsChunk.Height;
-            int z = voxelsChunkRenderer.voxelsChunk.Depth;
+            int x = voxelsChunkRenderer.voxelsChunk.Value.Width;
+            int y = voxelsChunkRenderer.voxelsChunk.Value.Height;
+            int z = voxelsChunkRenderer.voxelsChunk.Value.Depth;
 
-            float scale = voxelsChunkRenderer.scale;
+            float scale = voxelsChunkRenderer.scale.Value;
 
             HandlesUtils.DrawWireCube(Vector3.zero, transform, new Vector3(x, y, z) * scale, true, true);
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using UnityEngine;
 
 namespace VoxelsEngine.Utils
 {
@@ -36,6 +37,26 @@ namespace VoxelsEngine.Utils
             }
 
             return copy;
+        }
+        
+        // public static T DeepCopy<T>(T original) where T : ScriptableObject
+        // {
+        //     T copy = ScriptableObject.CreateInstance<T>();
+        //
+        //     FieldInfo[] originalFields = original.GetType().GetFields();
+        //
+        //     foreach (FieldInfo originalField in originalFields)
+        //     {
+        //         originalField.SetValue(copy, originalField.GetValue(original));
+        //     }
+        //
+        //     return copy;
+        // }
+        
+        public static bool IsSameOrSubclass(Type potentialBase, Type potentialDescendant)
+        {
+            return potentialDescendant.IsSubclassOf(potentialBase)
+                   || potentialDescendant == potentialBase;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine.UIElements;
+using VoxelsEngine.Utils;
 
 namespace ReactElements.Core
 {
@@ -12,7 +12,7 @@ namespace ReactElements.Core
         {
             TElem elem = Activator.CreateInstance<TElem>();
 
-            if (IsSameOrSubclass(typeof(ReactElement), typeof(TElem)))
+            if (TypeUtils.IsSameOrSubclass(typeof(ReactElement), typeof(TElem)))
             {
                 ReactElement reactElement = elem as ReactElement;
                 reactElement.children = children;
@@ -39,7 +39,7 @@ namespace ReactElements.Core
         {
             TElem elem = Activator.CreateInstance<TElem>();
 
-            if (IsSameOrSubclass(typeof(ReactElement), typeof(TElem)))
+            if (TypeUtils.IsSameOrSubclass(typeof(ReactElement), typeof(TElem)))
             {
                 ReactElement reactElement = elem as ReactElement;
                 reactElement.children = children;
@@ -57,12 +57,6 @@ namespace ReactElements.Core
             }
 
             return elem;
-        }
-
-        private static bool IsSameOrSubclass(Type potentialBase, Type potentialDescendant)
-        {
-            return potentialDescendant.IsSubclassOf(potentialBase)
-                   || potentialDescendant == potentialBase;
         }
     }
 }
