@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using Sirenix.OdinInspector;
-using Sirenix.Serialization;
-using UnityEditor;
 using UnityEngine;
 
 namespace VoxelsEngine.Voxels.Scripts
@@ -9,23 +7,23 @@ namespace VoxelsEngine.Voxels.Scripts
     [CreateAssetMenu(fileName = "Voxels Chunk", menuName = "Voxels Engine/Voxels Chunk")]
     public class VoxelsChunk : SerializedScriptableObject
     {
-        public List<VoxelsSubMesh> voxelsSubMeshes;
+        public List<Material> materials = new List<Material>();
+        public Material selectedMaterial;
         
-        public VoxelsSubMesh selectedVoxelsSubMesh;
-        [OdinSerialize]
-        public Dictionary<Material, VoxelsSubMesh> matToSubMesh;
-        public void MapMaterialToSubMesh()
+        public Dictionary<Material, VoxelsSubMesh> matToSubMesh = new Dictionary<Material, VoxelsSubMesh>();
+        public void GenMatToSubMesh()
         {
-            matToSubMesh = new Dictionary<Material, VoxelsSubMesh>();
-            
-            foreach (VoxelsSubMesh voxelsSubMesh in voxelsSubMeshes)
+            Dictionary<Material, VoxelsSubMesh> temp = new Dictionary<Material, VoxelsSubMesh>();
+
+            foreach (Material material in materials)
             {
-                Material material = voxelsSubMesh.material;
                 if (material)
                 {
-                    matToSubMesh.Add(material, voxelsSubMesh);
+                    temp.Add(material, new VoxelsSubMesh { material = material });
                 }
             }
+
+            matToSubMesh = temp;
         }
         
         [SerializeField, HideInInspector] private Vector3Int _size = new Vector3Int(3, 3, 3);
@@ -47,7 +45,7 @@ namespace VoxelsEngine.Voxels.Scripts
         public int Height => Size.y;
         public int Depth => Size.z;
 
-        [SerializeField, HideInInspector] private VoxelData[] data;
+        [SerializeField] private VoxelData[] data;
 
         private VoxelData[] Data
         {
@@ -60,6 +58,21 @@ namespace VoxelsEngine.Voxels.Scripts
             if (Width <= 0 || Height <= 0 || Depth <= 0)
             {
                 Debug.Log($"Invalid size in {name}!");
+            }
+        }
+        
+        public void RemoveVoxelsWithMaterial(Material material)
+        {
+            if (material)
+            {
+                VoxelData[] voxelsData = Data;
+                for (int i = 0; i < voxelsData.Length; i++)
+                {
+                    if (material == voxelsData[i].material)
+                    {
+                        voxelsData[i] = new VoxelData();
+                    }
+                }
             }
         }
 
@@ -92,6 +105,9 @@ namespace VoxelsEngine.Voxels.Scripts
         public void Clear()
         {
             Data = new VoxelData[Size.x * Size.y * Size.z];
+            
+            matToSubMesh.Clear();
+            GenMatToSubMesh();
         }
 
         public void Resize()

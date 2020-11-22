@@ -142,12 +142,20 @@ namespace VoxelsEngine.Voxels.Scripts
 
         private void AddVoxel(Vector3Int posInArr)
         {
-            VoxelData voxelData = voxelsChunkRenderer.GetSell(posInArr);
-            voxelData.active = true;
-            voxelData.material = voxelsChunkRenderer.voxelsChunk.Value.selectedVoxelsSubMesh.material;
-            voxelsChunkRenderer.SetSell(voxelData, posInArr);
+            Material selectedMaterial = voxelsChunkRenderer.voxelsChunk.Value.selectedMaterial;
+            if (selectedMaterial)
+            {
+                VoxelData voxelData = voxelsChunkRenderer.GetSell(posInArr);
+                voxelData.active = true;
+                voxelData.material = selectedMaterial;
+                voxelsChunkRenderer.SetSell(voxelData, posInArr);
 
-            _needRepaint = true;
+                _needRepaint = true;
+            }
+            else
+            {
+                Debug.LogWarning("Can't add voxel. No material selected!");
+            }
         }
 
         private void RemoveVoxel(Vector3Int posInArr)

@@ -10,13 +10,5 @@ namespace VoxelsEngine.Voxels.Scripts.CustomValues
         {
             return prev == current;
         }
-
-        public override void HandleChange(VoxelsChunk value)
-        {
-            if (IsEqual(prevValue, value))
-            {
-                base.HandleChange(value);
-            }
-        }
     }
 }
