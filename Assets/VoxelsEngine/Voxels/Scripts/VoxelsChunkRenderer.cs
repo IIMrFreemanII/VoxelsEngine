@@ -19,6 +19,7 @@ namespace VoxelsEngine.Voxels.Scripts
     public class VoxelsChunkRenderer : SerializedMonoBehaviour
     {
         public static Material defaultVoxelMaterial;
+        public List<VoxelsSubMesh> voxelsSubMeshes = new List<VoxelsSubMesh>();
 
         [HorizontalGroup("VoxelsChunk")]
         public HandleVoxelsChunkChange voxelsChunk = new HandleVoxelsChunkChange {Value = null};
@@ -37,9 +38,8 @@ namespace VoxelsEngine.Voxels.Scripts
                 VoxelsChunk temp = ScriptableObject.CreateInstance<VoxelsChunk>();
                 
                 // init voxels chunk asset with default material data
-                temp.materials = new List<Material> { defaultVoxelMaterial };
-                temp.GenMatToSubMesh();
-                temp.selectedMaterial = defaultVoxelMaterial;
+                temp.voxelsSubMeshes = new List<VoxelsSubMesh> { new VoxelsSubMesh { material = defaultVoxelMaterial } };
+                temp.selectedVoxelsSubMesh = temp.voxelsSubMeshes[0];
                 
                 voxelsChunk.Value = temp;
                 //---------------------------------------------
@@ -240,17 +240,18 @@ namespace VoxelsEngine.Voxels.Scripts
             GenerateVoxelsSubMeshes(voxelsChunk.Value);
             UpdateSubMeshes();
             UpdateMaterials();
-            Debug.Log($"SubMesh count: {Mesh.subMeshCount}");
+            // Debug.Log($"SubMesh count: {Mesh.subMeshCount}");
             EditorUtility.SetDirty(voxelsChunk.Value);
         }
 
         private void GenerateVoxelsSubMeshes(VoxelsChunk data)
         {
             _vertices = new List<Vector3>();
+            voxelsSubMeshes.Clear();
 
-            foreach (KeyValuePair<Material,VoxelsSubMesh> keyValuePair in voxelsChunk.Value.matToSubMesh)
+            for (int i = 0; i < voxelsChunk.Value.voxelsSubMeshes.Count; i++)
             {
-                keyValuePair.Value.triangles.Clear();
+                voxelsSubMeshes.Add(new VoxelsSubMesh { material = voxelsChunk.Value.voxelsSubMeshes[i].material });
             }
 
             for (int x = 0; x < data.Width; x++)
@@ -262,7 +263,7 @@ namespace VoxelsEngine.Voxels.Scripts
                         VoxelData voxelData = data.GetCell(x, y, z);
                         if (voxelData.active == false) continue;
                         
-                        VoxelsSubMesh voxelsSubMesh = voxelsChunk.Value.matToSubMesh[voxelData.material];
+                        VoxelsSubMesh voxelsSubMesh = voxelsSubMeshes[voxelData.subMeshIndex];
                         Vector3 cubePos = (new Vector3(x, y, z) - data.Size.ToFloat() * 0.5f) * scale.Value;
                         Vector3 offset = Vector3.one * scale.Value * 0.5f;
 
@@ -303,7 +304,7 @@ namespace VoxelsEngine.Voxels.Scripts
         
         private void UpdateSubMeshes()
         {
-            int subMeshCount = voxelsChunk.Value.matToSubMesh.Count;
+            int subMeshCount = voxelsSubMeshes.Count;
 
             Mesh mesh = Mesh;
             mesh.Clear();
@@ -311,11 +312,9 @@ namespace VoxelsEngine.Voxels.Scripts
             mesh.name = name;
             mesh.vertices = _vertices.ToArray();
 
-            int index = 0;
-            foreach (KeyValuePair<Material,VoxelsSubMesh> keyValuePair in voxelsChunk.Value.matToSubMesh)
+            for (int i = 0; i < voxelsSubMeshes.Count; i++)
             {
-                mesh.SetTriangles(keyValuePair.Value.triangles, index, false);
-                index++;
+                mesh.SetTriangles(voxelsSubMeshes[i].triangles, i, false);
             }
 
             mesh.RecalculateNormals();
@@ -326,7 +325,7 @@ namespace VoxelsEngine.Voxels.Scripts
 
         private void UpdateMaterials()
         {
-            Material[] materials = voxelsChunk.Value.matToSubMesh.Keys.ToArray();
+            Material[] materials = voxelsSubMeshes.Select(item => item.material).ToArray();
             MeshRenderer.materials = materials;
         }
     }

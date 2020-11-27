@@ -7,25 +7,9 @@ namespace VoxelsEngine.Voxels.Scripts
     [CreateAssetMenu(fileName = "Voxels Chunk", menuName = "Voxels Engine/Voxels Chunk")]
     public class VoxelsChunk : SerializedScriptableObject
     {
-        public List<Material> materials = new List<Material>();
-        public Material selectedMaterial;
-        
-        public Dictionary<Material, VoxelsSubMesh> matToSubMesh = new Dictionary<Material, VoxelsSubMesh>();
-        public void GenMatToSubMesh()
-        {
-            Dictionary<Material, VoxelsSubMesh> temp = new Dictionary<Material, VoxelsSubMesh>();
+        public List<VoxelsSubMesh> voxelsSubMeshes = new List<VoxelsSubMesh>();
+        public VoxelsSubMesh selectedVoxelsSubMesh;
 
-            foreach (Material material in materials)
-            {
-                if (material)
-                {
-                    temp.Add(material, new VoxelsSubMesh { material = material });
-                }
-            }
-
-            matToSubMesh = temp;
-        }
-        
         [SerializeField, HideInInspector] private Vector3Int _size = new Vector3Int(3, 3, 3);
 
         public Vector3Int Size
@@ -61,16 +45,27 @@ namespace VoxelsEngine.Voxels.Scripts
             }
         }
         
-        public void RemoveVoxelsWithMaterial(Material material)
+        public void RemoveVoxelsSubMesh(int index)
         {
-            if (material)
+            voxelsSubMeshes.RemoveAt(index);
+
+            for (int i = 0; i < data.Length; i++)
             {
-                VoxelData[] voxelsData = Data;
-                for (int i = 0; i < voxelsData.Length; i++)
+                VoxelData voxelData = data[i];
+
+                if (voxelData.subMeshIndex == index)
                 {
-                    if (material == voxelsData[i].material)
+                    voxelData.subMeshIndex = 0;
+                    voxelData.active = false;
+
+                    data[i] = voxelData;
+                }
+                else
+                {
+                    if (voxelData.subMeshIndex > index)
                     {
-                        voxelsData[i] = new VoxelData();
+                        voxelData.subMeshIndex = voxelData.subMeshIndex - 1;
+                        data[i] = voxelData;
                     }
                 }
             }
@@ -106,8 +101,9 @@ namespace VoxelsEngine.Voxels.Scripts
         {
             Data = new VoxelData[Size.x * Size.y * Size.z];
             
-            matToSubMesh.Clear();
-            GenMatToSubMesh();
+            voxelsSubMeshes.Clear();
+            voxelsSubMeshes.Add(new VoxelsSubMesh { material = VoxelsChunkRenderer.defaultVoxelMaterial });
+            selectedVoxelsSubMesh = voxelsSubMeshes[0];
         }
 
         public void Resize()

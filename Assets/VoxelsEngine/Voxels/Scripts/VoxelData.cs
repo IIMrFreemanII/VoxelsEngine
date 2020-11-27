@@ -6,7 +6,7 @@ namespace VoxelsEngine.Voxels.Scripts
     [Serializable]
     public struct VoxelData
     {
-        public Material material;
+        public int subMeshIndex;
         public bool active;
     }
 }

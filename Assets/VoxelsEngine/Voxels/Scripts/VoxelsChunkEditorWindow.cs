@@ -142,12 +142,12 @@ namespace VoxelsEngine.Voxels.Scripts
 
         private void AddVoxel(Vector3Int posInArr)
         {
-            Material selectedMaterial = voxelsChunkRenderer.voxelsChunk.Value.selectedMaterial;
-            if (selectedMaterial)
+            VoxelsSubMesh selectedVoxelsSubMesh = voxelsChunkRenderer.voxelsChunk.Value.selectedVoxelsSubMesh;
+            if (selectedVoxelsSubMesh.material)
             {
                 VoxelData voxelData = voxelsChunkRenderer.GetSell(posInArr);
                 voxelData.active = true;
-                voxelData.material = selectedMaterial;
+                voxelData.subMeshIndex = voxelsChunkRenderer.voxelsChunk.Value.voxelsSubMeshes.FindIndex(item => item == selectedVoxelsSubMesh);
                 voxelsChunkRenderer.SetSell(voxelData, posInArr);
 
                 _needRepaint = true;

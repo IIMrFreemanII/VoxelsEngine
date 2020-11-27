@@ -11,6 +11,7 @@ namespace VoxelsEngine.Voxels.UIElements
     {
         public VoxelsChunkRenderer voxelsChunkRenderer;
         public Action<IEnumerable<object>> onSelectionChange;
+        public Action onLastElementRemove;
         public ListView listView;
 
         public MaterialListView()
@@ -47,7 +48,7 @@ namespace VoxelsEngine.Voxels.UIElements
 
                 target.style.overflow = new StyleEnum<Overflow>(Overflow.Hidden);
 
-                target.itemsSource = voxelsChunkRenderer.voxelsChunk.Value.materials;
+                target.itemsSource = voxelsChunkRenderer.voxelsChunk.Value.voxelsSubMeshes;
                 target.itemHeight = 22;
                 
                 Func<VisualElement> makeItem = () =>
@@ -66,7 +67,7 @@ namespace VoxelsEngine.Voxels.UIElements
                 Action<VisualElement, int> bindItem = (item, i) =>
                 {
                     Label label = item as Label;
-                    Material material = voxelsChunkRenderer.voxelsChunk.Value.materials[i];
+                    Material material = voxelsChunkRenderer.voxelsChunk.Value.voxelsSubMeshes[i].material;
                     if (material)
                     {
                         label.text = material.name;
@@ -81,39 +82,41 @@ namespace VoxelsEngine.Voxels.UIElements
                 target.bindItem = bindItem;
                 target.selectionType = SelectionType.Single;
                 
-                Material selectedMaterial = voxelsChunkRenderer.voxelsChunk.Value.selectedMaterial;
-                if (selectedMaterial != null)
+                VoxelsSubMesh selectedVoxelsSubMesh = voxelsChunkRenderer.voxelsChunk.Value.selectedVoxelsSubMesh;
+                if (selectedVoxelsSubMesh != null)
                 {
-                    int posInArr = voxelsChunkRenderer.voxelsChunk.Value.materials.FindIndex(material => material == selectedMaterial);
+                    int posInArr = voxelsChunkRenderer.voxelsChunk.Value.voxelsSubMeshes.FindIndex(item => item == selectedVoxelsSubMesh);
                     target.SetSelection(posInArr);
                 }
 
                 target.onSelectionChange += onSelectionChange;
             });
         }
-        
-        
+
         private void HandleAdd()
         {
-            voxelsChunkRenderer.voxelsChunk.Value.materials.Add(null);
-            listView.SetSelection(voxelsChunkRenderer.voxelsChunk.Value.materials.Count - 1);
+            voxelsChunkRenderer.voxelsChunk.Value.voxelsSubMeshes.Add(new VoxelsSubMesh());
+            listView.SetSelection(voxelsChunkRenderer.voxelsChunk.Value.voxelsSubMeshes.Count - 1);
             listView.Refresh();
         }
 
         private void HandleRemove()
         {
-            int selectedMatIndex = listView.selectedIndex;
+            int selectedVoxelsSubMeshIndex = listView.selectedIndex;
+            voxelsChunkRenderer.voxelsChunk.Value.RemoveVoxelsSubMesh(selectedVoxelsSubMeshIndex);
+            voxelsChunkRenderer.voxelsChunk.Value.selectedVoxelsSubMesh = null;
             
-            // Material materialToRemove = voxelsChunkRenderer.voxelsChunk.Value.materials[selectedMatIndex];
-            // voxelsChunkRenderer.voxelsChunk.Value.RemoveVoxelsWithMaterial(materialToRemove);
-            
-            voxelsChunkRenderer.voxelsChunk.Value.materials.RemoveAt(selectedMatIndex);
-            voxelsChunkRenderer.voxelsChunk.Value.selectedMaterial = null;
             listView.Refresh();
             
-            listView.SetSelection(voxelsChunkRenderer.voxelsChunk.Value.materials.Count - 1);
-            
-            voxelsChunkRenderer.UpdateSubMeshesChunk();
+            int newSelectedItemIndex = voxelsChunkRenderer.voxelsChunk.Value.voxelsSubMeshes.Count - 1;
+            if (newSelectedItemIndex >= 0)
+                listView.SetSelection(newSelectedItemIndex);
+
+            if (voxelsChunkRenderer.voxelsChunk.Value.voxelsSubMeshes.Count == 0)
+            {
+                voxelsChunkRenderer.UpdateSubMeshesChunk();
+                onLastElementRemove?.Invoke();
+            }
         }
 
         private VisualElement GetActionButtons()

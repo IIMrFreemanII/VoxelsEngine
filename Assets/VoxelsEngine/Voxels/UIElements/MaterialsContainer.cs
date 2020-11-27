@@ -34,6 +34,7 @@ namespace VoxelsEngine.Voxels.UIElements
             {
                 _materialListView = target;
                 target.onSelectionChange = OnSelectionChange;
+                target.onLastElementRemove = ResetMaterialField;
             });
         }
 
@@ -48,40 +49,20 @@ namespace VoxelsEngine.Voxels.UIElements
                     target.label = "Selected Material";
                     target.objectType = typeof(Material);
                     target.allowSceneObjects = false;
-                    target.value = _voxelsChunkRenderer.voxelsChunk.Value.selectedMaterial;
+                    target.value = _voxelsChunkRenderer.voxelsChunk.Value.selectedVoxelsSubMesh.material;
                     target.RegisterCallback<ChangeEvent<Object>>(evt =>
                     {
                         Material material = evt.newValue as Material;
-                        int selectedMatIndex = _materialListView.listView.selectedIndex;
-                        
-                        if (material)
+                        int selectedVoxelsSubMeshIndex = _materialListView.listView.selectedIndex;
+
+                        if (selectedVoxelsSubMeshIndex >= 0)
                         {
-                            bool hasSameMaterial =
-                                _voxelsChunkRenderer.voxelsChunk.Value.materials.Contains(material);
-                            
-                            Material selectedMaterial = _voxelsChunkRenderer.voxelsChunk.Value.materials[selectedMatIndex];
-                            
-                            if (!hasSameMaterial)
-                            {
-                                _voxelsChunkRenderer.voxelsChunk.Value.materials[selectedMatIndex] = material;
-                                _voxelsChunkRenderer.voxelsChunk.Value.selectedMaterial = material;
-                                _materialListView.listView.Refresh();
-                            }
-                            else
-                            {
-                                target.value = selectedMaterial;
-                            }
-                        }
-                        else
-                        {
-                            _voxelsChunkRenderer.voxelsChunk.Value.materials[selectedMatIndex] = material;
-                            _voxelsChunkRenderer.voxelsChunk.Value.selectedMaterial = material;
+                            VoxelsSubMesh selectedVoxelsSubMesh = _voxelsChunkRenderer.voxelsChunk.Value.voxelsSubMeshes[selectedVoxelsSubMeshIndex];
+                            selectedVoxelsSubMesh.material = material;
                             _materialListView.listView.Refresh();
-                            
-                            target.value = material;
-                        }
                         
-                        _voxelsChunkRenderer.voxelsChunk.Value.GenMatToSubMesh();
+                            _voxelsChunkRenderer.UpdateSubMeshesChunk();
+                        }
                     });
                 })
             });
@@ -91,10 +72,18 @@ namespace VoxelsEngine.Voxels.UIElements
         {
             foreach (object obj in objects)
             {
-                Material material = obj as Material;
+                VoxelsSubMesh voxelsSubMesh = obj as VoxelsSubMesh;
                 
-                _voxelsChunkRenderer.voxelsChunk.Value.selectedMaterial = material;
-                _materialField.value = material;
+                _voxelsChunkRenderer.voxelsChunk.Value.selectedVoxelsSubMesh = voxelsSubMesh;
+                _materialField.value = voxelsSubMesh.material;
+            }
+        }
+        
+        private void ResetMaterialField()
+        {
+            if (_materialField != null)
+            {
+                _materialField.value = null;
             }
         }
     }

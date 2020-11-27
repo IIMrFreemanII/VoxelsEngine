@@ -21,8 +21,10 @@
   <component name="ChangeListManager">
     <list default="true" id="2f28268c-c204-405c-b1d8-30202cdf9ae9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/test.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/test.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/voxel.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/voxel.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/CustomValues/HandleVoxelsChunkChange.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/CustomValues/HandleVoxelsChunkChange.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Materials/VoxelMatRed.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Materials/VoxelMatRed.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelData.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkEditorWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkEditorWindow.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" afterDir="false" />
@@ -50,7 +52,6 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/D6D3AC03-BF86-4882-89C2-EBF3A45CE0A1/ba/9a739bc7/Nullable`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F8918D0C-C5FC-41A1-BABA-01B207A4C016/06/d643bec6/Collider.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://F:/UnityProjects/TestProjects/VoxelsEngine/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/093C556E-C887-4046-94FA-24256CBB8043/4a/a5f06d73/SerializedScriptableObject.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F8918D0C-C5FC-41A1-BABA-01B207A4C016/36/8fad0bd5/BoxCollider.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04258D1C-DC10-4424-8C2A-17A6A31A3CF7/2b/d11cf773/Transform.cs" root0="SKIP_HIGHLIGHTING" />
@@ -90,7 +91,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/UIElements/TestReact/App.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/UIElements/React/ReactElement.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Editor/ReactTestWindow.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Extensions/TypeExtension.cs" />
@@ -136,10 +136,11 @@
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/CustomValues/HandleScaleChange.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/CustomValues/HandleVoxelsChunkSizeChange.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/CustomValues/HandleVoxelsChunkChange.cs" />
-        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/UIElements/MaterialsContainer.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelData.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkEditorWindow.cs" />
-        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/UIElements/MaterialsContainer.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/UIElements/MaterialListView.cs" />
       </list>
     </option>
@@ -231,7 +232,8 @@
       <workItem from="1605806907480" duration="8824000" />
       <workItem from="1605889131436" duration="13661000" />
       <workItem from="1605963425133" duration="23410000" />
-      <workItem from="1606040768889" duration="4580000" />
+      <workItem from="1606040768889" duration="5269000" />
+      <workItem from="1606491816682" duration="9821000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit;">
       <created>1603896756787</created>
@@ -380,7 +382,14 @@
       <option name="project" value="LOCAL" />
       <updated>1605729679799</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="re-write MaterialListView.cs and MaterialsContainer.cs using ReactElements">
+      <created>1606045436422</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1606045436422</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -425,13 +434,14 @@
     <MESSAGE value="implement ReactElements library for managing UIElements;" />
     <MESSAGE value="implement handle value change in mono behavior scripts;" />
     <MESSAGE value="implement handling value change through editor and scripts;" />
-    <option name="LAST_COMMIT_MESSAGE" value="implement handling value change through editor and scripts;" />
+    <MESSAGE value="re-write MaterialListView.cs and MaterialsContainer.cs using ReactElements" />
+    <option name="LAST_COMMIT_MESSAGE" value="re-write MaterialListView.cs and MaterialsContainer.cs using ReactElements" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2" timestamp="1605729678172">
+    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2" timestamp="1606045434738">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1605729678172" />
+    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1606045434738" />
     <state width="306" height="606" key="Diff.GoToChangePopup" timestamp="1604230495066">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
@@ -460,14 +470,14 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1828" y="92" width="1736" height="856" key="VCS.FileHistoryDialog/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604605212890" />
-    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2" timestamp="1605729684289">
+    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2" timestamp="1606045440677">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1605729684289" />
-    <state x="-1354" y="237" width="787" height="566" key="find.popup" timestamp="1605723242070">
+    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1606045440677" />
+    <state x="-1354" y="237" width="787" height="566" key="find.popup" timestamp="1606492063771">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1354" y="237" width="787" height="566" key="find.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1605723242070" />
+    <state x="-1354" y="237" width="787" height="566" key="find.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1606492063771" />
     <state x="-1304" y="240" key="run.anything.popup" timestamp="1605430690847">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
