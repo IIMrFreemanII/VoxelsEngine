@@ -54,7 +54,7 @@ namespace VoxelsEngine.Voxels.Scripts
         {
             root.Clear();
 
-            if (voxelsChunkRenderer && voxelsChunkRenderer.voxelsChunk.Value)
+            if (voxelsChunkRenderer && voxelsChunkRenderer.sharedVoxelsChunk.Value)
             {
                 root.Add(React.CreateElement<VoxelsChunkEditor>());
             }
@@ -119,7 +119,7 @@ namespace VoxelsEngine.Voxels.Scripts
 
         private void OnSceneGUI(SceneView sceneView)
         {
-            if (!voxelsChunkRenderer || !voxelsChunkRenderer.voxelsChunk.Value) return;
+            if (!voxelsChunkRenderer || !voxelsChunkRenderer.sharedVoxelsChunk.Value) return;
 
             DrawChunkBorder();
             HandleVolumeSelection();
@@ -142,15 +142,27 @@ namespace VoxelsEngine.Voxels.Scripts
 
         private void AddVoxel(Vector3Int posInArr)
         {
-            VoxelsSubMesh selectedVoxelsSubMesh = voxelsChunkRenderer.voxelsChunk.Value.selectedVoxelsSubMesh;
+            VoxelsSubMesh selectedVoxelsSubMesh = voxelsChunkRenderer.sharedVoxelsChunk.Value.GetSelectedVoxelsSubMesh();
             if (selectedVoxelsSubMesh.material)
             {
-                VoxelData voxelData = voxelsChunkRenderer.GetSell(posInArr);
-                voxelData.active = true;
-                voxelData.subMeshIndex = voxelsChunkRenderer.voxelsChunk.Value.voxelsSubMeshes.FindIndex(item => item == selectedVoxelsSubMesh);
-                voxelsChunkRenderer.SetSell(voxelData, posInArr);
+                int subMeshIndex =
+                    voxelsChunkRenderer.sharedVoxelsChunk.Value.voxelsSubMeshes.FindIndex(item =>
+                        item == selectedVoxelsSubMesh);
 
-                _needRepaint = true;
+                if (subMeshIndex >= 0 && subMeshIndex <= voxelsChunkRenderer.sharedVoxelsChunk.Value.voxelsSubMeshes.Count - 1)
+                {
+                    VoxelData voxelData = voxelsChunkRenderer.sharedVoxelsChunk.Value.GetCell(posInArr);
+                    voxelData.active = true;
+                    voxelData.subMeshIndex = subMeshIndex;
+                    voxelsChunkRenderer.sharedVoxelsChunk.Value.SetSell(voxelData, posInArr);
+                    voxelsChunkRenderer.UpdateSubMeshesChunk();
+
+                    _needRepaint = true;
+                }
+                else
+                {
+                    Debug.LogWarning("Can't add voxel. Index is out of range!");
+                }
             }
             else
             {
@@ -158,11 +170,12 @@ namespace VoxelsEngine.Voxels.Scripts
             }
         }
 
-        private void RemoveVoxel(Vector3Int posInArr)
+        private void RemoveOneVoxel(Vector3Int posInArr)
         {
-            VoxelData voxelData = voxelsChunkRenderer.GetSell(posInArr);
+            VoxelData voxelData = voxelsChunkRenderer.sharedVoxelsChunk.Value.GetCell(posInArr);
             voxelData.active = false;
-            voxelsChunkRenderer.SetSell(voxelData, posInArr);
+            voxelsChunkRenderer.sharedVoxelsChunk.Value.SetSell(voxelData, posInArr);
+            voxelsChunkRenderer.UpdateSubMeshesChunk();
         }
 
         private void HandleSelectedVoxel()
@@ -171,9 +184,9 @@ namespace VoxelsEngine.Voxels.Scripts
             {
                 Transform transform = voxelsChunkRenderer.transform;
                 float scale = voxelsChunkRenderer.scale.Value;
-                int width = voxelsChunkRenderer.voxelsChunk.Value.Width;
-                int height = voxelsChunkRenderer.voxelsChunk.Value.Height;
-                int depth = voxelsChunkRenderer.voxelsChunk.Value.Depth;
+                int width = voxelsChunkRenderer.sharedVoxelsChunk.Value.Width;
+                int height = voxelsChunkRenderer.sharedVoxelsChunk.Value.Height;
+                int depth = voxelsChunkRenderer.sharedVoxelsChunk.Value.Depth;
                 Vector3 normalizedPointInLocalSpace = transform.InverseTransformPoint(_posInVolume.Value) / scale;
 
                 // we do " + _voxelsChunkRenderer.size.ToFloat() * 0.5f;"
@@ -257,9 +270,9 @@ namespace VoxelsEngine.Voxels.Scripts
             Handles.color = Color.white;
             Transform transform = voxelsChunkRenderer.transform;
 
-            int x = voxelsChunkRenderer.voxelsChunk.Value.Width;
-            int y = voxelsChunkRenderer.voxelsChunk.Value.Height;
-            int z = voxelsChunkRenderer.voxelsChunk.Value.Depth;
+            int x = voxelsChunkRenderer.sharedVoxelsChunk.Value.Width;
+            int y = voxelsChunkRenderer.sharedVoxelsChunk.Value.Height;
+            int z = voxelsChunkRenderer.sharedVoxelsChunk.Value.Depth;
 
             float scale = voxelsChunkRenderer.scale.Value;
 

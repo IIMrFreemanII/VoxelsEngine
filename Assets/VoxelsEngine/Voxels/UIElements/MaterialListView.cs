@@ -48,7 +48,7 @@ namespace VoxelsEngine.Voxels.UIElements
 
                 target.style.overflow = new StyleEnum<Overflow>(Overflow.Hidden);
 
-                target.itemsSource = voxelsChunkRenderer.voxelsChunk.Value.voxelsSubMeshes;
+                target.itemsSource = voxelsChunkRenderer.sharedVoxelsChunk.Value.voxelsSubMeshes;
                 target.itemHeight = 22;
                 
                 Func<VisualElement> makeItem = () =>
@@ -67,7 +67,7 @@ namespace VoxelsEngine.Voxels.UIElements
                 Action<VisualElement, int> bindItem = (item, i) =>
                 {
                     Label label = item as Label;
-                    Material material = voxelsChunkRenderer.voxelsChunk.Value.voxelsSubMeshes[i].material;
+                    Material material = voxelsChunkRenderer.sharedVoxelsChunk.Value.voxelsSubMeshes[i].material;
                     if (material)
                     {
                         label.text = material.name;
@@ -82,10 +82,10 @@ namespace VoxelsEngine.Voxels.UIElements
                 target.bindItem = bindItem;
                 target.selectionType = SelectionType.Single;
                 
-                VoxelsSubMesh selectedVoxelsSubMesh = voxelsChunkRenderer.voxelsChunk.Value.selectedVoxelsSubMesh;
+                VoxelsSubMesh selectedVoxelsSubMesh = voxelsChunkRenderer.sharedVoxelsChunk.Value.GetSelectedVoxelsSubMesh();
                 if (selectedVoxelsSubMesh != null)
                 {
-                    int posInArr = voxelsChunkRenderer.voxelsChunk.Value.voxelsSubMeshes.FindIndex(item => item == selectedVoxelsSubMesh);
+                    int posInArr = voxelsChunkRenderer.sharedVoxelsChunk.Value.voxelsSubMeshes.FindIndex(item => item == selectedVoxelsSubMesh);
                     target.SetSelection(posInArr);
                 }
 
@@ -95,24 +95,24 @@ namespace VoxelsEngine.Voxels.UIElements
 
         private void HandleAdd()
         {
-            voxelsChunkRenderer.voxelsChunk.Value.voxelsSubMeshes.Add(new VoxelsSubMesh());
-            listView.SetSelection(voxelsChunkRenderer.voxelsChunk.Value.voxelsSubMeshes.Count - 1);
+            voxelsChunkRenderer.sharedVoxelsChunk.Value.voxelsSubMeshes.Add(new VoxelsSubMesh());
+            listView.SetSelection(voxelsChunkRenderer.sharedVoxelsChunk.Value.voxelsSubMeshes.Count - 1);
             listView.Refresh();
         }
 
         private void HandleRemove()
         {
             int selectedVoxelsSubMeshIndex = listView.selectedIndex;
-            voxelsChunkRenderer.voxelsChunk.Value.RemoveVoxelsSubMesh(selectedVoxelsSubMeshIndex);
-            voxelsChunkRenderer.voxelsChunk.Value.selectedVoxelsSubMesh = null;
+            voxelsChunkRenderer.sharedVoxelsChunk.Value.RemoveVoxelsSubMesh(selectedVoxelsSubMeshIndex);
+            voxelsChunkRenderer.sharedVoxelsChunk.Value.SetSelectedVoxelsSubMeshIndex(selectedVoxelsSubMeshIndex);
             
             listView.Refresh();
             
-            int newSelectedItemIndex = voxelsChunkRenderer.voxelsChunk.Value.voxelsSubMeshes.Count - 1;
+            int newSelectedItemIndex = voxelsChunkRenderer.sharedVoxelsChunk.Value.voxelsSubMeshes.Count - 1;
             if (newSelectedItemIndex >= 0)
                 listView.SetSelection(newSelectedItemIndex);
 
-            if (voxelsChunkRenderer.voxelsChunk.Value.voxelsSubMeshes.Count == 0)
+            if (voxelsChunkRenderer.sharedVoxelsChunk.Value.voxelsSubMeshes.Count == 0)
             {
                 voxelsChunkRenderer.UpdateSubMeshesChunk();
                 onLastElementRemove?.Invoke();

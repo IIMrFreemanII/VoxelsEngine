@@ -1,14 +1,28 @@
 ﻿using System.Collections.Generic;
-using Sirenix.OdinInspector;
+using UnityEditor;
 using UnityEngine;
 
 namespace VoxelsEngine.Voxels.Scripts
 {
     [CreateAssetMenu(fileName = "Voxels Chunk", menuName = "Voxels Engine/Voxels Chunk")]
-    public class VoxelsChunk : SerializedScriptableObject
+    public class VoxelsChunk : ScriptableObject
     {
         public List<VoxelsSubMesh> voxelsSubMeshes = new List<VoxelsSubMesh>();
-        public VoxelsSubMesh selectedVoxelsSubMesh;
+        // [SerializeField, HideInInspector]
+        public int selectedVoxelsSubMeshIndex;
+        public VoxelsSubMesh GetSelectedVoxelsSubMesh()
+        {
+            return voxelsSubMeshes[selectedVoxelsSubMeshIndex];
+        }
+        public void SetSelectedVoxelsSubMeshIndex(int index)
+        {
+            selectedVoxelsSubMeshIndex = index;
+        }
+
+        public int GetVoxelsSubMeshIndex(VoxelsSubMesh voxelsSubMesh)
+        {
+            return voxelsSubMeshes.FindIndex(item => item == voxelsSubMesh);
+        }
 
         [SerializeField, HideInInspector] private Vector3Int _size = new Vector3Int(3, 3, 3);
 
@@ -90,6 +104,7 @@ namespace VoxelsEngine.Voxels.Scripts
         }
         public void SetSell(VoxelData data, int x, int y, int z)
         {
+            Undo.RecordObject(this, "Set voxels chunk sell");
             Data[From3DTo1DIndex(x, y, z)] = data;
         }
         public void SetSell(VoxelData data, Vector3Int position)
@@ -99,15 +114,18 @@ namespace VoxelsEngine.Voxels.Scripts
 
         public void Clear()
         {
+            Undo.RecordObject(this, "Clear voxels chunk data");
             Data = new VoxelData[Size.x * Size.y * Size.z];
             
             voxelsSubMeshes.Clear();
             voxelsSubMeshes.Add(new VoxelsSubMesh { material = VoxelsChunkRenderer.defaultVoxelMaterial });
-            selectedVoxelsSubMesh = voxelsSubMeshes[0];
+            SetSelectedVoxelsSubMeshIndex(0);
         }
 
         public void Resize()
         {
+            Undo.RecordObject(this, "Resize voxels chunk data");
+            
             Data = new VoxelData[Size.x * Size.y * Size.z];
 
             // find all set values

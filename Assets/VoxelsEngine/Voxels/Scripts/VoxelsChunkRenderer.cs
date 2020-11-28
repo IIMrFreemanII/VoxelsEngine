@@ -19,10 +19,12 @@ namespace VoxelsEngine.Voxels.Scripts
     public class VoxelsChunkRenderer : SerializedMonoBehaviour
     {
         public static Material defaultVoxelMaterial;
-        public List<VoxelsSubMesh> voxelsSubMeshes = new List<VoxelsSubMesh>();
 
         [HorizontalGroup("VoxelsChunk")]
-        public HandleVoxelsChunkChange voxelsChunk = new HandleVoxelsChunkChange {Value = null};
+        public HandleVoxelsChunkChange sharedVoxelsChunk = new HandleVoxelsChunkChange {Value = null};
+        [HideInInspector]
+        public VoxelsChunk voxelsChunk;
+
         [Button][HorizontalGroup("VoxelsChunk")]
         private void CreateAsset()
         {
@@ -39,20 +41,18 @@ namespace VoxelsEngine.Voxels.Scripts
                 
                 // init voxels chunk asset with default material data
                 temp.voxelsSubMeshes = new List<VoxelsSubMesh> { new VoxelsSubMesh { material = defaultVoxelMaterial } };
-                temp.selectedVoxelsSubMesh = temp.voxelsSubMeshes[0];
+                temp.SetSelectedVoxelsSubMeshIndex(0);
                 
-                voxelsChunk.Value = temp;
+                sharedVoxelsChunk.Value = temp;
                 //---------------------------------------------
                 
-                AssetDatabase.CreateAsset(voxelsChunk.Value, path);
+                AssetDatabase.CreateAsset(sharedVoxelsChunk.Value, path);
                 AssetDatabase.SaveAssets();
             }
         }
         
-        public void HandleVoxelsChunkChange(VoxelsChunk value)
+        public void HandleSharedVoxelsChunkChange(VoxelsChunk value)
         {
-            Debug.Log(value);
-
             if (value)
             {
                 size.Value = value.Size;
@@ -75,9 +75,9 @@ namespace VoxelsEngine.Voxels.Scripts
         [DelayedProperty] public HandleVoxelsChunkSizeChange size = new HandleVoxelsChunkSizeChange { Value = new Vector3Int(3, 3, 3) };
         private void HandleSizeChange(Vector3Int value)
         {
-            if (voxelsChunk.Value)
+            if (sharedVoxelsChunk.Value)
             {
-                voxelsChunk.Value.Size = value;
+                sharedVoxelsChunk.Value.Size = value;
                 UpdateChunkBounds(value);
                 UpdateSubMeshesChunk();
             }
@@ -131,13 +131,13 @@ namespace VoxelsEngine.Voxels.Scripts
             InitDefaultMaterial();
             size.onChange += HandleSizeChange;
             scale.onChange += HandleScaleChange;
-            voxelsChunk.onChange += HandleVoxelsChunkChange;
+            sharedVoxelsChunk.onChange += HandleSharedVoxelsChunkChange;
         }
         private void OnDisable()
         {
             size.onChange -= HandleSizeChange;
             scale.onChange -= HandleScaleChange;
-            voxelsChunk.onChange -= HandleVoxelsChunkChange;
+            sharedVoxelsChunk.onChange -= HandleSharedVoxelsChunkChange;
         }
 
         private void Awake()
@@ -206,52 +206,39 @@ namespace VoxelsEngine.Voxels.Scripts
         [ContextMenu("Clear chunk")]
         public void ClearChunk()
         {
-            voxelsChunk.Value.Clear();
+            sharedVoxelsChunk.Value.Clear();
             UpdateSubMeshesChunk();
         }
 
         [ContextMenu("Resize chunk")]
         public void ResizeChunk()
         {
-            voxelsChunk.Value.Resize();
-        }
-
-        public void SetSell(VoxelData voxelData, Vector3Int posInArr)
-        {
-            voxelsChunk.Value.SetSell(voxelData, posInArr);
-            UpdateSubMeshesChunk();
-        }
-
-        public VoxelData GetSell(Vector3Int posInArr)
-        {
-            return voxelsChunk.Value.GetCell(posInArr);
+            sharedVoxelsChunk.Value.Resize();
         }
 
         [ContextMenu("Update sub-meshes")]
         public void UpdateSubMeshesChunk()
         {
-            if (!voxelsChunk.Value)
+            if (!sharedVoxelsChunk.Value)
             {
                 Debug.LogWarning("There is no voxels chunk to render!");
                 Mesh.Clear();
                 return;
             }
 
-            GenerateVoxelsSubMeshes(voxelsChunk.Value);
-            UpdateSubMeshes();
-            UpdateMaterials();
-            // Debug.Log($"SubMesh count: {Mesh.subMeshCount}");
-            EditorUtility.SetDirty(voxelsChunk.Value);
+            GenerateVoxelsSubMeshes(sharedVoxelsChunk.Value);
+            UpdateSubMeshes(sharedVoxelsChunk.Value);
+            UpdateMaterials(sharedVoxelsChunk.Value);
+            EditorUtility.SetDirty(sharedVoxelsChunk.Value);
         }
 
         private void GenerateVoxelsSubMeshes(VoxelsChunk data)
         {
             _vertices = new List<Vector3>();
-            voxelsSubMeshes.Clear();
 
-            for (int i = 0; i < voxelsChunk.Value.voxelsSubMeshes.Count; i++)
+            for (int i = 0; i < data.voxelsSubMeshes.Count; i++)
             {
-                voxelsSubMeshes.Add(new VoxelsSubMesh { material = voxelsChunk.Value.voxelsSubMeshes[i].material });
+                data.voxelsSubMeshes[i].triangles.Clear();
             }
 
             for (int x = 0; x < data.Width; x++)
@@ -263,7 +250,7 @@ namespace VoxelsEngine.Voxels.Scripts
                         VoxelData voxelData = data.GetCell(x, y, z);
                         if (voxelData.active == false) continue;
                         
-                        VoxelsSubMesh voxelsSubMesh = voxelsSubMeshes[voxelData.subMeshIndex];
+                        VoxelsSubMesh voxelsSubMesh = data.voxelsSubMeshes[voxelData.subMeshIndex];
                         Vector3 cubePos = (new Vector3(x, y, z) - data.Size.ToFloat() * 0.5f) * scale.Value;
                         Vector3 offset = Vector3.one * scale.Value * 0.5f;
 
@@ -302,19 +289,20 @@ namespace VoxelsEngine.Voxels.Scripts
             voxelsSubMesh.triangles.Add(vertCount - 4 + 3);
         }
         
-        private void UpdateSubMeshes()
+        private void UpdateSubMeshes(VoxelsChunk voxelsChunk)
         {
-            int subMeshCount = voxelsSubMeshes.Count;
+            int subMeshCount = voxelsChunk.voxelsSubMeshes.Count;
 
+            Undo.RecordObject(Mesh, "Set mesh data of voxels chunk renderer");
             Mesh mesh = Mesh;
             mesh.Clear();
             mesh.subMeshCount = subMeshCount;
             mesh.name = name;
             mesh.vertices = _vertices.ToArray();
 
-            for (int i = 0; i < voxelsSubMeshes.Count; i++)
+            for (int i = 0; i < subMeshCount; i++)
             {
-                mesh.SetTriangles(voxelsSubMeshes[i].triangles, i, false);
+                mesh.SetTriangles(voxelsChunk.voxelsSubMeshes[i].triangles, i, false);
             }
 
             mesh.RecalculateNormals();
@@ -323,10 +311,12 @@ namespace VoxelsEngine.Voxels.Scripts
             MeshCollider.enabled = true;
         }
 
-        private void UpdateMaterials()
+        private void UpdateMaterials(VoxelsChunk voxelsChunk)
         {
-            Material[] materials = voxelsSubMeshes.Select(item => item.material).ToArray();
-            MeshRenderer.materials = materials;
+            Material[] materials = voxelsChunk.voxelsSubMeshes.Select(item => item.material).ToArray();
+            MeshRenderer meshRenderer = MeshRenderer;
+            Undo.RecordObject(meshRenderer, "Set mesh renderer materials");
+            meshRenderer.materials = materials;
         }
     }
 }

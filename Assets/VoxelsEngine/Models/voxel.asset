@@ -12,21 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70e5885115022764ebe964c657dd0c1c, type: 3}
   m_Name: voxel
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   voxelsSubMeshes:
   - triangles: 
-    material: {fileID: 2100000, guid: baec350a987ca804589f0e6e76b2bd24, type: 2}
-  selectedVoxelsSubMesh:
-    triangles: 
-    material: {fileID: 2100000, guid: baec350a987ca804589f0e6e76b2bd24, type: 2}
+    material: {fileID: 2100000, guid: 3d16836ae4c14c946ba5d8255541c6d4, type: 2}
+  selectedVoxelsSubMeshIndex: 0
   _size: {x: 2, y: 2, z: 2}
   data:
   - subMeshIndex: 0

@@ -49,7 +49,7 @@ namespace VoxelsEngine.Voxels.UIElements
                     target.label = "Selected Material";
                     target.objectType = typeof(Material);
                     target.allowSceneObjects = false;
-                    target.value = _voxelsChunkRenderer.voxelsChunk.Value.selectedVoxelsSubMesh.material;
+                    target.value = _voxelsChunkRenderer.sharedVoxelsChunk.Value.GetSelectedVoxelsSubMesh().material;
                     target.RegisterCallback<ChangeEvent<Object>>(evt =>
                     {
                         Material material = evt.newValue as Material;
@@ -57,10 +57,12 @@ namespace VoxelsEngine.Voxels.UIElements
 
                         if (selectedVoxelsSubMeshIndex >= 0)
                         {
-                            VoxelsSubMesh selectedVoxelsSubMesh = _voxelsChunkRenderer.voxelsChunk.Value.voxelsSubMeshes[selectedVoxelsSubMeshIndex];
+                            VoxelsSubMesh selectedVoxelsSubMesh =
+                                _voxelsChunkRenderer.sharedVoxelsChunk.Value
+                                    .voxelsSubMeshes[selectedVoxelsSubMeshIndex];
                             selectedVoxelsSubMesh.material = material;
                             _materialListView.listView.Refresh();
-                        
+
                             _voxelsChunkRenderer.UpdateSubMeshesChunk();
                         }
                     });
@@ -73,12 +75,15 @@ namespace VoxelsEngine.Voxels.UIElements
             foreach (object obj in objects)
             {
                 VoxelsSubMesh voxelsSubMesh = obj as VoxelsSubMesh;
-                
-                _voxelsChunkRenderer.voxelsChunk.Value.selectedVoxelsSubMesh = voxelsSubMesh;
+
+                _voxelsChunkRenderer.sharedVoxelsChunk.Value.SetSelectedVoxelsSubMeshIndex(
+                    _voxelsChunkRenderer.sharedVoxelsChunk.Value.GetVoxelsSubMeshIndex(voxelsSubMesh)
+                );
+
                 _materialField.value = voxelsSubMesh.material;
             }
         }
-        
+
         private void ResetMaterialField()
         {
             if (_materialField != null)
