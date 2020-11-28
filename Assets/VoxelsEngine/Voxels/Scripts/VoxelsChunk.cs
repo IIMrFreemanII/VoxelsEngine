@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 namespace VoxelsEngine.Voxels.Scripts
@@ -8,8 +7,8 @@ namespace VoxelsEngine.Voxels.Scripts
     public class VoxelsChunk : ScriptableObject
     {
         public List<VoxelsSubMesh> voxelsSubMeshes = new List<VoxelsSubMesh>();
-        // [SerializeField, HideInInspector]
-        public int selectedVoxelsSubMeshIndex;
+        [SerializeField, HideInInspector]
+        private int selectedVoxelsSubMeshIndex;
         public VoxelsSubMesh GetSelectedVoxelsSubMesh()
         {
             return voxelsSubMeshes[selectedVoxelsSubMeshIndex];
@@ -104,7 +103,6 @@ namespace VoxelsEngine.Voxels.Scripts
         }
         public void SetSell(VoxelData data, int x, int y, int z)
         {
-            Undo.RecordObject(this, "Set voxels chunk sell");
             Data[From3DTo1DIndex(x, y, z)] = data;
         }
         public void SetSell(VoxelData data, Vector3Int position)
@@ -114,7 +112,6 @@ namespace VoxelsEngine.Voxels.Scripts
 
         public void Clear()
         {
-            Undo.RecordObject(this, "Clear voxels chunk data");
             Data = new VoxelData[Size.x * Size.y * Size.z];
             
             voxelsSubMeshes.Clear();
@@ -124,8 +121,6 @@ namespace VoxelsEngine.Voxels.Scripts
 
         public void Resize()
         {
-            Undo.RecordObject(this, "Resize voxels chunk data");
-            
             Data = new VoxelData[Size.x * Size.y * Size.z];
 
             // find all set values

@@ -20,15 +20,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2f28268c-c204-405c-b1d8-30202cdf9ae9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/indexLayout.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/DragRigidbody.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/DragRigidbody.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/FreeCameraMovement.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/FreeCameraMovement.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/voxel.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/voxel.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkEditorWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkEditorWindow.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/UIElements/MaterialListView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/UIElements/MaterialListView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/UIElements/MaterialsContainer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/UIElements/MaterialsContainer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/VoxelsScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/VoxelsScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/InputManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/InputManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +68,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/CDC1918C-B795-429D-BBD4-6F2DE52CB053/f5/fe5e933c/Handles.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/D6D3AC03-BF86-4882-89C2-EBF3A45CE0A1/be/665c30a9/List`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04258D1C-DC10-4424-8C2A-17A6A31A3CF7/f3/ad71dde7/Ray.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/VoxelsEngine/Utils/DisableOnStart.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/E11CDDB6-36F4-44F6-8EEC-62123764F018/44/517a7af6/IStyle.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/CDC1918C-B795-429D-BBD4-6F2DE52CB053/31/0349f137/EditorToolContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/04258D1C-DC10-4424-8C2A-17A6A31A3CF7/e3/f198e3f3/Plane.cs" root0="SKIP_HIGHLIGHTING" />
@@ -89,11 +93,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/UIElements/React/ReactElement.cs" />
-        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Editor/ReactTestWindow.cs" />
-        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Extensions/TypeExtension.cs" />
-        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Editor/TestReact/TestReact.cs" />
-        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Editor/TestReact/ReactLabel.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/UIElements/React/React.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/UIElements/Menu.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/UIElements/ReactLib/Style.cs" />
@@ -135,10 +134,15 @@
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/CustomValues/HandleVoxelsChunkSizeChange.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/CustomValues/HandleVoxelsChunkChange.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelData.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/UIElements/MaterialsContainer.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkEditorWindow.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/UIElements/MaterialListView.cs" />
-        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/UIElements/MaterialsContainer.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/DisableOnStart.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/DisableOnStart.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/CameraUtils/FreeCameraMovement.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/FreeCameraMovement.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/DragRigidbody.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" />
       </list>
     </option>
@@ -232,7 +236,7 @@
       <workItem from="1605963425133" duration="23410000" />
       <workItem from="1606040768889" duration="5269000" />
       <workItem from="1606491816682" duration="9921000" />
-      <workItem from="1606567318838" duration="11059000" />
+      <workItem from="1606567318838" duration="25943000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit;">
       <created>1603896756787</created>
@@ -395,7 +399,14 @@
       <option name="project" value="LOCAL" />
       <updated>1606504373421</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="implement undo for VoxelsChunk.cs and VoxelsChunkRenderer.cs">
+      <created>1606581373826</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1606581373826</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -442,13 +453,14 @@
     <MESSAGE value="implement handling value change through editor and scripts;" />
     <MESSAGE value="re-write MaterialListView.cs and MaterialsContainer.cs using ReactElements" />
     <MESSAGE value="draw material editor based on voxelsSubMeshes" />
-    <option name="LAST_COMMIT_MESSAGE" value="draw material editor based on voxelsSubMeshes" />
+    <MESSAGE value="implement undo for VoxelsChunk.cs and VoxelsChunkRenderer.cs" />
+    <option name="LAST_COMMIT_MESSAGE" value="implement undo for VoxelsChunk.cs and VoxelsChunkRenderer.cs" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2" timestamp="1606504371868">
+    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2" timestamp="1606581372267">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1606504371868" />
+    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1606581372267" />
     <state width="306" height="606" key="Diff.GoToChangePopup" timestamp="1604230495066">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
@@ -477,10 +489,10 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1828" y="92" width="1736" height="856" key="VCS.FileHistoryDialog/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604605212890" />
-    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2" timestamp="1606504377462">
+    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2" timestamp="1606581378816">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1606504377462" />
+    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1606581378816" />
     <state x="-1354" y="237" width="787" height="566" key="find.popup" timestamp="1606492063771">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>

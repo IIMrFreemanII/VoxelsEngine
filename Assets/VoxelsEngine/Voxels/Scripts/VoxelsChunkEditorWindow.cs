@@ -72,11 +72,12 @@ namespace VoxelsEngine.Voxels.Scripts
                         "Select GameObject with VoxelsChunkRenderer component attached and VoxelsChunk field should be assigned!");
                 warn.style.whiteSpace = new StyleEnum<WhiteSpace>(WhiteSpace.Normal);
                 warn.style.color = Color.yellow;
-                
+
                 box.Add(warn);
                 root.Add(box);
             }
         }
+
         public static void HandleDrawChunkEditor()
         {
             if (HasOpenInstances<VoxelsChunkEditorWindow>())
@@ -142,14 +143,16 @@ namespace VoxelsEngine.Voxels.Scripts
 
         private void AddVoxel(Vector3Int posInArr)
         {
-            VoxelsSubMesh selectedVoxelsSubMesh = voxelsChunkRenderer.sharedVoxelsChunk.Value.GetSelectedVoxelsSubMesh();
+            VoxelsSubMesh selectedVoxelsSubMesh =
+                voxelsChunkRenderer.sharedVoxelsChunk.Value.GetSelectedVoxelsSubMesh();
             if (selectedVoxelsSubMesh.material)
             {
                 int subMeshIndex =
                     voxelsChunkRenderer.sharedVoxelsChunk.Value.voxelsSubMeshes.FindIndex(item =>
                         item == selectedVoxelsSubMesh);
 
-                if (subMeshIndex >= 0 && subMeshIndex <= voxelsChunkRenderer.sharedVoxelsChunk.Value.voxelsSubMeshes.Count - 1)
+                if (subMeshIndex >= 0 &&
+                    subMeshIndex <= voxelsChunkRenderer.sharedVoxelsChunk.Value.voxelsSubMeshes.Count - 1)
                 {
                     VoxelData voxelData = voxelsChunkRenderer.sharedVoxelsChunk.Value.GetCell(posInArr);
                     voxelData.active = true;
@@ -202,8 +205,9 @@ namespace VoxelsEngine.Voxels.Scripts
 
                 Vector3 posInArray = new Vector3(x, y, z);
 
-                Vector3 drawPos = ((posInArray - voxelsChunkRenderer.size.Value.ToFloat() * 0.5f) + (Vector3.one * 0.5f)) *
-                                  scale;
+                Vector3 drawPos =
+                    ((posInArray - voxelsChunkRenderer.size.Value.ToFloat() * 0.5f) + (Vector3.one * 0.5f)) *
+                    scale;
 
                 Handles.color = Color.red;
                 HandlesUtils.DrawWireCube(drawPos, transform, Vector3.one * scale, false, false);

@@ -57,7 +57,10 @@
             <e p="Vector3IntExtension.cs" t="Include" />
           </e>
           <e p="Utils" t="Include">
+            <e p="DisableOnStart.cs" t="Include" />
+            <e p="DragRigidbody.cs" t="Include" />
             <e p="Event.cs" t="Include" />
+            <e p="FreeCameraMovement.cs" t="Include" />
             <e p="GizmosUtilscs.cs" t="Include" />
             <e p="HandlesUtils.cs" t="Include" />
             <e p="HandleUnityObjectChange.cs" t="Include" />

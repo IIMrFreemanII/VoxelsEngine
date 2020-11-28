@@ -4,18 +4,16 @@ using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 using VoxelsEngine.Extensions;
+using VoxelsEngine.Utils;
 using VoxelsEngine.Voxels.Scripts.CustomValues;
 
 namespace VoxelsEngine.Voxels.Scripts
 {
     [ExecuteInEditMode]
-    [RequireComponent
-        (
-            typeof(MeshFilter),
-            typeof(MeshRenderer),
-            typeof(MeshCollider)
-        )
-    ]
+    [RequireComponent(typeof(MeshFilter))]
+    [RequireComponent(typeof(MeshRenderer))]
+    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(MeshCollider))]
     public class VoxelsChunkRenderer : SerializedMonoBehaviour
     {
         public static Material defaultVoxelMaterial;
@@ -62,7 +60,10 @@ namespace VoxelsEngine.Voxels.Scripts
             UpdateSubMeshesChunk();
             VoxelsChunkEditorWindow.HandleDrawChunkEditor();
         }
-
+        
+        [HideInInspector]
+        public GameObject collidersGO;
+        
         [HideInInspector]
         public GameObject chunkBoundsGO;
         [HideInInspector]
@@ -108,6 +109,9 @@ namespace VoxelsEngine.Voxels.Scripts
         private MeshCollider _meshCollider;
         public MeshCollider MeshCollider =>
             _meshCollider ? _meshCollider : _meshCollider = GetComponent<MeshCollider>();
+
+        private Rigidbody _rigidbody;
+        public Rigidbody Rigidbody => _rigidbody ? _rigidbody : _rigidbody = GetComponent<Rigidbody>();
         
         [SerializeField, HideInInspector]
         private Mesh oldMesh;
@@ -142,10 +146,26 @@ namespace VoxelsEngine.Voxels.Scripts
 
         private void Awake()
         {
+            InitComponents();
             InitVariables();
             InitMesh();
             InitChunkBounds();
             InitVoxelsChunkEditorWindow();
+            InitBoxColliders();
+        }
+        
+        private void InitComponents()
+        {
+            if (Application.IsPlaying(this))
+            {
+                Rigidbody.isKinematic = false;
+                MeshCollider.enabled = false;
+                chunkBoundsGO.SetActive(false);
+            }
+            else
+            {
+                Rigidbody.isKinematic = true;
+            }
         }
 
         private void InitMesh()
@@ -189,6 +209,17 @@ namespace VoxelsEngine.Voxels.Scripts
                 chunkBoundsMeshCollider = chunkBoundsGO.AddComponent<MeshCollider>();
                 chunkBoundsGO.transform.SetParent(transform);
                 chunkBoundsGO.transform.localPosition = Vector3.zero;
+            }
+        }
+        
+        private void InitBoxColliders()
+        {
+            if (!collidersGO)
+            {
+                collidersGO = new GameObject();
+                collidersGO.name = "Colliders";
+                collidersGO.transform.SetParent(transform);
+                collidersGO.transform.localPosition = Vector3.zero;
             }
         }
 
@@ -235,6 +266,12 @@ namespace VoxelsEngine.Voxels.Scripts
         private void GenerateVoxelsSubMeshes(VoxelsChunk data)
         {
             _vertices = new List<Vector3>();
+            
+            BoxCollider[] boxColliders = collidersGO.GetComponents<BoxCollider>();
+            foreach (BoxCollider boxCollider in boxColliders)
+            {
+                DestroyImmediate(boxCollider);
+            }
 
             for (int i = 0; i < data.voxelsSubMeshes.Count; i++)
             {
@@ -268,11 +305,26 @@ namespace VoxelsEngine.Voxels.Scripts
         
         private void MakeCube(float scale, Vector3 cubePos, Vector3Int coordinate, VoxelsChunk data, VoxelsSubMesh voxelsSubMesh)
         {
+            bool isOuterCube = false;
+            
             for (int i = 0; i < 6; i++)
             {
                 if (data.GetNeighbor(coordinate, (Direction) i) == false)
+                {
                     MakeFace((Direction) i, scale, cubePos, voxelsSubMesh);
+                    isOuterCube = true;
+                }
             }
+
+            if (isOuterCube)
+                CreateBoxCollider(cubePos, Vector3.one * this.scale.Value);
+        }
+
+        private void CreateBoxCollider(Vector3 center, Vector3 size)
+        {
+            BoxCollider boxCollider = collidersGO.AddComponent<BoxCollider>();
+            boxCollider.center = center;
+            boxCollider.size = size;
         }
         
         private void MakeFace(Direction dir, float scale, Vector3 facePos, VoxelsSubMesh voxelsSubMesh)
@@ -292,8 +344,7 @@ namespace VoxelsEngine.Voxels.Scripts
         private void UpdateSubMeshes(VoxelsChunk voxelsChunk)
         {
             int subMeshCount = voxelsChunk.voxelsSubMeshes.Count;
-
-            Undo.RecordObject(Mesh, "Set mesh data of voxels chunk renderer");
+            
             Mesh mesh = Mesh;
             mesh.Clear();
             mesh.subMeshCount = subMeshCount;
@@ -315,7 +366,6 @@ namespace VoxelsEngine.Voxels.Scripts
         {
             Material[] materials = voxelsChunk.voxelsSubMeshes.Select(item => item.material).ToArray();
             MeshRenderer meshRenderer = MeshRenderer;
-            Undo.RecordObject(meshRenderer, "Set mesh renderer materials");
             meshRenderer.materials = materials;
         }
     }
