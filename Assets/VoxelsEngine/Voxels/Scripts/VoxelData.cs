@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 
 namespace VoxelsEngine.Voxels.Scripts
 {
@@ -8,5 +7,6 @@ namespace VoxelsEngine.Voxels.Scripts
     {
         public int subMeshIndex;
         public bool active;
+        public float durability;
     }
 }

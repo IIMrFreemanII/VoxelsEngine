@@ -20,55 +20,82 @@ MonoBehaviour:
   data:
   - subMeshIndex: 0
     active: 0
+    durability: 0
   - subMeshIndex: 0
     active: 0
+    durability: 0
   - subMeshIndex: 0
     active: 0
+    durability: 0
   - subMeshIndex: 0
     active: 0
+    durability: 0
   - subMeshIndex: 0
     active: 1
+    durability: 25
   - subMeshIndex: 0
     active: 0
+    durability: 0
   - subMeshIndex: 0
     active: 0
+    durability: 0
   - subMeshIndex: 0
     active: 0
+    durability: 0
   - subMeshIndex: 0
     active: 0
+    durability: 0
   - subMeshIndex: 0
     active: 0
+    durability: 0
   - subMeshIndex: 0
     active: 1
+    durability: 25
   - subMeshIndex: 0
     active: 0
+    durability: 0
   - subMeshIndex: 0
     active: 1
+    durability: 25
   - subMeshIndex: 0
     active: 1
+    durability: 25
   - subMeshIndex: 0
     active: 1
+    durability: 25
   - subMeshIndex: 0
     active: 0
+    durability: 0
   - subMeshIndex: 0
     active: 1
+    durability: 25
   - subMeshIndex: 0
     active: 0
+    durability: 0
   - subMeshIndex: 0
     active: 0
+    durability: 0
   - subMeshIndex: 0
     active: 0
+    durability: 0
   - subMeshIndex: 0
     active: 0
+    durability: 0
   - subMeshIndex: 0
     active: 0
+    durability: 0
   - subMeshIndex: 0
     active: 1
+    durability: 25
   - subMeshIndex: 0
     active: 0
+    durability: 0
   - subMeshIndex: 0
     active: 0
+    durability: 0
   - subMeshIndex: 0
     active: 0
+    durability: 0
   - subMeshIndex: 0
     active: 0
+    durability: 0

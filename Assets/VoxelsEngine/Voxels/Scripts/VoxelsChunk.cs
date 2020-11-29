@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace VoxelsEngine.Voxels.Scripts
@@ -57,7 +58,7 @@ namespace VoxelsEngine.Voxels.Scripts
                 Debug.Log($"Invalid size in {name}!");
             }
         }
-        
+
         public void RemoveVoxelsSubMesh(int index)
         {
             voxelsSubMeshes.RemoveAt(index);
@@ -81,6 +82,19 @@ namespace VoxelsEngine.Voxels.Scripts
                         data[i] = voxelData;
                     }
                 }
+            }
+        }
+
+        public void FillVoxelsData()
+        {
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = new VoxelData
+                {
+                    active = true,
+                    durability = 25,
+                    subMeshIndex = 0,
+                };
             }
         }
 

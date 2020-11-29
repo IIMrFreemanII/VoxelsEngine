@@ -157,8 +157,9 @@ namespace VoxelsEngine.Voxels.Scripts
                     VoxelData voxelData = voxelsChunkRenderer.sharedVoxelsChunk.Value.GetCell(posInArr);
                     voxelData.active = true;
                     voxelData.subMeshIndex = subMeshIndex;
-                    voxelsChunkRenderer.sharedVoxelsChunk.Value.SetSell(voxelData, posInArr);
-                    voxelsChunkRenderer.UpdateSubMeshesChunk();
+                    voxelData.durability = 25;
+                    
+                    voxelsChunkRenderer.AddVoxel(posInArr, voxelData);
 
                     _needRepaint = true;
                 }
@@ -187,23 +188,8 @@ namespace VoxelsEngine.Voxels.Scripts
             {
                 Transform transform = voxelsChunkRenderer.transform;
                 float scale = voxelsChunkRenderer.scale.Value;
-                int width = voxelsChunkRenderer.sharedVoxelsChunk.Value.Width;
-                int height = voxelsChunkRenderer.sharedVoxelsChunk.Value.Height;
-                int depth = voxelsChunkRenderer.sharedVoxelsChunk.Value.Depth;
-                Vector3 normalizedPointInLocalSpace = transform.InverseTransformPoint(_posInVolume.Value) / scale;
-
-                // we do " + _voxelsChunkRenderer.size.ToFloat() * 0.5f;"
-                // because before in VoxelChunkRenderer.GenerateVoxelMesh()
-                // we subtracted " - _voxelsChunkRenderer.size.ToFloat() * 0.5f;"
-                // in order to revert value array index format
-                // Vector3 rawIndexPos = pointInLocalSpace + _voxelsChunkRenderer.size.ToFloat() * 0.5f;
-                Vector3 rawIndexPos = normalizedPointInLocalSpace + voxelsChunkRenderer.size.Value.ToFloat() * 0.5f;
-
-                int x = Mathf.Clamp(Mathf.FloorToInt(rawIndexPos.x), 0, width - 1);
-                int y = Mathf.Clamp(Mathf.FloorToInt(rawIndexPos.y), 0, height - 1);
-                int z = Mathf.Clamp(Mathf.FloorToInt(rawIndexPos.z), 0, depth - 1);
-
-                Vector3 posInArray = new Vector3(x, y, z);
+                
+                Vector3 posInArray = voxelsChunkRenderer.GetPosInArr(_posInVolume.Value);
 
                 Vector3 drawPos =
                     ((posInArray - voxelsChunkRenderer.size.Value.ToFloat() * 0.5f) + (Vector3.one * 0.5f)) *
@@ -225,7 +211,6 @@ namespace VoxelsEngine.Voxels.Scripts
             {
                 Ray ray = MousePosToWorldRay();
                 MeshCollider meshCollider = voxelsChunkRenderer.MeshCollider;
-                float littleNumber = 0.001f;
 
                 if (!meshCollider.sharedMesh)
                 {
@@ -234,8 +219,7 @@ namespace VoxelsEngine.Voxels.Scripts
 
                 if (meshCollider.Raycast(ray, out RaycastHit hit, float.MaxValue))
                 {
-                    Vector3 hitPoint = hit.point;
-                    _posInVolume = hitPoint + hit.normal * littleNumber;
+                    _posInVolume = voxelsChunkRenderer.GetVoxelWorldPos(hit.point, hit.normal, EditVoxelType.Add);
 
                     if (Event.IsUsed) SetSelection(voxelsChunkRenderer.gameObject);
 
@@ -248,8 +232,7 @@ namespace VoxelsEngine.Voxels.Scripts
 
                 if (boundsCollider.Raycast(ray, out RaycastHit hit1, float.MaxValue))
                 {
-                    Vector3 hitPoint = hit1.point;
-                    _posInVolume = hitPoint + hit1.normal * littleNumber;
+                    _posInVolume = voxelsChunkRenderer.GetVoxelWorldPos(hit1.point, hit1.normal, EditVoxelType.Add);
 
                     if (Event.IsUsed) SetSelection(voxelsChunkRenderer.gameObject);
 
