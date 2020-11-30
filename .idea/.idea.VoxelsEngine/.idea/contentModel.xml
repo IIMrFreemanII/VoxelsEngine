@@ -57,6 +57,7 @@
             <e p="Vector3IntExtension.cs" t="Include" />
           </e>
           <e p="Utils" t="Include">
+            <e p="ArrayUtils.cs" t="Include" />
             <e p="Constants.cs" t="Include" />
             <e p="DisableOnStart.cs" t="Include" />
             <e p="DragRigidbody.cs" t="Include" />
@@ -83,6 +84,7 @@
               <e p="VoxelData.cs" t="Include" />
               <e p="VoxelMeshData.cs" t="Include" />
               <e p="VoxelsChunk.cs" t="Include" />
+              <e p="VoxelsChunkColliderController.cs" t="Include" />
               <e p="VoxelsChunkCollisionController.cs" t="Include" />
               <e p="VoxelsChunkEditorWindow.cs" t="Include" />
               <e p="VoxelsChunkRenderer.cs" t="Include" />

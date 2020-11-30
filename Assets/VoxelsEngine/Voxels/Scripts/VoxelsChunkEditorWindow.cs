@@ -137,11 +137,11 @@ namespace VoxelsEngine.Voxels.Scripts
         {
             if (Event.LeftMouseDown)
             {
-                AddVoxel(posInArr);
+                AddOneVoxel(posInArr);
             }
         }
 
-        private void AddVoxel(Vector3Int posInArr)
+        private void AddOneVoxel(Vector3Int posInArr)
         {
             VoxelsSubMesh selectedVoxelsSubMesh =
                 voxelsChunkRenderer.sharedVoxelsChunk.Value.GetSelectedVoxelsSubMesh();
@@ -160,6 +160,7 @@ namespace VoxelsEngine.Voxels.Scripts
                     voxelData.durability = 25;
                     
                     voxelsChunkRenderer.AddVoxel(posInArr, voxelData);
+                    voxelsChunkRenderer.AppendVoxel(posInArr);
 
                     _needRepaint = true;
                 }
@@ -173,13 +174,30 @@ namespace VoxelsEngine.Voxels.Scripts
                 Debug.LogWarning("Can't add voxel. No material selected!");
             }
         }
+        
+        private void HandleRemoveVoxel(Vector3Int posInArr)
+        {
+            if (Event.LeftMouseDown)
+            {
+                RemoveOneVoxel(posInArr);
+            }
+        }
 
         private void RemoveOneVoxel(Vector3Int posInArr)
         {
-            VoxelData voxelData = voxelsChunkRenderer.sharedVoxelsChunk.Value.GetCell(posInArr);
-            voxelData.active = false;
-            voxelsChunkRenderer.sharedVoxelsChunk.Value.SetSell(voxelData, posInArr);
-            voxelsChunkRenderer.UpdateSubMeshesChunk();
+            voxelsChunkRenderer.RemoveVoxel(posInArr);
+        }
+
+        private void HandleEditVoxel(Vector3Int posInArray)
+        {
+            if (Event.Shift)
+            {
+                HandleRemoveVoxel(posInArray);
+            }
+            else
+            {
+                HandleAddVoxel(posInArray);
+            }
         }
 
         private void HandleSelectedVoxel()
@@ -198,7 +216,7 @@ namespace VoxelsEngine.Voxels.Scripts
                 Handles.color = Color.red;
                 HandlesUtils.DrawWireCube(drawPos, transform, Vector3.one * scale, false, false);
 
-                HandleAddVoxel(posInArray.ToInt());
+                HandleEditVoxel(posInArray.ToInt());
 
                 if (Event.MouseMove)
                     _needRepaint = true;
@@ -219,7 +237,9 @@ namespace VoxelsEngine.Voxels.Scripts
 
                 if (meshCollider.Raycast(ray, out RaycastHit hit, float.MaxValue))
                 {
-                    _posInVolume = voxelsChunkRenderer.GetVoxelWorldPos(hit.point, hit.normal, EditVoxelType.Add);
+                    _posInVolume = Event.Shift ? 
+                        voxelsChunkRenderer.GetVoxelWorldPos(hit.point, hit.normal, EditVoxelType.Remove) :
+                        voxelsChunkRenderer.GetVoxelWorldPos(hit.point, hit.normal, EditVoxelType.Add);
 
                     if (Event.IsUsed) SetSelection(voxelsChunkRenderer.gameObject);
 
@@ -232,7 +252,9 @@ namespace VoxelsEngine.Voxels.Scripts
 
                 if (boundsCollider.Raycast(ray, out RaycastHit hit1, float.MaxValue))
                 {
-                    _posInVolume = voxelsChunkRenderer.GetVoxelWorldPos(hit1.point, hit1.normal, EditVoxelType.Add);
+                    _posInVolume = Event.Shift ? 
+                        voxelsChunkRenderer.GetVoxelWorldPos(hit1.point, hit1.normal, EditVoxelType.Remove) :
+                        voxelsChunkRenderer.GetVoxelWorldPos(hit1.point, hit1.normal, EditVoxelType.Add);
 
                     if (Event.IsUsed) SetSelection(voxelsChunkRenderer.gameObject);
 

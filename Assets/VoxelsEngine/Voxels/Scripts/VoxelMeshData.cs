@@ -26,21 +26,21 @@ namespace VoxelsEngine.Voxels.Scripts
             new[] {3, 2, 7, 6},
         };
 
-        public static Vector3[] FaceVertices(int dir, float scale, Vector3 pos)
+        public static Vector3[] FaceVertices(int dir, float adjustedScale, Vector3 pos)
         {
             Vector3[] faceVert = new Vector3[4];
         
             for (int i = 0; i < faceVert.Length; i++)
             {
                 int vertIndex = FaceTriangles[dir][i];
-                faceVert[i] = (Vertices[vertIndex] * scale) + pos;
+                faceVert[i] = (Vertices[vertIndex] * adjustedScale) + pos;
             }
 
             return faceVert;
         }
-        public static Vector3[] FaceVertices(Direction dir, float scale, Vector3 pos)
+        public static Vector3[] FaceVertices(Direction dir, float adjustedScale, Vector3 pos)
         {
-            return FaceVertices((int)dir, scale, pos);
+            return FaceVertices((int)dir, adjustedScale, pos);
         }
     }
 }

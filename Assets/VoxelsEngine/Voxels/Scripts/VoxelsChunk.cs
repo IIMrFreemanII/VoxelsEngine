@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace VoxelsEngine.Voxels.Scripts
@@ -98,11 +97,11 @@ namespace VoxelsEngine.Voxels.Scripts
             }
         }
 
-        private int From3DTo1DIndex(int x, int y, int z)
+        public int From3DTo1DIndex(int x, int y, int z)
         {
             return (x * Height * Depth) + (y * Depth + z);
         }
-        private int From3DTo1DIndex(Vector3Int position)
+        public int From3DTo1DIndex(Vector3Int position)
         {
             return From3DTo1DIndex(position.x, position.y, position.z);
         }
@@ -160,7 +159,7 @@ namespace VoxelsEngine.Voxels.Scripts
 
         public bool GetNeighbor(Vector3Int coordinate, Direction dir)
         {
-            Vector3Int offsetToCheck = _offsets[(int) dir];
+            Vector3Int offsetToCheck = PossibleVoxelOffsets[(int) dir];
             Vector3Int neighborCoord = coordinate + offsetToCheck;
 
             if (
@@ -175,7 +174,7 @@ namespace VoxelsEngine.Voxels.Scripts
             return GetCell(neighborCoord.x, neighborCoord.y, neighborCoord.z).active;
         }
 
-        private readonly Vector3Int[] _offsets =
+        public static readonly Vector3Int[] PossibleVoxelOffsets =
         {
             new Vector3Int(0, 0, 1),
             new Vector3Int(1, 0, 0),

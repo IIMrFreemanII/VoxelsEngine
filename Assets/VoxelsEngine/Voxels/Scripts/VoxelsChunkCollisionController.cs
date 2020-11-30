@@ -78,18 +78,18 @@ namespace VoxelsEngine.Voxels.Scripts
                 if (newDurability > 0)
                 {
                     voxelData.durability = newDurability;
-                    _voxelsChunk.SetSell(voxelData, posInArr);
+                    _voxelsChunkRenderer.AddVoxelWithoutUpdate(posInArr, voxelData);
                 }
                 else
                 {
-                    _voxelsChunk.SetSell(new VoxelData(), posInArr);
+                    _voxelsChunkRenderer.RemoveVoxelWithoutUpdate(posInArr);
                     hasDestroyedVoxels = true;
                 }
             }
 
             if (hasDestroyedVoxels)
             {
-                Debug.Log($"Update: {name}, impulse: {impulse}");
+                // Debug.Log($"Update: {name}, impulse: {impulse}");
                 _voxelsChunkRenderer.UpdateSubMeshesChunk();
             }
         }

@@ -20,6 +20,8 @@ namespace VoxelsEngine.Utils
         public static bool IsLeftBtn => Current.button == 0;
         public static bool IsRightBtn => Current.button == 1;
 
+        public static bool IsXKey => Current.isKey && Current.keyCode == KeyCode.X;
+        public static bool Shift => Current.shift;
         public static bool Alt => Current.alt;
         public static bool LeftMouseDown => EventType == MouseDown && IsLeftBtn;
         public static bool LeftMouseUp => EventType == MouseUp && IsLeftBtn;
