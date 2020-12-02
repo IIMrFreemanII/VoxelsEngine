@@ -7,8 +7,10 @@ namespace VoxelsEngine.Voxels.Scripts
 {
     public class VoxelsChunkColliderController : SerializedMonoBehaviour
     {
+        public VoxelsChunkRenderer voxelsChunkRenderer;
         [OdinSerialize]
         public Dictionary<Vector3Int, BoxCollider> activeBoxColliders = new Dictionary<Vector3Int, BoxCollider>();
+        [OdinSerialize]
         public Queue<BoxCollider> deactivatedBoxColliders = new Queue<BoxCollider>();
 
         public void RefreshColliders()
@@ -25,11 +27,11 @@ namespace VoxelsEngine.Voxels.Scripts
             }
         }
         
-        public BoxCollider AddBoxCollider(Vector3 center, Vector3 size, Vector3Int coordinate)
+        public BoxCollider AddBoxCollider(Vector3Int coordinate)
         {
             BoxCollider boxCollider = GetFreeBoxCollider();
-            boxCollider.center = center;
-            boxCollider.size = size;
+            boxCollider.center = voxelsChunkRenderer.GetCubePosition(coordinate);
+            boxCollider.size = Vector3.one * voxelsChunkRenderer.scale.Value;
             boxCollider.enabled = true;
 
             activeBoxColliders.Add(coordinate, boxCollider);

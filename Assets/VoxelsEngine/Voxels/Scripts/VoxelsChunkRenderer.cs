@@ -288,6 +288,7 @@ namespace VoxelsEngine.Voxels.Scripts
                 GameObject colliderGO = new GameObject();
                 colliderGO.name = "Colliders";
                 colliderController = colliderGO.AddComponent<VoxelsChunkColliderController>();
+                colliderController.voxelsChunkRenderer = this;
                 colliderController.transform.SetParent(transform);
                 colliderController.transform.localPosition = Vector3.zero;
             }
@@ -308,6 +309,7 @@ namespace VoxelsEngine.Voxels.Scripts
         public void ClearChunk()
         {
             sharedVoxelsChunk.Value.Clear();
+            colliderController.RefreshColliders();
             UpdateSubMeshesChunk();
         }
 
@@ -394,10 +396,11 @@ namespace VoxelsEngine.Voxels.Scripts
 
             if (!voxelData.enabled)
             {
+                colliderController.AddBoxCollider(coordinate);
                 voxelsChunk.AddActiveVoxelCoordinate(coordinate);
             }
 
-            voxelsChunk.RecalculateNeighbors(coordinate);
+            voxelsChunk.RecalculateNeighbors(coordinate, colliderController);
             
             UpdateSubMeshesChunk();
         }
@@ -415,9 +418,10 @@ namespace VoxelsEngine.Voxels.Scripts
 
             if (voxelData.enabled)
             {
+                colliderController.RemoveBoxCollider(coordinate);
                 voxelsChunk.RemoveActiveVoxelCoordinate(coordinate);
                 RemoveVoxelWithoutUpdate(coordinate);
-                voxelsChunk.RecalculateNeighbors(coordinate);
+                voxelsChunk.RecalculateNeighbors(coordinate, colliderController);
                 UpdateSubMeshesChunk();
             }
         }
@@ -471,27 +475,21 @@ namespace VoxelsEngine.Voxels.Scripts
             VoxelsSubMesh voxelsSubMesh
         )
         {
-            // bool isOuterCube = false;
-
             for (int i = 0; i < 6; i++)
             {
                 if (data.GetNeighbor(coordinate, (Direction) i) == false)
                 {
                     MakeFace((Direction) i, adjustedScale, cubePos, voxelsSubMesh, data);
-                    // isOuterCube = true;
                 }
             }
-
-            //
-            // if (isOuterCube)
-            //     CreateBoxCollider(cubePos, Vector3.one * this.scale.Value, coordinate);
         }
 
-        public void CreateBoxCollider(Vector3 center, Vector3 size, Vector3Int coordinate)
+        // todo: is obsolete?
+        public void CreateBoxCollider(Vector3Int coordinate)
         {
-            colliderController.AddBoxCollider(center, size, coordinate);
+            colliderController.AddBoxCollider(coordinate);
         }
-
+        // todo: is obsolete?
         public void RemoveBoxCollider()
         {
         }

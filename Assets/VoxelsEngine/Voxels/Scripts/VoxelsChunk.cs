@@ -239,7 +239,7 @@ namespace VoxelsEngine.Voxels.Scripts
             return activeNeighbors.Count != VoxelMeshData.directions.Length;
         }
 
-        public void RecalculateNeighbors(Vector3Int coordinate)
+        public void RecalculateNeighbors(Vector3Int coordinate, VoxelsChunkColliderController colliderController)
         {
             List<Vector3Int> activeNeighbors = GetAllActiveNeighbors(coordinate);
 
@@ -252,7 +252,7 @@ namespace VoxelsEngine.Voxels.Scripts
                 {
                     neighborVoxelData.visible = false;
                     RemoveActiveVoxelCoordinate(neighborCoordinate);
-
+                    colliderController.RemoveBoxCollider(neighborCoordinate);
                     Debug.Log("Hide invisible voxel");
                 }
                 else
@@ -261,7 +261,8 @@ namespace VoxelsEngine.Voxels.Scripts
                     {
                         neighborVoxelData.visible = true;
                         AddActiveVoxelCoordinate(neighborCoordinate);
-
+                        
+                        colliderController.AddBoxCollider(neighborCoordinate);
                         Debug.Log("Show invisible voxel");
                     }
                 }
