@@ -21,8 +21,12 @@
   <component name="ChangeListManager">
     <list default="true" id="2f28268c-c204-405c-b1d8-30202cdf9ae9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/voxel.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/voxel.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scenes/Development.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scenes/Development.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scenes/WallDestroying.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scenes/WallDestroying.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkColliderController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkColliderController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkCollisionController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkCollisionController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -127,15 +131,15 @@
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/DragRigidbody.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/UIElements/MaterialsContainer.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/Event.cs" />
-        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkCollisionController.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/ArrayUtils.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/Constants.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelData.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelMeshData.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkEditorWindow.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkCollisionController.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" />
-        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkColliderController.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkColliderController.cs" />
       </list>
     </option>
   </component>
@@ -233,7 +237,9 @@
       <workItem from="1606745506807" duration="20482000" />
       <workItem from="1606774334267" duration="70000" />
       <workItem from="1606843371623" duration="15918000" />
-      <workItem from="1606898802717" duration="12338000" />
+      <workItem from="1606898802717" duration="12779000" />
+      <workItem from="1606914064685" duration="9772000" />
+      <workItem from="1606930163057" duration="9484000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit;">
       <created>1603896756787</created>
@@ -431,7 +437,14 @@
       <option name="project" value="LOCAL" />
       <updated>1606910290671</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="improve voxel box collider generation">
+      <created>1606913021196</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1606913021196</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -455,7 +468,6 @@
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="rename GizmosExtention.cs to GizmosUtils.cs" />
     <MESSAGE value="move gizmos visual debug to custom editor script using Handles;" />
     <MESSAGE value="add Odin inspector package;" />
     <MESSAGE value="implement editing voxels data in editor" />
@@ -480,13 +492,14 @@
     <MESSAGE value="implement voxels destruction" />
     <MESSAGE value="optimize voxels chunk generation" />
     <MESSAGE value="improve voxels generation" />
-    <option name="LAST_COMMIT_MESSAGE" value="improve voxels generation" />
+    <MESSAGE value="improve voxel box collider generation" />
+    <option name="LAST_COMMIT_MESSAGE" value="improve voxel box collider generation" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2" timestamp="1606910289034">
+    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2" timestamp="1606913019873">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1606910289034" />
+    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1606913019873" />
     <state width="306" height="606" key="Diff.GoToChangePopup" timestamp="1604230495066">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
@@ -515,18 +528,18 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1828" y="92" width="1736" height="856" key="VCS.FileHistoryDialog/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604605212890" />
-    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2" timestamp="1606910293997">
+    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2" timestamp="1606913024632">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1606910293997" />
+    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1606913024632" />
     <state x="-1354" y="237" width="787" height="624" key="find.popup" timestamp="1606850623431">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1354" y="237" width="787" height="624" key="find.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1606850623431" />
-    <state x="-1304" y="240" key="run.anything.popup" timestamp="1606846971410">
+    <state x="-1304" y="240" key="run.anything.popup" timestamp="1606919339639">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1304" y="240" key="run.anything.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1606846971410" />
+    <state x="-1304" y="240" key="run.anything.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1606919339639" />
     <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1606768248705">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>

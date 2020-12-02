@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Sirenix.OdinInspector;
-using Sirenix.Serialization;
 using UnityEngine;
 
 namespace VoxelsEngine.Voxels.Scripts
@@ -102,18 +101,6 @@ namespace VoxelsEngine.Voxels.Scripts
             if (Width <= 0 || Height <= 0 || Depth <= 0)
             {
                 Debug.Log($"Invalid size in {name}!");
-            }
-        }
-
-        public void FillVoxelsData()
-        {
-            for (int i = 0; i < data.Length; i++)
-            {
-                data[i] = new VoxelData
-                {
-                    enabled = true,
-                    durability = 25,
-                };
             }
         }
 
@@ -253,7 +240,7 @@ namespace VoxelsEngine.Voxels.Scripts
                     neighborVoxelData.visible = false;
                     RemoveActiveVoxelCoordinate(neighborCoordinate);
                     colliderController.RemoveBoxCollider(neighborCoordinate);
-                    Debug.Log("Hide invisible voxel");
+                    // Debug.Log("Hide invisible voxel");
                 }
                 else
                 {
@@ -263,7 +250,7 @@ namespace VoxelsEngine.Voxels.Scripts
                         AddActiveVoxelCoordinate(neighborCoordinate);
                         
                         colliderController.AddBoxCollider(neighborCoordinate);
-                        Debug.Log("Show invisible voxel");
+                        // Debug.Log("Show invisible voxel");
                     }
                 }
 

@@ -86,7 +86,7 @@ namespace VoxelsEngine.Voxels.Scripts
 
             UpdateChunkBounds(size.Value);
             UpdateSubMeshesChunk();
-
+            InitBoxColliders();
 #if UNITY_EDITOR
             VoxelsChunkEditorWindow.HandleDrawChunkEditor();
 #endif
@@ -112,6 +112,7 @@ namespace VoxelsEngine.Voxels.Scripts
             {
                 voxelsChunk.Size = value;
                 UpdateChunkBounds(value);
+                ClearChunk();
                 UpdateSubMeshesChunk();
             }
         }
@@ -124,6 +125,7 @@ namespace VoxelsEngine.Voxels.Scripts
             adjustedScale = value * 0.5f;
             UpdateChunkBounds(size.Value);
             UpdateSubMeshesChunk();
+            ResizeActiveColliders();
         }
 #if UNITY_EDITOR
         [Button]
@@ -133,18 +135,21 @@ namespace VoxelsEngine.Voxels.Scripts
         }
 #endif
 
+        [SerializeField, HideInInspector]
         private MeshRenderer _meshRenderer;
-
         public MeshRenderer MeshRenderer =>
             _meshRenderer ? _meshRenderer : _meshRenderer = GetComponent<MeshRenderer>();
 
+        [SerializeField, HideInInspector]
         private MeshFilter _meshFilter;
         public MeshFilter MeshFilter => _meshFilter ? _meshFilter : _meshFilter = GetComponent<MeshFilter>();
+        [SerializeField, HideInInspector]
         private MeshCollider _meshCollider;
 
         public MeshCollider MeshCollider =>
             _meshCollider ? _meshCollider : _meshCollider = GetComponent<MeshCollider>();
 
+        [SerializeField, HideInInspector]
         private Rigidbody _rigidbody;
         public Rigidbody Rigidbody => _rigidbody ? _rigidbody : _rigidbody = GetComponent<Rigidbody>();
 
@@ -212,7 +217,7 @@ namespace VoxelsEngine.Voxels.Scripts
                 InitMesh();
                 InitChunkBounds();
                 InitVoxelsChunkEditorWindow();
-                InitBoxColliders();
+                InitColliderController();
             }
             else
             {
@@ -251,6 +256,9 @@ namespace VoxelsEngine.Voxels.Scripts
             meshCopy.normals = oldMesh.normals;
             meshCopy.uv = oldMesh.uv;
 
+            MeshCollider meshCollider = MeshCollider;
+            meshCollider.sharedMesh = meshCopy;
+
             MeshFilter.mesh = meshCopy;
         }
 
@@ -281,12 +289,12 @@ namespace VoxelsEngine.Voxels.Scripts
             }
         }
 
-        private void InitBoxColliders()
+        private void InitColliderController()
         {
             if (!colliderController)
             {
                 GameObject colliderGO = new GameObject();
-                colliderGO.name = "Colliders";
+                colliderGO.name = "Collider Controller";
                 colliderController = colliderGO.AddComponent<VoxelsChunkColliderController>();
                 colliderController.voxelsChunkRenderer = this;
                 colliderController.transform.SetParent(transform);
@@ -308,9 +316,12 @@ namespace VoxelsEngine.Voxels.Scripts
         [ContextMenu("Clear chunk")]
         public void ClearChunk()
         {
-            sharedVoxelsChunk.Value.Clear();
-            colliderController.RefreshColliders();
-            UpdateSubMeshesChunk();
+            if (sharedVoxelsChunk.Value)
+            {
+                sharedVoxelsChunk.Value.Clear();
+                colliderController.RefreshColliders();
+                UpdateSubMeshesChunk();
+            }
         }
 
         [ContextMenu("Resize chunk")]
@@ -322,8 +333,23 @@ namespace VoxelsEngine.Voxels.Scripts
         [ContextMenu("Fill voxels")]
         public void FillVoxelsData()
         {
-            GetVoxelsChunk().FillVoxelsData();
+            ClearChunk();
+            
+            VoxelsChunk voxelsChunk = GetVoxelsChunk();
+
+            for (int x = 0; x < voxelsChunk.Width; x++)
+            {
+                for (int y = 0; y < voxelsChunk.Height; y++)
+                {
+                    for (int z = 0; z < voxelsChunk.Depth; z++)
+                    {
+                        AppendVoxel(new Vector3Int(x, y, z), false);
+                    }
+                }
+            }
+            
             UpdateSubMeshesChunk();
+            InitBoxColliders();
         }
 
         public Vector3Int GetPosInArr(Vector3 worldPos)
@@ -371,12 +397,11 @@ namespace VoxelsEngine.Voxels.Scripts
             if (!Application.IsPlaying(this))
             {
                 EditorUtility.SetDirty(voxelsChunk);
+                EditorUtility.SetDirty(this);
             }
-
-            // Debug.Log($"{name} update sub meshes");
         }
-        
-        public void AppendVoxel(Vector3Int coordinate)
+
+        public void AppendVoxel(Vector3Int coordinate, bool updateMesh = true)
         {
             VoxelsChunk voxelsChunk = GetVoxelsChunk();
             VoxelData voxelData = voxelsChunk.GetCell(coordinate);
@@ -398,11 +423,10 @@ namespace VoxelsEngine.Voxels.Scripts
             {
                 colliderController.AddBoxCollider(coordinate);
                 voxelsChunk.AddActiveVoxelCoordinate(coordinate);
+                voxelsChunk.RecalculateNeighbors(coordinate, colliderController);
             }
 
-            voxelsChunk.RecalculateNeighbors(coordinate, colliderController);
-            
-            UpdateSubMeshesChunk();
+            if (updateMesh) UpdateSubMeshesChunk();
         }
 
         public void UpdateVoxelData(Vector3Int posInArr, VoxelData voxelData)
@@ -411,7 +435,7 @@ namespace VoxelsEngine.Voxels.Scripts
             voxelsChunk.SetSell(voxelData, posInArr);
         }
 
-        public void RemoveVoxel(Vector3Int coordinate)
+        public void RemoveVoxel(Vector3Int coordinate, bool updateMesh = true)
         {
             VoxelsChunk voxelsChunk = GetVoxelsChunk();
             VoxelData voxelData = voxelsChunk.GetCell(coordinate);
@@ -420,22 +444,16 @@ namespace VoxelsEngine.Voxels.Scripts
             {
                 colliderController.RemoveBoxCollider(coordinate);
                 voxelsChunk.RemoveActiveVoxelCoordinate(coordinate);
-                RemoveVoxelWithoutUpdate(coordinate);
+                voxelsChunk.SetSell(new VoxelData(), coordinate);
                 voxelsChunk.RecalculateNeighbors(coordinate, colliderController);
-                UpdateSubMeshesChunk();
+                
+                if (updateMesh) UpdateSubMeshesChunk();
             }
-        }
-
-        public void RemoveVoxelWithoutUpdate(Vector3Int posInArr)
-        {
-            VoxelsChunk voxelsChunk = GetVoxelsChunk();
-            voxelsChunk.SetSell(new VoxelData(), posInArr);
         }
 
         private void GenerateVoxelsSubMeshes(VoxelsChunk data)
         {
             data.vertices = new List<Vector3>();
-            // colliderController.RefreshColliders();
 
             for (int i = 0; i < data.voxelsSubMeshes.Count; i++)
             {
@@ -484,16 +502,6 @@ namespace VoxelsEngine.Voxels.Scripts
             }
         }
 
-        // todo: is obsolete?
-        public void CreateBoxCollider(Vector3Int coordinate)
-        {
-            colliderController.AddBoxCollider(coordinate);
-        }
-        // todo: is obsolete?
-        public void RemoveBoxCollider()
-        {
-        }
-
         private void MakeFace(
             Direction dir,
             float adjustedScale,
@@ -535,7 +543,8 @@ namespace VoxelsEngine.Voxels.Scripts
         {
             public int index;
             public Vector3 value;
-        } 
+        }
+
         // Todo: maybe obsolete
         [Serializable]
         public struct TriangleData
@@ -576,7 +585,8 @@ namespace VoxelsEngine.Voxels.Scripts
             VertexData[] cubeVerticesData = cubeVertices
                 .Select((vertex, i) => new VertexData {index = i + data.vertices.Count, value = vertex}).ToArray();
             TriangleData[] cubeTrianglesData = cubeTriangles
-                .Select((triangle, i) => new TriangleData {index = i + data.vertices.Count, value = triangle}).ToArray();
+                .Select((triangle, i) => new TriangleData {index = i + data.vertices.Count, value = triangle})
+                .ToArray();
 
             return (cubeVerticesData, cubeTrianglesData, renderedFacesDirections.ToArray());
         }
@@ -634,6 +644,25 @@ namespace VoxelsEngine.Voxels.Scripts
             Material[] materials = voxelsChunk.voxelsSubMeshes.Select(item => item.material).ToArray();
             MeshRenderer meshRenderer = MeshRenderer;
             meshRenderer.materials = materials;
+        }
+
+        public void InitBoxColliders()
+        {
+            VoxelsChunk voxelsChunk = GetVoxelsChunk();
+            if (voxelsChunk)
+            {
+                colliderController.InitBoxColliders(voxelsChunk.activeVoxelsCoordinates); 
+            }
+            else
+            {
+                colliderController.RefreshColliders();
+            }
+        }
+
+        public void ResizeActiveColliders()
+        {
+            VoxelsChunk voxelsChunk = GetVoxelsChunk();
+            colliderController.ResizeBoxColliders(voxelsChunk.activeVoxelsCoordinates);
         }
     }
 }

@@ -12,8 +12,9 @@ namespace VoxelsEngine.Voxels.Scripts
         public VoxelsChunk _voxelsChunk;
         private Rigidbody _rigidbody;
         public bool isKinematic;
-        // private Vector3 position;
-        // private Vector3 normal;
+        public CollisionDetectionMode collisionDetection;
+        private Vector3 position;
+        private Vector3 normal;
 
         private void Awake()
         {
@@ -26,29 +27,30 @@ namespace VoxelsEngine.Voxels.Scripts
         {
             _voxelsChunk = _voxelsChunkRenderer.GetVoxelsChunk();
             _rigidbody.isKinematic = isKinematic;
+            _rigidbody.collisionDetectionMode = collisionDetection;
         }
 
-        private void HandleClickDestroyVoxel()
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-                bool hit = Physics.Raycast(ray, out RaycastHit hitInfo);
-                if (hit)
-                {
-                    if (hitInfo.rigidbody)
-                    {
-                        // position = hitInfo.point;
-                        // normal = hitInfo.normal;
-                        Debug.Log(hitInfo.transform.name);
-                        
-                        Vector3 voxelWorldPos =
-                            _voxelsChunkRenderer.GetVoxelWorldPos(hitInfo.point, hitInfo.normal, EditVoxelType.Remove);
-                        RemoveVoxel(voxelWorldPos);
-                    }
-                }
-            }
-        }
+        // private void HandleClickDestroyVoxel()
+        // {
+        //     if (Input.GetMouseButtonDown(0))
+        //     {
+        //         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+        //         bool hit = Physics.Raycast(ray, out RaycastHit hitInfo);
+        //         if (hit)
+        //         {
+        //             if (hitInfo.rigidbody)
+        //             {
+        //                 // position = hitInfo.point;
+        //                 // normal = hitInfo.normal;
+        //                 Debug.Log(hitInfo.transform.name);
+        //                 
+        //                 Vector3 voxelWorldPos =
+        //                     _voxelsChunkRenderer.GetVoxelWorldPos(hitInfo.point, hitInfo.normal, EditVoxelType.Remove);
+        //                 RemoveVoxel(voxelWorldPos);
+        //             }
+        //         }
+        //     }
+        // }
 
         private void RemoveVoxel(Vector3 voxelWorldPos)
         {
@@ -82,14 +84,13 @@ namespace VoxelsEngine.Voxels.Scripts
                 }
                 else
                 {
-                    _voxelsChunkRenderer.RemoveVoxelWithoutUpdate(posInArr);
+                    _voxelsChunkRenderer.RemoveVoxel(posInArr, false);
                     hasDestroyedVoxels = true;
                 }
             }
 
             if (hasDestroyedVoxels)
             {
-                // Debug.Log($"Update: {name}, impulse: {impulse}");
                 _voxelsChunkRenderer.UpdateSubMeshesChunk();
             }
         }
@@ -101,7 +102,7 @@ namespace VoxelsEngine.Voxels.Scripts
             {
                 _contactPoints = new ContactPoint[collision.contactCount];
                 collision.GetContacts(_contactPoints);
-
+        
                 HandleVoxelsCollision(impulse, _contactPoints);
             }
         }

@@ -7,6 +7,7 @@ namespace VoxelsEngine.Voxels.Scripts
 {
     public class VoxelsChunkColliderController : SerializedMonoBehaviour
     {
+        [HideInInspector]
         public VoxelsChunkRenderer voxelsChunkRenderer;
         [OdinSerialize]
         public Dictionary<Vector3Int, BoxCollider> activeBoxColliders = new Dictionary<Vector3Int, BoxCollider>();
@@ -16,7 +17,6 @@ namespace VoxelsEngine.Voxels.Scripts
         public void RefreshColliders()
         {
             activeBoxColliders.Clear();
-            deactivatedBoxColliders.Clear();
 
             BoxCollider[] boxColliders = GetComponents<BoxCollider>();
             for (int i = 0; i < boxColliders.Length; i++)
@@ -25,9 +25,55 @@ namespace VoxelsEngine.Voxels.Scripts
                 boxCollider.enabled = false;
                 deactivatedBoxColliders.Enqueue(boxCollider);
             }
+            
+            ClearDeactivatedColliders();
         }
         
-        public BoxCollider AddBoxCollider(Vector3Int coordinate)
+        private void ClearDeactivatedColliders()
+        {
+            if (Application.IsPlaying(this))
+            {
+                while (deactivatedBoxColliders.Count > 0)
+                {
+                    Destroy(deactivatedBoxColliders.Dequeue());
+                }
+            }
+            else
+            {
+                while (deactivatedBoxColliders.Count > 0)
+                {
+                    DestroyImmediate(deactivatedBoxColliders.Dequeue());
+                }
+            }
+        }
+
+        public void InitBoxColliders(List<Vector3Int> coords)
+        {
+            RefreshColliders();
+            
+            for (int i = 0; i < coords.Count; i++)
+            {
+                AddBoxCollider(coords[i]);
+            }
+        }
+
+        public void ResizeBoxColliders(List<Vector3Int> coords)
+        {
+            for (int i = 0; i < coords.Count; i++)
+            {
+                if (activeBoxColliders.TryGetValue(coords[i], out BoxCollider boxCollider))
+                {
+                    boxCollider.center = voxelsChunkRenderer.GetCubePosition(coords[i]);
+                    boxCollider.size = Vector3.one * voxelsChunkRenderer.scale.Value;
+                }
+                else
+                {
+                    Debug.LogWarning("Out of range!");
+                }
+            }
+        }
+        
+        public void AddBoxCollider(Vector3Int coordinate)
         {
             BoxCollider boxCollider = GetFreeBoxCollider();
             boxCollider.center = voxelsChunkRenderer.GetCubePosition(coordinate);
@@ -35,8 +81,6 @@ namespace VoxelsEngine.Voxels.Scripts
             boxCollider.enabled = true;
 
             activeBoxColliders.Add(coordinate, boxCollider);
-
-            return boxCollider;
         }
 
         public BoxCollider GetBoxCollider(Vector3Int coordinate)
@@ -54,13 +98,20 @@ namespace VoxelsEngine.Voxels.Scripts
         
         public void RemoveBoxCollider(Vector3Int coordinate)
         {
-            BoxCollider boxCollider = activeBoxColliders[coordinate];
-            boxCollider.enabled = false;
-            bool success = activeBoxColliders.Remove(coordinate);
-            deactivatedBoxColliders.Enqueue(boxCollider);
-            if (!success)
+            if (activeBoxColliders.TryGetValue(coordinate, out BoxCollider boxCollider))
             {
-                Debug.LogWarning("Can't remove box collider from dictionary.");
+                boxCollider.enabled = false;
+                
+                bool success = activeBoxColliders.Remove(coordinate);
+                deactivatedBoxColliders.Enqueue(boxCollider);
+                if (!success)
+                {
+                    Debug.LogWarning("Can't remove box collider from dictionary.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"No such key: {coordinate}");
             }
         }
 
