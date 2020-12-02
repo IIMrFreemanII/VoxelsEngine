@@ -78,7 +78,7 @@ namespace VoxelsEngine.Voxels.Scripts
                 if (newDurability > 0)
                 {
                     voxelData.durability = newDurability;
-                    _voxelsChunkRenderer.AddVoxelWithoutUpdate(posInArr, voxelData);
+                    _voxelsChunkRenderer.UpdateVoxelData(posInArr, voxelData);
                 }
                 else
                 {

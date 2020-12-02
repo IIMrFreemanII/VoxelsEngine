@@ -5,8 +5,9 @@ namespace VoxelsEngine.Voxels.Scripts
     [Serializable]
     public struct VoxelData
     {
-        public int subMeshIndex;
-        public bool active;
+        public VoxelMeshData mesh;
+        public bool enabled;
+        public bool visible;
         public float durability;
     }
 }

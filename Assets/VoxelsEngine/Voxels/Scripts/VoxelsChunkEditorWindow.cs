@@ -154,12 +154,6 @@ namespace VoxelsEngine.Voxels.Scripts
                 if (subMeshIndex >= 0 &&
                     subMeshIndex <= voxelsChunkRenderer.sharedVoxelsChunk.Value.voxelsSubMeshes.Count - 1)
                 {
-                    VoxelData voxelData = voxelsChunkRenderer.sharedVoxelsChunk.Value.GetCell(posInArr);
-                    voxelData.active = true;
-                    voxelData.subMeshIndex = subMeshIndex;
-                    voxelData.durability = 25;
-                    
-                    voxelsChunkRenderer.AddVoxel(posInArr, voxelData);
                     voxelsChunkRenderer.AppendVoxel(posInArr);
 
                     _needRepaint = true;

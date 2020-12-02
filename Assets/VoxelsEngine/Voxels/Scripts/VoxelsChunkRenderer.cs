@@ -23,16 +23,30 @@ namespace VoxelsEngine.Voxels.Scripts
     [RequireComponent(typeof(MeshCollider))]
     public class VoxelsChunkRenderer : SerializedMonoBehaviour
     {
-        public static Material defaultVoxelMaterial;
+        private static Material _defaultVoxelMaterial;
+
+        public static Material DefaultVoxelMaterial
+        {
+            get
+            {
+                if (_defaultVoxelMaterial)
+                {
+                    return _defaultVoxelMaterial;
+                }
+
+                InitDefaultMaterial();
+                return _defaultVoxelMaterial;
+            }
+        }
 
         [HorizontalGroup("VoxelsChunk")]
         public HandleVoxelsChunkChange sharedVoxelsChunk = new HandleVoxelsChunkChange {Value = null};
 
-        [HideInInspector] public VoxelsChunk voxelsChunk;
+        [HideInInspector] public VoxelsChunk copiedVoxelsChunk;
 
         public VoxelsChunk GetVoxelsChunk()
         {
-            return Application.IsPlaying(this) ? voxelsChunk : sharedVoxelsChunk.Value;
+            return Application.IsPlaying(this) ? copiedVoxelsChunk : sharedVoxelsChunk.Value;
         }
 #if UNITY_EDITOR
         [Button]
@@ -51,7 +65,7 @@ namespace VoxelsEngine.Voxels.Scripts
                 VoxelsChunk temp = ScriptableObject.CreateInstance<VoxelsChunk>();
 
                 // init voxels chunk asset with default material data
-                temp.voxelsSubMeshes = new List<VoxelsSubMesh> {new VoxelsSubMesh {material = defaultVoxelMaterial}};
+                temp.voxelsSubMeshes = new List<VoxelsSubMesh> {new VoxelsSubMesh {material = _defaultVoxelMaterial}};
                 temp.SetSelectedVoxelsSubMeshIndex(0);
 
                 sharedVoxelsChunk.Value = temp;
@@ -139,15 +153,12 @@ namespace VoxelsEngine.Voxels.Scripts
 
         public Mesh Mesh => meshCopy;
 
-        // [HideInInspector]
-        public List<Vector3> _vertices;
-
 #if UNITY_EDITOR
-        private void InitDefaultMaterial()
+        private static void InitDefaultMaterial()
         {
-            if (defaultVoxelMaterial == null)
+            if (_defaultVoxelMaterial == null)
             {
-                defaultVoxelMaterial =
+                _defaultVoxelMaterial =
                     AssetDatabase.LoadAssetAtPath<Material>("Assets/VoxelsEngine/Voxels/Materials/DefaultVoxel.mat");
             }
         }
@@ -171,9 +182,9 @@ namespace VoxelsEngine.Voxels.Scripts
         {
             if (Application.IsPlaying(this))
             {
-                if (voxelsChunk)
+                if (copiedVoxelsChunk)
                 {
-                    Destroy(voxelsChunk);
+                    Destroy(copiedVoxelsChunk);
                 }
             }
         }
@@ -197,9 +208,6 @@ namespace VoxelsEngine.Voxels.Scripts
         {
             if (!Application.IsPlaying(this))
             {
-#if UNITY_EDITOR
-                InitDefaultMaterial();
-#endif
                 InitVariables();
                 InitMesh();
                 InitChunkBounds();
@@ -216,7 +224,7 @@ namespace VoxelsEngine.Voxels.Scripts
 
         private void InitVoxelsChunk()
         {
-            voxelsChunk = Instantiate(sharedVoxelsChunk.Value);
+            copiedVoxelsChunk = Instantiate(sharedVoxelsChunk.Value);
         }
 
         private void InitComponents()
@@ -365,23 +373,53 @@ namespace VoxelsEngine.Voxels.Scripts
 
             // Debug.Log($"{name} update sub meshes");
         }
-
-        public void AddVoxel(Vector3Int posInArr, VoxelData voxelData)
+        
+        public void AppendVoxel(Vector3Int coordinate)
         {
-            AddVoxelWithoutUpdate(posInArr, voxelData);
+            VoxelsChunk voxelsChunk = GetVoxelsChunk();
+            VoxelData voxelData = voxelsChunk.GetCell(coordinate);
+
+            voxelsChunk.SetSell(new VoxelData
+                {
+                    mesh = new VoxelMeshData
+                    {
+                        subMeshIndex = voxelsChunk.SelectedVoxelsSubMeshIndex,
+                    },
+                    enabled = true,
+                    visible = true,
+                    durability = 25f,
+                }
+                , coordinate
+            );
+
+            if (!voxelData.enabled)
+            {
+                voxelsChunk.AddActiveVoxelCoordinate(coordinate);
+            }
+
+            voxelsChunk.RecalculateNeighbors(coordinate);
+            
             UpdateSubMeshesChunk();
         }
 
-        public void AddVoxelWithoutUpdate(Vector3Int posInArr, VoxelData voxelData)
+        public void UpdateVoxelData(Vector3Int posInArr, VoxelData voxelData)
         {
             VoxelsChunk voxelsChunk = GetVoxelsChunk();
             voxelsChunk.SetSell(voxelData, posInArr);
         }
 
-        public void RemoveVoxel(Vector3Int posInArr)
+        public void RemoveVoxel(Vector3Int coordinate)
         {
-            RemoveVoxelWithoutUpdate(posInArr);
-            UpdateSubMeshesChunk();
+            VoxelsChunk voxelsChunk = GetVoxelsChunk();
+            VoxelData voxelData = voxelsChunk.GetCell(coordinate);
+
+            if (voxelData.enabled)
+            {
+                voxelsChunk.RemoveActiveVoxelCoordinate(coordinate);
+                RemoveVoxelWithoutUpdate(coordinate);
+                voxelsChunk.RecalculateNeighbors(coordinate);
+                UpdateSubMeshesChunk();
+            }
         }
 
         public void RemoveVoxelWithoutUpdate(Vector3Int posInArr)
@@ -392,36 +430,28 @@ namespace VoxelsEngine.Voxels.Scripts
 
         private void GenerateVoxelsSubMeshes(VoxelsChunk data)
         {
-            _vertices = new List<Vector3>();
-            colliderController.RefreshColliders();
+            data.vertices = new List<Vector3>();
+            // colliderController.RefreshColliders();
 
             for (int i = 0; i < data.voxelsSubMeshes.Count; i++)
             {
                 data.voxelsSubMeshes[i].triangles.Clear();
             }
 
-            for (int x = 0; x < data.Width; x++)
+            List<Vector3Int> coordinates = data.activeVoxelsCoordinates;
+            for (int i = 0; i < coordinates.Count; i++)
             {
-                for (int y = 0; y < data.Height; y++)
-                {
-                    for (int z = 0; z < data.Depth; z++)
-                    {
-                        Vector3Int coordinate = new Vector3Int(x, y, z);
-                        VoxelData voxelData = data.GetCell(coordinate);
-                        if (voxelData.active == false) continue;
+                VoxelData voxelData = data.GetCell(coordinates[i]);
+                VoxelsSubMesh voxelsSubMesh = data.GetVoxelsSubMesh(voxelData.mesh.subMeshIndex);
 
-                        VoxelsSubMesh voxelsSubMesh = data.voxelsSubMeshes[voxelData.subMeshIndex];
-                        Vector3 cubePos = GetCubePosition(coordinate);
-
-                        MakeCube(
-                            adjustedScale,
-                            cubePos,
-                            coordinate,
-                            data,
-                            voxelsSubMesh
-                        );
-                    }
-                }
+                Vector3 cubePos = GetCubePosition(coordinates[i]);
+                MakeCube(
+                    adjustedScale,
+                    cubePos,
+                    coordinates[i],
+                    data,
+                    voxelsSubMesh
+                );
             }
         }
 
@@ -447,7 +477,7 @@ namespace VoxelsEngine.Voxels.Scripts
             {
                 if (data.GetNeighbor(coordinate, (Direction) i) == false)
                 {
-                    MakeFace((Direction) i, adjustedScale, cubePos, voxelsSubMesh);
+                    MakeFace((Direction) i, adjustedScale, cubePos, voxelsSubMesh, data);
                     // isOuterCube = true;
                 }
             }
@@ -466,11 +496,17 @@ namespace VoxelsEngine.Voxels.Scripts
         {
         }
 
-        private void MakeFace(Direction dir, float adjustedScale, Vector3 facePos, VoxelsSubMesh voxelsSubMesh)
+        private void MakeFace(
+            Direction dir,
+            float adjustedScale,
+            Vector3 facePos,
+            VoxelsSubMesh voxelsSubMesh,
+            VoxelsChunk voxelsChunk
+        )
         {
-            _vertices.AddRange(VoxelMeshData.FaceVertices(dir, adjustedScale, facePos));
+            voxelsChunk.vertices.AddRange(VoxelMeshData.FaceVertices(dir, adjustedScale, facePos));
 
-            int vertCount = _vertices.Count;
+            int vertCount = voxelsChunk.vertices.Count;
 
             voxelsSubMesh.triangles.Add(vertCount - 4);
             voxelsSubMesh.triangles.Add(vertCount - 4 + 1);
@@ -480,44 +516,29 @@ namespace VoxelsEngine.Voxels.Scripts
             voxelsSubMesh.triangles.Add(vertCount - 4 + 3);
         }
 
-        public void AppendVoxel(Vector3Int coordinate)
+        // Todo: maybe obsolete
+        public (
+            Vector3[] cubeVerticesData,
+            int[] cubeTrianglesData,
+            Direction[] removedFacesDirections
+            ) GetVoxelMeshData(Vector3Int coordinate)
         {
-            var (vertexData, trianglesData) = 
+            var (verticesData, trianglesData, renderedFacesDirections) =
                 GetCubeMeshData(adjustedScale, GetCubePosition(coordinate), coordinate, GetVoxelsChunk());
 
-            cubeVerticesData = vertexData;
-            cubeTrianglesData = trianglesData;
-
-            bool isOk = true;
-
-            for (int i = 0; i < vertexData.Length; i++)
-            {
-                VertexData vertData = vertexData[i];
-                
-                bool temp = _vertices[vertData.index] == vertData.value;
-
-                if (!temp) isOk = false;
-            }
-
-            if (isOk)
-            {
-                Debug.Log("Ok");
-            }
-            else
-            {
-                Debug.Log("Bad");
-            }
+            Vector3[] vertices = verticesData.Select(item => item.value).ToArray();
+            int[] triangles = trianglesData.Select(item => item.value).ToArray();
+            return (vertices, triangles, renderedFacesDirections);
         }
 
-        public VertexData[] cubeVerticesData;
-        public TriangleData[] cubeTrianglesData;
-        
+        // Todo: maybe obsolete
         [Serializable]
         public struct VertexData
         {
             public int index;
             public Vector3 value;
-        }
+        } 
+        // Todo: maybe obsolete
         [Serializable]
         public struct TriangleData
         {
@@ -525,16 +546,22 @@ namespace VoxelsEngine.Voxels.Scripts
             public int value;
         }
 
-        private (VertexData[] cubeVerticesData, TriangleData[] cubeTrianglesData) GetCubeMeshData
-        (
-            float scale,
-            Vector3 cubePos,
-            Vector3Int coordinate,
-            VoxelsChunk data
-        )
+        // Todo: maybe obsolete
+        private (
+            VertexData[] cubeVerticesData,
+            TriangleData[] cubeTrianglesData,
+            Direction[] renderedFacesDirections
+            ) GetCubeMeshData
+            (
+                float scale,
+                Vector3 cubePos,
+                Vector3Int coordinate,
+                VoxelsChunk data
+            )
         {
             List<Vector3> cubeVertices = new List<Vector3>();
             List<int> cubeTriangles = new List<int>();
+            List<Direction> renderedFacesDirections = new List<Direction>();
 
             for (int i = 0; i < 6; i++)
             {
@@ -543,17 +570,20 @@ namespace VoxelsEngine.Voxels.Scripts
                     var (vertices, triangles) = GetFaceMeshData((Direction) i, scale, cubePos, cubeVertices);
                     cubeVertices.AddRange(vertices);
                     cubeTriangles.AddRange(triangles);
+                    renderedFacesDirections.Add((Direction) i);
                 }
             }
 
-            int cubeIndex = data.From3DTo1DIndex(coordinate) + 1;
+            int cubeIndex = data.From3DTo1DIndex(coordinate);
             VertexData[] cubeVerticesData = cubeVertices
-                .Select((vertex, i) => new VertexData {index = i * cubeIndex, value = vertex}).ToArray();
+                .Select((vertex, i) => new VertexData {index = i + data.vertices.Count, value = vertex}).ToArray();
             TriangleData[] cubeTrianglesData = cubeTriangles
-                .Select((triangle, i) => new TriangleData {index = i * cubeIndex, value = triangle}).ToArray();
+                .Select((triangle, i) => new TriangleData {index = i + data.vertices.Count, value = triangle}).ToArray();
 
-            return (cubeVerticesData, cubeTrianglesData);
+            return (cubeVerticesData, cubeTrianglesData, renderedFacesDirections.ToArray());
         }
+
+        // Todo: maybe obsolete
         private (Vector3[] vertices, List<int> triangles) GetFaceMeshData
         (
             Direction dir,
@@ -585,7 +615,7 @@ namespace VoxelsEngine.Voxels.Scripts
             mesh.Clear();
             mesh.subMeshCount = subMeshCount;
             mesh.name = name;
-            mesh.vertices = _vertices.ToArray();
+            mesh.vertices = voxelsChunk.vertices.ToArray();
 
             for (int i = 0; i < subMeshCount; i++)
             {

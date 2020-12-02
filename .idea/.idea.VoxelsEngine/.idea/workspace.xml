@@ -20,26 +20,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2f28268c-c204-405c-b1d8-30202cdf9ae9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/ArrayUtils.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/ArrayUtils.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkColliderController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkColliderController.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelsEngine/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Ball.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Ball.asset.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/voxel.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/voxel.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/voxel.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Models/voxel.asset.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/Constants.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/Constants.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/Event.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/Event.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scenes/WallDestroying.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scenes/WallDestroying.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelData.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelMeshData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelMeshData.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkCollisionController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkCollisionController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkEditorWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkEditorWindow.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/wall.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/wall.asset.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -143,13 +132,13 @@
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/DragRigidbody.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/UIElements/MaterialsContainer.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/Event.cs" />
-        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelData.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkColliderController.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkCollisionController.cs" />
-        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/Constants.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/ArrayUtils.cs" />
-        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Utils/Constants.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelData.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelMeshData.cs" />
+        <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunk.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkEditorWindow.cs" />
         <option value="$PROJECT_DIR$/Assets/VoxelsEngine/Voxels/Scripts/VoxelsChunkRenderer.cs" />
       </list>
@@ -247,6 +236,9 @@
       <workItem from="1606567318838" duration="26086000" />
       <workItem from="1606652332195" duration="30509000" />
       <workItem from="1606745506807" duration="20482000" />
+      <workItem from="1606774334267" duration="70000" />
+      <workItem from="1606843371623" duration="15918000" />
+      <workItem from="1606898802717" duration="10255000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit;">
       <created>1603896756787</created>
@@ -430,7 +422,14 @@
       <option name="project" value="LOCAL" />
       <updated>1606687534133</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="optimize voxels chunk generation">
+      <created>1606774387665</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1606774387665</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -454,7 +453,6 @@
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="implement storing voxels chunk in scriptable object" />
     <MESSAGE value="implement DrawWireRect;&#10;implement storing voxels chunk data in scriptable object;" />
     <MESSAGE value="rename GizmosExtention.cs to GizmosUtils.cs" />
     <MESSAGE value="move gizmos visual debug to custom editor script using Handles;" />
@@ -479,13 +477,14 @@
     <MESSAGE value="implement undo for VoxelsChunk.cs and VoxelsChunkRenderer.cs" />
     <MESSAGE value="implement voxel collider generation;&#10;implement drag rigidbody;&#10;implement free camera movement script;" />
     <MESSAGE value="implement voxels destruction" />
-    <option name="LAST_COMMIT_MESSAGE" value="implement voxels destruction" />
+    <MESSAGE value="optimize voxels chunk generation" />
+    <option name="LAST_COMMIT_MESSAGE" value="optimize voxels chunk generation" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2" timestamp="1606687532999">
+    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2" timestamp="1606774385828">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1606687532999" />
+    <state x="-1651" y="129" width="1438" height="785" key="CommitChangelistDialog2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1606774385828" />
     <state width="306" height="606" key="Diff.GoToChangePopup" timestamp="1604230495066">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
@@ -514,18 +513,18 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1828" y="92" width="1736" height="856" key="VCS.FileHistoryDialog/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1604605212890" />
-    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2" timestamp="1606687537038">
+    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2" timestamp="1606774391053">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1606687537038" />
-    <state x="-1354" y="237" width="787" height="624" key="find.popup" timestamp="1606666165056">
+    <state x="-1368" y="249" key="Vcs.Push.Dialog.v2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1606774391053" />
+    <state x="-1354" y="237" width="787" height="624" key="find.popup" timestamp="1606850623431">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1354" y="237" width="787" height="624" key="find.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1606666165056" />
-    <state x="-1304" y="240" key="run.anything.popup" timestamp="1606658398695">
+    <state x="-1354" y="237" width="787" height="624" key="find.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1606850623431" />
+    <state x="-1304" y="240" key="run.anything.popup" timestamp="1606846971410">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1304" y="240" key="run.anything.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1606658398695" />
+    <state x="-1304" y="240" key="run.anything.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1606846971410" />
     <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1606768248705">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
