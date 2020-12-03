@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
+using VoxelsEngine.Extensions;
 
 namespace VoxelsEngine.Voxels.Scripts
 {
@@ -22,6 +24,10 @@ namespace VoxelsEngine.Voxels.Scripts
                 Resize();
             }
         }
+
+        [HideInInspector]
+        public float scale = 1;
+        public float AdjustedScale => scale * 0.5f;
 
         public int TotalSize => Size.x * Size.y * Size.z;
 
@@ -48,7 +54,9 @@ namespace VoxelsEngine.Voxels.Scripts
         }
         
         public Vector3[] vertices;
+        public Vector3[] normals;
 
+        [OdinSerialize]
         public List<VoxelsSubMesh> voxelsSubMeshes = new List<VoxelsSubMesh>();
         [SerializeField, HideInInspector] private int selectedVoxelsSubMeshIndex;
         public int SelectedVoxelsSubMeshIndex => selectedVoxelsSubMeshIndex;
@@ -137,11 +145,15 @@ namespace VoxelsEngine.Voxels.Scripts
             SetSell(data, position.x, position.y, position.z);
         }
 
+        [ContextMenu("Clear Data")]
         public void Clear()
         {
             Data = new VoxelData[TotalSize];
             activeVoxelsCoordinates.Clear();
+            
             vertices = new Vector3[0];
+            normals = new Vector3[0];
+            InitVerticesAndNormals();
 
             voxelsSubMeshes.Clear();
             voxelsSubMeshes.Add(new VoxelsSubMesh {material = VoxelsChunkRenderer.DefaultVoxelMaterial});
@@ -259,6 +271,42 @@ namespace VoxelsEngine.Voxels.Scripts
 
                 SetSell(neighborVoxelData, neighborCoordinate);
             }
+        }
+        
+        public Vector3 GetCubePosition(Vector3Int coordinate)
+        {
+            Vector3 cubePos = (coordinate.ToFloat() - _size.ToFloat() * 0.5f) * scale;
+            Vector3 offset = Vector3.one * scale * 0.5f;
+            return cubePos + offset;
+        }
+        
+        [ContextMenu("Init Vertices")]
+        public void InitVerticesAndNormals()
+        {
+            vertices = new Vector3[TotalSize * VoxelMeshData.VerticesPerVoxel];
+            normals = new Vector3[TotalSize * VoxelMeshData.VerticesPerVoxel];
+
+            IterateMatrix3d((x, y, z) =>
+            {
+                Vector3 cubePos = GetCubePosition(new Vector3Int(x, y, z));
+                int cubeOffset = From3DTo1DIndex(x, y, z) * VoxelMeshData.VerticesPerVoxel;
+                int faceOffset = 4;
+
+                for (int i = 0; i < VoxelMeshData.directions.Length; i++)
+                {
+                    Vector3[] temp = VoxelMeshData.FaceVertices(i, AdjustedScale, cubePos);
+                    
+                    vertices[cubeOffset + i * faceOffset] = temp[0];
+                    vertices[cubeOffset + i * faceOffset + 1] = temp[1];
+                    vertices[cubeOffset + i * faceOffset + 2] = temp[2];
+                    vertices[cubeOffset + i * faceOffset + 3] = temp[3];
+                    
+                    normals[cubeOffset + i * faceOffset] = PossibleVoxelOffsets[i];
+                    normals[cubeOffset + i * faceOffset + 1] = PossibleVoxelOffsets[i];
+                    normals[cubeOffset + i * faceOffset + 2] = PossibleVoxelOffsets[i];
+                    normals[cubeOffset + i * faceOffset + 3] = PossibleVoxelOffsets[i];
+                }
+            });
         }
 
         public void IterateMatrix3d(Action<int, int, int> callback)

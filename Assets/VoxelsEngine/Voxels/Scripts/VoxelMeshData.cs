@@ -25,7 +25,7 @@ namespace VoxelsEngine.Voxels.Scripts
         public void UpdateTriangles(int voxelOrderNumber)
         {
             int facesAmount = 6;
-            int totalVertAmount = voxelOrderNumber * 4 * facesAmount + facesAmount * 4;
+            int totalVertAmount = voxelOrderNumber * VerticesPerFace * facesAmount + facesAmount * VerticesPerFace;
             triangles = new int[facesAmount * 6];
             // Debug.Log($"voxelOrderNumber: {voxelOrderNumber}");
             for (int i = 0; i < facesAmount; i++)
@@ -56,6 +56,10 @@ namespace VoxelsEngine.Voxels.Scripts
             new Vector3(1, -1, -1),
             new Vector3(-1, -1, -1),
         };
+        
+        public const int VerticesPerVoxel = 24;
+        public const int TrianglesPerVoxel = 36;
+        public const int VerticesPerFace = 4;
 
         public static readonly int[][] FaceTriangles =
         {
@@ -69,7 +73,7 @@ namespace VoxelsEngine.Voxels.Scripts
 
         public static Vector3[] FaceVertices(int dir, float adjustedScale, Vector3 pos)
         {
-            Vector3[] faceVert = new Vector3[4];
+            Vector3[] faceVert = new Vector3[VerticesPerFace];
         
             for (int i = 0; i < faceVert.Length; i++)
             {
