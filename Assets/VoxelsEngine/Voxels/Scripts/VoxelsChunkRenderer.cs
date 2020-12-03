@@ -451,6 +451,7 @@ namespace VoxelsEngine.Voxels.Scripts
             }
         }
 
+        // todo: expensive calculations
         private void GenerateVoxelsSubMeshes(VoxelsChunk data)
         {
             data.vertices = new List<Vector3>();
@@ -623,6 +624,7 @@ namespace VoxelsEngine.Voxels.Scripts
             mesh.Clear();
             mesh.subMeshCount = subMeshCount;
             mesh.name = name;
+            // todo: allocates to much memory
             mesh.vertices = voxelsChunk.vertices.ToArray();
 
             for (int i = 0; i < subMeshCount; i++)
