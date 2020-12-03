@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -22,6 +23,8 @@ namespace VoxelsEngine.Voxels.Scripts
             }
         }
 
+        public int TotalSize => Size.x * Size.y * Size.z;
+
         public int Width => Size.x;
         public int Height => Size.y;
         public int Depth => Size.z;
@@ -30,7 +33,7 @@ namespace VoxelsEngine.Voxels.Scripts
 
         private VoxelData[] Data
         {
-            get => data ?? (data = new VoxelData[Size.x * Size.y * Size.z]);
+            get => data ?? (data = new VoxelData[TotalSize]);
             set => data = value;
         }
 
@@ -44,7 +47,7 @@ namespace VoxelsEngine.Voxels.Scripts
             return activeVoxelsCoordinates.Remove(coordinate);
         }
         
-        public List<Vector3> vertices = new List<Vector3>();
+        public Vector3[] vertices;
 
         public List<VoxelsSubMesh> voxelsSubMeshes = new List<VoxelsSubMesh>();
         [SerializeField, HideInInspector] private int selectedVoxelsSubMeshIndex;
@@ -136,9 +139,9 @@ namespace VoxelsEngine.Voxels.Scripts
 
         public void Clear()
         {
-            Data = new VoxelData[Size.x * Size.y * Size.z];
+            Data = new VoxelData[TotalSize];
             activeVoxelsCoordinates.Clear();
-            vertices.Clear();
+            vertices = new Vector3[0];
 
             voxelsSubMeshes.Clear();
             voxelsSubMeshes.Add(new VoxelsSubMesh {material = VoxelsChunkRenderer.DefaultVoxelMaterial});
@@ -255,6 +258,20 @@ namespace VoxelsEngine.Voxels.Scripts
                 }
 
                 SetSell(neighborVoxelData, neighborCoordinate);
+            }
+        }
+
+        public void IterateMatrix3d(Action<int, int, int> callback)
+        {
+            for (int x = 0; x < Size.x; x++)
+            {
+                for (int y = 0; y < Size.y; y++)
+                {
+                    for (int z = 0; z < Size.z; z++)
+                    {
+                        callback.Invoke(x, y, z);
+                    }
+                }
             }
         }
 
