@@ -101,6 +101,7 @@ namespace VoxelsEngine.Voxels.Scripts
 
             if (hasDestroyedVoxels)
             {
+                // _voxelsChunkRenderer.UpdateSubMeshesChunk();
                 _update = true;
             }
         }

@@ -59,6 +59,7 @@ namespace VoxelsEngine.Voxels.Scripts
         
         public const int VerticesPerVoxel = 24;
         public const int TrianglesPerVoxel = 36;
+        public const int TrianglesPerFace = 6;
         public const int VerticesPerFace = 4;
 
         public static readonly int[][] FaceTriangles =

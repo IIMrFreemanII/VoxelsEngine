@@ -55,8 +55,8 @@ namespace VoxelsEngine.Voxels.Scripts
         
         public Vector3[] vertices;
         public Vector3[] normals;
+        public int[] triangles;
 
-        [OdinSerialize]
         public List<VoxelsSubMesh> voxelsSubMeshes = new List<VoxelsSubMesh>();
         [SerializeField, HideInInspector] private int selectedVoxelsSubMeshIndex;
         public int SelectedVoxelsSubMeshIndex => selectedVoxelsSubMeshIndex;
@@ -153,7 +153,8 @@ namespace VoxelsEngine.Voxels.Scripts
             
             vertices = new Vector3[0];
             normals = new Vector3[0];
-            InitVerticesAndNormals();
+            triangles = new int[0];
+            InitMeshData();
 
             voxelsSubMeshes.Clear();
             voxelsSubMeshes.Add(new VoxelsSubMesh {material = VoxelsChunkRenderer.DefaultVoxelMaterial});
@@ -254,6 +255,10 @@ namespace VoxelsEngine.Voxels.Scripts
                 {
                     neighborVoxelData.visible = false;
                     RemoveActiveVoxelCoordinate(neighborCoordinate);
+
+                    GetVoxelsSubMesh(GetCell(neighborCoordinate).mesh.subMeshIndex)
+                        .RemoveVoxelTriangles(neighborCoordinate);
+                    
                     colliderController.RemoveBoxCollider(neighborCoordinate);
                     // Debug.Log("Hide invisible voxel");
                 }
@@ -264,6 +269,8 @@ namespace VoxelsEngine.Voxels.Scripts
                         neighborVoxelData.visible = true;
                         AddActiveVoxelCoordinate(neighborCoordinate);
                         
+                        MakeCube(neighborCoordinate, GetVoxelsSubMesh(GetCell(neighborCoordinate).mesh.subMeshIndex));
+
                         colliderController.AddBoxCollider(neighborCoordinate);
                         // Debug.Log("Show invisible voxel");
                     }
@@ -280,16 +287,17 @@ namespace VoxelsEngine.Voxels.Scripts
             return cubePos + offset;
         }
         
-        [ContextMenu("Init Vertices")]
-        public void InitVerticesAndNormals()
+        public void InitMeshData()
         {
             vertices = new Vector3[TotalSize * VoxelMeshData.VerticesPerVoxel];
             normals = new Vector3[TotalSize * VoxelMeshData.VerticesPerVoxel];
+            triangles = new int[TotalSize * VoxelMeshData.TrianglesPerVoxel];
 
             IterateMatrix3d((x, y, z) =>
             {
                 Vector3 cubePos = GetCubePosition(new Vector3Int(x, y, z));
-                int cubeOffset = From3DTo1DIndex(x, y, z) * VoxelMeshData.VerticesPerVoxel;
+                int cubeIndex = From3DTo1DIndex(x, y, z);
+                int cubeOffset = cubeIndex * VoxelMeshData.VerticesPerVoxel;
                 int faceOffset = 4;
 
                 for (int i = 0; i < VoxelMeshData.directions.Length; i++)
@@ -321,6 +329,31 @@ namespace VoxelsEngine.Voxels.Scripts
                     }
                 }
             }
+        }
+        
+        public void MakeCube(Vector3Int coordinate, VoxelsSubMesh voxelsSubMesh)
+        {
+            int voxelIndex = From3DTo1DIndex(coordinate);
+            int[] voxelTriangles = new int[VoxelMeshData.TrianglesPerVoxel];
+
+            for (int i = 0; i < 6; i++)
+            {
+                int vertCount = voxelIndex * VoxelMeshData.VerticesPerVoxel + VoxelMeshData.VerticesPerFace * i;
+
+                MakeFace(vertCount, i * 6, voxelTriangles);
+            }
+
+            voxelsSubMesh.AddVoxelTriangles(coordinate, voxelTriangles);
+        }
+
+        private void MakeFace(int vertCount, int posOffset, int[] triangles)
+        {
+            triangles[posOffset] = vertCount;
+            triangles[posOffset + 1] = vertCount + 1;
+            triangles[posOffset + 2] = vertCount + 2;
+            triangles[posOffset + 3] = vertCount;
+            triangles[posOffset + 4] = vertCount + 2;
+            triangles[posOffset + 5] = vertCount + 3;
         }
 
         public static readonly Vector3Int[] PossibleVoxelOffsets =
