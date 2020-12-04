@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ReactElements.Core;
 using UnityEngine;
@@ -36,7 +37,7 @@ namespace ReactElements.Libraries.ReactTabs
                         target.active = tab.eventKey == activeKey;
                         target.onClick = HandleClick;
                     });
-                })
+                }).ToArray()
             );
 
             VisualElement rightSide = React.CreateElement<VisualElement>(
