@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
+using VoxelsEngine.Extensions;
 
 namespace VoxelsEngine.Voxels.Scripts
 {
@@ -22,6 +25,12 @@ namespace VoxelsEngine.Voxels.Scripts
             }
         }
 
+        [HideInInspector]
+        public float scale = 1;
+        public float AdjustedScale => scale * 0.5f;
+
+        public int TotalSize => Size.x * Size.y * Size.z;
+
         public int Width => Size.x;
         public int Height => Size.y;
         public int Depth => Size.z;
@@ -30,7 +39,7 @@ namespace VoxelsEngine.Voxels.Scripts
 
         private VoxelData[] Data
         {
-            get => data ?? (data = new VoxelData[Size.x * Size.y * Size.z]);
+            get => data ?? (data = new VoxelData[TotalSize]);
             set => data = value;
         }
 
@@ -44,7 +53,9 @@ namespace VoxelsEngine.Voxels.Scripts
             return activeVoxelsCoordinates.Remove(coordinate);
         }
         
-        public List<Vector3> vertices = new List<Vector3>();
+        public Vector3[] vertices;
+        public Vector3[] normals;
+        public int[] triangles;
 
         public List<VoxelsSubMesh> voxelsSubMeshes = new List<VoxelsSubMesh>();
         [SerializeField, HideInInspector] private int selectedVoxelsSubMeshIndex;
@@ -134,11 +145,16 @@ namespace VoxelsEngine.Voxels.Scripts
             SetSell(data, position.x, position.y, position.z);
         }
 
+        [ContextMenu("Clear Data")]
         public void Clear()
         {
-            Data = new VoxelData[Size.x * Size.y * Size.z];
+            Data = new VoxelData[TotalSize];
             activeVoxelsCoordinates.Clear();
-            vertices.Clear();
+            
+            vertices = new Vector3[0];
+            normals = new Vector3[0];
+            triangles = new int[0];
+            InitMeshData();
 
             voxelsSubMeshes.Clear();
             voxelsSubMeshes.Add(new VoxelsSubMesh {material = VoxelsChunkRenderer.DefaultVoxelMaterial});
@@ -239,6 +255,10 @@ namespace VoxelsEngine.Voxels.Scripts
                 {
                     neighborVoxelData.visible = false;
                     RemoveActiveVoxelCoordinate(neighborCoordinate);
+
+                    GetVoxelsSubMesh(GetCell(neighborCoordinate).mesh.subMeshIndex)
+                        .RemoveVoxelTriangles(neighborCoordinate);
+                    
                     colliderController.RemoveBoxCollider(neighborCoordinate);
                     // Debug.Log("Hide invisible voxel");
                 }
@@ -249,6 +269,8 @@ namespace VoxelsEngine.Voxels.Scripts
                         neighborVoxelData.visible = true;
                         AddActiveVoxelCoordinate(neighborCoordinate);
                         
+                        MakeCube(neighborCoordinate, GetVoxelsSubMesh(GetCell(neighborCoordinate).mesh.subMeshIndex));
+
                         colliderController.AddBoxCollider(neighborCoordinate);
                         // Debug.Log("Show invisible voxel");
                     }
@@ -256,6 +278,82 @@ namespace VoxelsEngine.Voxels.Scripts
 
                 SetSell(neighborVoxelData, neighborCoordinate);
             }
+        }
+        
+        public Vector3 GetCubePosition(Vector3Int coordinate)
+        {
+            Vector3 cubePos = (coordinate.ToFloat() - _size.ToFloat() * 0.5f) * scale;
+            Vector3 offset = Vector3.one * scale * 0.5f;
+            return cubePos + offset;
+        }
+        
+        public void InitMeshData()
+        {
+            vertices = new Vector3[TotalSize * VoxelMeshData.VerticesPerVoxel];
+            normals = new Vector3[TotalSize * VoxelMeshData.VerticesPerVoxel];
+            triangles = new int[TotalSize * VoxelMeshData.TrianglesPerVoxel];
+
+            IterateMatrix3d((x, y, z) =>
+            {
+                Vector3 cubePos = GetCubePosition(new Vector3Int(x, y, z));
+                int cubeIndex = From3DTo1DIndex(x, y, z);
+                int cubeOffset = cubeIndex * VoxelMeshData.VerticesPerVoxel;
+                int faceOffset = 4;
+
+                for (int i = 0; i < VoxelMeshData.directions.Length; i++)
+                {
+                    Vector3[] temp = VoxelMeshData.FaceVertices(i, AdjustedScale, cubePos);
+                    
+                    vertices[cubeOffset + i * faceOffset] = temp[0];
+                    vertices[cubeOffset + i * faceOffset + 1] = temp[1];
+                    vertices[cubeOffset + i * faceOffset + 2] = temp[2];
+                    vertices[cubeOffset + i * faceOffset + 3] = temp[3];
+                    
+                    normals[cubeOffset + i * faceOffset] = PossibleVoxelOffsets[i];
+                    normals[cubeOffset + i * faceOffset + 1] = PossibleVoxelOffsets[i];
+                    normals[cubeOffset + i * faceOffset + 2] = PossibleVoxelOffsets[i];
+                    normals[cubeOffset + i * faceOffset + 3] = PossibleVoxelOffsets[i];
+                }
+            });
+        }
+
+        public void IterateMatrix3d(Action<int, int, int> callback)
+        {
+            for (int x = 0; x < Size.x; x++)
+            {
+                for (int y = 0; y < Size.y; y++)
+                {
+                    for (int z = 0; z < Size.z; z++)
+                    {
+                        callback.Invoke(x, y, z);
+                    }
+                }
+            }
+        }
+        
+        public void MakeCube(Vector3Int coordinate, VoxelsSubMesh voxelsSubMesh)
+        {
+            int voxelIndex = From3DTo1DIndex(coordinate);
+            int[] voxelTriangles = new int[VoxelMeshData.TrianglesPerVoxel];
+
+            for (int i = 0; i < 6; i++)
+            {
+                int vertCount = voxelIndex * VoxelMeshData.VerticesPerVoxel + VoxelMeshData.VerticesPerFace * i;
+
+                MakeFace(vertCount, i * 6, voxelTriangles);
+            }
+
+            voxelsSubMesh.AddVoxelTriangles(coordinate, voxelTriangles);
+        }
+
+        private void MakeFace(int vertCount, int posOffset, int[] triangles)
+        {
+            triangles[posOffset] = vertCount;
+            triangles[posOffset + 1] = vertCount + 1;
+            triangles[posOffset + 2] = vertCount + 2;
+            triangles[posOffset + 3] = vertCount;
+            triangles[posOffset + 4] = vertCount + 2;
+            triangles[posOffset + 5] = vertCount + 3;
         }
 
         public static readonly Vector3Int[] PossibleVoxelOffsets =

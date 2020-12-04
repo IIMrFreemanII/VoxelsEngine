@@ -15,6 +15,7 @@ namespace VoxelsEngine.Voxels.Scripts
         public CollisionDetectionMode collisionDetection;
         private Vector3 position;
         private Vector3 normal;
+        private bool _update = false;
 
         private void Awake()
         {
@@ -28,6 +29,15 @@ namespace VoxelsEngine.Voxels.Scripts
             _voxelsChunk = _voxelsChunkRenderer.GetVoxelsChunk();
             _rigidbody.isKinematic = isKinematic;
             _rigidbody.collisionDetectionMode = collisionDetection;
+        }
+
+        private void FixedUpdate()
+        {
+            if (_update)
+            {
+                _update = false;
+                _voxelsChunkRenderer.UpdateSubMeshesChunk();
+            }
         }
 
         // private void HandleClickDestroyVoxel()
@@ -91,7 +101,8 @@ namespace VoxelsEngine.Voxels.Scripts
 
             if (hasDestroyedVoxels)
             {
-                _voxelsChunkRenderer.UpdateSubMeshesChunk();
+                // _voxelsChunkRenderer.UpdateSubMeshesChunk();
+                _update = true;
             }
         }
 
