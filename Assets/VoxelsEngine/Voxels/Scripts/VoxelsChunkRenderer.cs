@@ -4,6 +4,7 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 using VoxelsEngine.Extensions;
 using VoxelsEngine.Utils;
 using VoxelsEngine.Voxels.Scripts.CustomValues;
@@ -250,6 +251,7 @@ namespace VoxelsEngine.Voxels.Scripts
 
             meshCopy = new Mesh();
             meshCopy.name = $"{name} clone";
+            meshCopy.indexFormat = IndexFormat.UInt32;
             meshCopy.vertices = oldMesh.vertices;
             meshCopy.triangles = oldMesh.triangles;
             meshCopy.normals = oldMesh.normals;
@@ -412,7 +414,7 @@ namespace VoxelsEngine.Voxels.Scripts
                     },
                     enabled = true,
                     visible = true,
-                    durability = 5f,
+                    durability = 0.1f,
                 }
                 , coordinate
             );

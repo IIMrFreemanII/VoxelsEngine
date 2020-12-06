@@ -109,10 +109,10 @@ namespace VoxelsEngine.Voxels.Scripts
                     Debug.LogWarning("Can't remove box collider from dictionary.");
                 }
             }
-            else
-            {
-                Debug.LogWarning($"No such key: {coordinate}");
-            }
+            // else
+            // {
+            //     Debug.LogWarning($"No such key: {coordinate}");
+            // }
         }
 
         private void PreInitializeBoxColliders(int count)
@@ -125,10 +125,13 @@ namespace VoxelsEngine.Voxels.Scripts
 
         private void PreInitializeBoxCollider()
         {
-            BoxCollider boxCollider = gameObject.AddComponent<BoxCollider>();
-            boxCollider.enabled = false;
+            for (int i = 0; i < 2; i++)
+            {
+                BoxCollider boxCollider = gameObject.AddComponent<BoxCollider>();
+                boxCollider.enabled = false;
             
-            deactivatedBoxColliders.Enqueue(boxCollider);
+                deactivatedBoxColliders.Enqueue(boxCollider);
+            }
         }
 
         private BoxCollider GetFreeBoxCollider()

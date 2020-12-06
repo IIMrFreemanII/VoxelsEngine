@@ -109,8 +109,9 @@ namespace VoxelsEngine.Voxels.Scripts
         private void OnCollisionEnter(Collision collision)
         {
             float impulse = collision.impulse.magnitude;
-            if (impulse >= 0.5f && _voxelsChunk)
+            if (impulse >= 0.2f && _voxelsChunk)
             {
+                _rigidbody.velocity = -collision.relativeVelocity * 0.2f;
                 _contactPoints = new ContactPoint[collision.contactCount];
                 collision.GetContacts(_contactPoints);
         
