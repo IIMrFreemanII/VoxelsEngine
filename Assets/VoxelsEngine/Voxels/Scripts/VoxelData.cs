@@ -9,5 +9,11 @@ namespace VoxelsEngine.Voxels.Scripts
         public bool enabled;
         public bool visible;
         public float durability;
+
+        public VoxelData SetEnabled(bool enabled)
+        {
+            this.enabled = enabled;
+            return this;
+        }
     }
 }

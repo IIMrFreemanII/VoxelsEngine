@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
+using Unity.Collections;
+using Unity.Jobs;
+using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using VoxelsEngine.Extensions;
 using VoxelsEngine.Utils;
+using VoxelsEngine.Voxels.Jobs;
 using VoxelsEngine.Voxels.Scripts.CustomValues;
 
 namespace VoxelsEngine.Voxels.Scripts
@@ -66,7 +69,7 @@ namespace VoxelsEngine.Voxels.Scripts
                 VoxelsChunk temp = ScriptableObject.CreateInstance<VoxelsChunk>();
 
                 // init voxels chunk asset with default material data
-                temp.voxelsSubMeshes = new List<VoxelsSubMesh> {new VoxelsSubMesh {material = _defaultVoxelMaterial}};
+                temp.voxelsSubMeshes = new List<VoxelsSubMesh> {new VoxelsSubMesh {material = DefaultVoxelMaterial}};
                 temp.SetSelectedVoxelsSubMeshIndex(0);
 
                 sharedVoxelsChunk.Value = temp;
@@ -128,7 +131,7 @@ namespace VoxelsEngine.Voxels.Scripts
             sharedVoxelsChunk.Value.scale = value;
             UpdateChunkBounds(size.Value);
             UpdateSubMeshesChunk();
-            ResizeActiveColliders();
+            // ResizeActiveColliders();
         }
 #if UNITY_EDITOR
         [Button]
@@ -331,26 +334,57 @@ namespace VoxelsEngine.Voxels.Scripts
             sharedVoxelsChunk.Value.Resize();
         }
 
+        public bool useJobs;
         [ContextMenu("Fill voxels")]
         public void FillVoxelsData()
         {
             ClearChunk();
-
+            
             VoxelsChunk voxelsChunk = GetVoxelsChunk();
 
-            for (int x = 0; x < voxelsChunk.Width; x++)
+            TimeUtil.GetExecutionTime(() =>
             {
-                for (int y = 0; y < voxelsChunk.Height; y++)
+                if (useJobs)
                 {
-                    for (int z = 0; z < voxelsChunk.Depth; z++)
+                    NativeArray<VoxelData> voxelsData = new NativeArray<VoxelData>(voxelsChunk.data, Allocator.TempJob);
+                    FillVoxelsDataJob fillVoxelDataJob = new FillVoxelsDataJob
+                    {
+                        voxelsData = voxelsData,
+                        subMeshIndex = 0,
+                    };
+                    JobHandle fillVoxelDataJobHandle = fillVoxelDataJob.Schedule(voxelsData.Length, 128);
+                    
+                    NativeList<int> activeVoxelsIndices = new NativeList<int>(Allocator.TempJob);
+                    FilterVisibleVoxelsJob filterVisibleVoxelsJob = new FilterVisibleVoxelsJob
+                    {
+                        voxelsData = voxelsData,
+                        chunkSize = voxelsChunk.Size.ToInt3()
+                    };
+                    JobHandle filterVisibleVoxelsJobHandle =
+                        filterVisibleVoxelsJob.ScheduleAppend(activeVoxelsIndices, voxelsData.Length, 128, fillVoxelDataJobHandle);
+                    
+                    filterVisibleVoxelsJobHandle.Complete();
+                    
+                    voxelsChunk.data = fillVoxelDataJob.voxelsData.ToArray();
+                    
+                    voxelsChunk.activeVoxelsIndices.Clear();
+                    voxelsChunk.activeVoxelsIndices.AddRange(activeVoxelsIndices.ToArray());
+
+                    voxelsData.Dispose();
+                    activeVoxelsIndices.Dispose();
+                    
+                }
+                else
+                {
+                    voxelsChunk.IterateMatrix3d((x, y, z) =>
                     {
                         AppendVoxel(new Vector3Int(x, y, z), false);
-                    }
+                    });
                 }
-            }
+            });
 
             UpdateSubMeshesChunk();
-            InitBoxColliders();
+            // InitBoxColliders();
         }
 
         public Vector3Int GetPosInArr(Vector3 worldPos)
@@ -371,6 +405,7 @@ namespace VoxelsEngine.Voxels.Scripts
                 return;
             }
 
+            TimeUtil.GetExecutionTime(voxelsChunk.GenerateMeshDataFast);
             UpdateSubMeshes(voxelsChunk);
 
             if (!Application.IsPlaying(this))
@@ -386,7 +421,7 @@ namespace VoxelsEngine.Voxels.Scripts
             VoxelsChunk voxelsChunk = GetVoxelsChunk();
             VoxelData voxelData = voxelsChunk.GetCell(coordinate);
 
-            voxelsChunk.SetSell(new VoxelData
+            voxelsChunk.SetCell(new VoxelData
                 {
                     mesh = new VoxelMeshData
                     {
@@ -401,10 +436,10 @@ namespace VoxelsEngine.Voxels.Scripts
 
             if (!voxelData.enabled)
             {
-                colliderController.AddBoxCollider(coordinate);
-                voxelsChunk.AddActiveVoxelCoordinate(coordinate);
+                // colliderController.AddBoxCollider(coordinate);
+                voxelsChunk.AddActiveVoxelCoordinate(coordinate.ToInt3());
                 voxelsChunk.RecalculateNeighbors(coordinate, colliderController);
-                voxelsChunk.MakeCube(coordinate, voxelsChunk.GetSelectedVoxelsSubMesh());
+                // voxelsChunk.MakeCube(coordinate, voxelsChunk.GetSelectedVoxelsSubMesh());
                 
                 if (updateMesh) UpdateSubMeshesChunk();
             }
@@ -413,7 +448,7 @@ namespace VoxelsEngine.Voxels.Scripts
         public void UpdateVoxelData(Vector3Int posInArr, VoxelData voxelData)
         {
             VoxelsChunk voxelsChunk = GetVoxelsChunk();
-            voxelsChunk.SetSell(voxelData, posInArr);
+            voxelsChunk.SetCell(voxelData, posInArr);
         }
 
         public void RemoveVoxel(Vector3Int coordinate, bool updateMesh = true)
@@ -423,12 +458,12 @@ namespace VoxelsEngine.Voxels.Scripts
 
             if (voxelData.enabled)
             {
-                colliderController.RemoveBoxCollider(coordinate);
-                voxelsChunk.RemoveActiveVoxelCoordinate(coordinate);
-                voxelsChunk.SetSell(new VoxelData(), coordinate);
+                // colliderController.RemoveBoxCollider(coordinate);
+                voxelsChunk.RemoveActiveVoxelCoordinate(coordinate.ToInt3());
+                voxelsChunk.SetCell(new VoxelData(), coordinate);
                 voxelsChunk.RecalculateNeighbors(coordinate, colliderController);
                 
-                RemoveCube(coordinate, voxelData, voxelsChunk, updateMesh);
+                if (updateMesh) UpdateSubMeshesChunk();
             }
         }
 
@@ -442,8 +477,8 @@ namespace VoxelsEngine.Voxels.Scripts
 
         private void RemoveCube(Vector3Int coordinate, VoxelData voxelData, VoxelsChunk voxelsChunk, bool updateMesh)
         {
-            VoxelsSubMesh voxelsSubMesh = voxelsChunk.GetVoxelsSubMesh(voxelData.mesh.subMeshIndex);
-            voxelsSubMesh.RemoveVoxelTriangles(coordinate);
+            // VoxelsSubMesh voxelsSubMesh = voxelsChunk.GetVoxelsSubMesh(voxelData.mesh.subMeshIndex);
+            // voxelsSubMesh.RemoveVoxelTriangles(coordinate);
             
             if (updateMesh) UpdateSubMeshesChunk();
         }
@@ -454,14 +489,16 @@ namespace VoxelsEngine.Voxels.Scripts
 
             Mesh mesh = Mesh;
             mesh.Clear();
+            mesh.indexFormat = IndexFormat.UInt32;
             mesh.subMeshCount = subMeshCount;
-            mesh.vertices = voxelsChunk.vertices;
-            mesh.normals = voxelsChunk.normals;
+            mesh.vertices = voxelsChunk.vertices.ToArray();
 
             for (int i = 0; i < subMeshCount; i++)
             {
-                mesh.SetTriangles(voxelsChunk.voxelsSubMeshes[i].GetTriangles(), i, false);
+                mesh.SetTriangles(voxelsChunk.voxelsSubMeshes[i].GetTrianglesTest(), i, false);
             }
+            
+            mesh.RecalculateNormals();
 
             if (!Application.IsPlaying(this))
             {
@@ -487,7 +524,7 @@ namespace VoxelsEngine.Voxels.Scripts
             VoxelsChunk voxelsChunk = GetVoxelsChunk();
             if (voxelsChunk)
             {
-                colliderController.InitBoxColliders(voxelsChunk.activeVoxelsCoordinates);
+                // colliderController.InitBoxColliders(voxelsChunk.activeVoxelsCoordinates);
             }
             else
             {
@@ -498,7 +535,7 @@ namespace VoxelsEngine.Voxels.Scripts
         public void ResizeActiveColliders()
         {
             VoxelsChunk voxelsChunk = GetVoxelsChunk();
-            colliderController.ResizeBoxColliders(voxelsChunk.activeVoxelsCoordinates);
+            // colliderController.ResizeBoxColliders(voxelsChunk.activeVoxelsCoordinates);
         }
 
         public void ToughTask()

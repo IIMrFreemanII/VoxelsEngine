@@ -1,38 +1,56 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace VoxelsEngine.Voxels.Scripts
 {
+    [Serializable]
     public class VoxelsSubMesh
     {
         public Material material;
-        public Dictionary<Vector3Int, int[]> triangles = new Dictionary<Vector3Int, int[]>();
+        // public Dictionary<Vector3Int, int[]> triangles = new Dictionary<Vector3Int, int[]>();
+        public List<int> triangles = new List<int>();
 
-        public void AddVoxelTriangles(Vector3Int coordinate, int[] triangles)
+        public void Clear()
         {
-            this.triangles.Add(coordinate, triangles);
+            triangles.Clear();
         }
 
-        public void RemoveVoxelTriangles(Vector3Int coordinate)
+        public void SetMaterial(Material material)
         {
-            if (triangles.ContainsKey(coordinate))
-            {
-                triangles.Remove(coordinate);
-            }
+            this.material = material;
         }
 
-        public int[] GetTriangles()
+        // public void AddVoxelTriangles(Vector3Int coordinate, int[] triangles)
+        // {
+        //     this.triangles.Add(coordinate, triangles);
+        // }
+        //
+        // public void RemoveVoxelTriangles(Vector3Int coordinate)
+        // {
+        //     if (triangles.ContainsKey(coordinate))
+        //     {
+        //         triangles.Remove(coordinate);
+        //     }
+        // }
+
+        // public int[] GetTriangles()
+        // {
+        //     int[] tris = new int[triangles.Count * VoxelMeshData.TrianglesPerVoxel];
+        //
+        //     int i = 0;
+        //     foreach (KeyValuePair<Vector3Int,int[]> keyValuePair in triangles)
+        //     {
+        //         keyValuePair.Value.CopyTo(tris, i);
+        //         i += VoxelMeshData.TrianglesPerVoxel;
+        //     }
+        //
+        //     return tris;
+        // }
+        
+        public List<int> GetTrianglesTest()
         {
-            int[] tris = new int[triangles.Count * VoxelMeshData.TrianglesPerVoxel];
-
-            int i = 0;
-            foreach (KeyValuePair<Vector3Int,int[]> keyValuePair in triangles)
-            {
-                keyValuePair.Value.CopyTo(tris, i);
-                i += VoxelMeshData.TrianglesPerVoxel;
-            }
-
-            return tris;
+            return triangles;
         }
     }
 }

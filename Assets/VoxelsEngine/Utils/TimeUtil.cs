@@ -1,5 +1,6 @@
 using System;
-using UnityEngine;
+using System.Diagnostics;
+using Debug = UnityEngine.Debug;
 
 namespace VoxelsEngine.Utils
 {
@@ -7,12 +8,13 @@ namespace VoxelsEngine.Utils
     {
         public static void GetExecutionTime(Action callback)
         {
-            float startTimeMs = Time.realtimeSinceStartup * 1000;
+            Stopwatch stopwatch = new Stopwatch();
 
+            stopwatch.Start();
             callback.Invoke();
-
-            float finishTime = Time.realtimeSinceStartup * 1000;
-            Debug.Log($"{callback.Method.Name}: {finishTime - startTimeMs}ms");
+            stopwatch.Stop();
+            
+            Debug.Log($"{callback.Method.Name}: {stopwatch.ElapsedMilliseconds}ms");
         }
     }
 }

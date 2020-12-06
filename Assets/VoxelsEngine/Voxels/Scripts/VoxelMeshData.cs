@@ -7,12 +7,9 @@ namespace VoxelsEngine.Voxels.Scripts
     [Serializable]
     public struct VoxelMeshData
     {
-        public Vector3[] vertices;
-        public int[] triangles;
         public int subMeshIndex;
-        public Direction[] faces;
 
-        public static Direction[] directions =
+        public static readonly Direction[] Directions =
         {
             Direction.North,
             Direction.East,
@@ -22,28 +19,7 @@ namespace VoxelsEngine.Voxels.Scripts
             Direction.Down
         };
 
-        public void UpdateTriangles(int voxelOrderNumber)
-        {
-            int facesAmount = 6;
-            int totalVertAmount = voxelOrderNumber * VerticesPerFace * facesAmount + facesAmount * VerticesPerFace;
-            triangles = new int[facesAmount * 6];
-            // Debug.Log($"voxelOrderNumber: {voxelOrderNumber}");
-            for (int i = 0; i < facesAmount; i++)
-            {
-                if (!faces.Contains((Direction) i)) continue;
-                int faceOffset = i * 6;
-                
-                int vertCount = (totalVertAmount / facesAmount) * i;
-                
-                triangles[faceOffset] = vertCount;
-                triangles[faceOffset + 1] = vertCount + 1;
-                triangles[faceOffset + 2] = vertCount + 2;
-                triangles[faceOffset + 3] = vertCount;
-                triangles[faceOffset + 4] = vertCount + 2;
-                triangles[faceOffset + 5] = vertCount + 3;
-            }
-            // Debug.Log("---------------------------------------");
-        }
+        public static readonly int DirectionsAmount = 6;
 
         public static readonly Vector3[] Vertices =
         {
