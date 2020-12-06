@@ -345,6 +345,26 @@ namespace VoxelsEngine.Voxels.Scripts
 
             voxelsSubMesh.AddVoxelTriangles(coordinate, voxelTriangles);
         }
+        
+        public Vector3Int GetPosInArr(Vector3 worldPos, Transform transform)
+        {
+            Vector3 normalizedPointInLocalSpace = transform.InverseTransformPoint(worldPos) / scale;
+
+            // we do " + _voxelsChunkRenderer.size.ToFloat() * 0.5f;"
+            // because before in VoxelChunkRenderer.GenerateVoxelMesh()
+            // we subtracted " - _voxelsChunkRenderer.size.ToFloat() * 0.5f;"
+            // in order to revert value array index format
+            // Vector3 rawIndexPos = pointInLocalSpace + _voxelsChunkRenderer.size.ToFloat() * 0.5f;
+            Vector3 rawIndexPos = normalizedPointInLocalSpace + Size.ToFloat() * 0.5f;
+
+            int x = Mathf.Clamp(Mathf.FloorToInt(rawIndexPos.x), 0, Width - 1);
+            int y = Mathf.Clamp(Mathf.FloorToInt(rawIndexPos.y), 0, Height - 1);
+            int z = Mathf.Clamp(Mathf.FloorToInt(rawIndexPos.z), 0, Depth - 1);
+
+            Vector3 posInArray = new Vector3(x, y, z);
+
+            return posInArray.ToInt();
+        }
 
         private void MakeFace(int vertCount, int posOffset, int[] triangles)
         {

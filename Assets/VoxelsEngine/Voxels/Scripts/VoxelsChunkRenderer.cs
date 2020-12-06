@@ -356,27 +356,7 @@ namespace VoxelsEngine.Voxels.Scripts
         public Vector3Int GetPosInArr(Vector3 worldPos)
         {
             VoxelsChunk voxelsChunk = GetVoxelsChunk();
-
-            float scale = this.scale.Value;
-            int width = voxelsChunk.Width;
-            int height = voxelsChunk.Height;
-            int depth = voxelsChunk.Depth;
-            Vector3 normalizedPointInLocalSpace = transform.InverseTransformPoint(worldPos) / scale;
-
-            // we do " + _voxelsChunkRenderer.size.ToFloat() * 0.5f;"
-            // because before in VoxelChunkRenderer.GenerateVoxelMesh()
-            // we subtracted " - _voxelsChunkRenderer.size.ToFloat() * 0.5f;"
-            // in order to revert value array index format
-            // Vector3 rawIndexPos = pointInLocalSpace + _voxelsChunkRenderer.size.ToFloat() * 0.5f;
-            Vector3 rawIndexPos = normalizedPointInLocalSpace + size.Value.ToFloat() * 0.5f;
-
-            int x = Mathf.Clamp(Mathf.FloorToInt(rawIndexPos.x), 0, width - 1);
-            int y = Mathf.Clamp(Mathf.FloorToInt(rawIndexPos.y), 0, height - 1);
-            int z = Mathf.Clamp(Mathf.FloorToInt(rawIndexPos.z), 0, depth - 1);
-
-            Vector3 posInArray = new Vector3(x, y, z);
-
-            return posInArray.ToInt();
+            return voxelsChunk.GetPosInArr(worldPos, transform);
         }
 
         [ContextMenu("Update sub-meshes")]
@@ -519,6 +499,20 @@ namespace VoxelsEngine.Voxels.Scripts
         {
             VoxelsChunk voxelsChunk = GetVoxelsChunk();
             colliderController.ResizeBoxColliders(voxelsChunk.activeVoxelsCoordinates);
+        }
+
+        public void ToughTask()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                float value = Mathf.Sqrt(Mathf.Exp(i));
+            }
+        }
+
+        [ContextMenu("TestExecutionTime")]
+        public void TestExecutionTime()
+        {
+            TimeUtil.GetExecutionTime(ToughTask);
         }
     }
 }
