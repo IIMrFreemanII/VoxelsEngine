@@ -1,5 +1,7 @@
 using Unity.Collections;
 using Unity.Mathematics;
+using UnityEngine;
+using VoxelsEngine.Extensions;
 using VoxelsEngine.Voxels.Scripts;
 
 namespace VoxelsEngine.Utils
@@ -79,6 +81,13 @@ namespace VoxelsEngine.Utils
             bool result = activeNeighbors.Length != VoxelMeshData.Directions.Length;
             activeNeighbors.Dispose();
             return result;
+        }
+        
+        public static Vector3 GetCubePosition(int3 coordinate, int3 chunkSize, float scale)
+        {
+            Vector3 cubePos = (coordinate.ToVector3() - chunkSize.ToVector3() * 0.5f) * scale;
+            Vector3 offset = Vector3.one * scale * 0.5f;
+            return cubePos + offset;
         }
     }
 }

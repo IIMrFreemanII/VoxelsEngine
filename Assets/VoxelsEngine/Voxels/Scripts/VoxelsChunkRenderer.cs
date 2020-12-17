@@ -3,7 +3,6 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using Unity.Collections;
 using Unity.Jobs;
-using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -38,7 +37,10 @@ namespace VoxelsEngine.Voxels.Scripts
                     return _defaultVoxelMaterial;
                 }
 
-                InitDefaultMaterial();
+#if UNITY_EDITOR
+                InitDefaultMaterial();  
+#endif
+                
                 return _defaultVoxelMaterial;
             }
         }
@@ -219,7 +221,9 @@ namespace VoxelsEngine.Voxels.Scripts
                 InitVariables();
                 InitMesh();
                 InitChunkBounds();
+#if UNITY_EDITOR
                 InitVoxelsChunkEditorWindow();
+#endif
                 InitColliderController();
             }
             else
@@ -311,11 +315,14 @@ namespace VoxelsEngine.Voxels.Scripts
             adjustedScale = scale.Value * 0.5f;
         }
 
+
+#if UNITY_EDITOR
         private void InitVoxelsChunkEditorWindow()
         {
             if (EditorWindow.HasOpenInstances<VoxelsChunkEditorWindow>())
                 VoxelsChunkEditorWindow.HandleVoxelsChunkRenderer();
         }
+#endif
 
         [ContextMenu("Clear chunk")]
         public void ClearChunk()
@@ -342,7 +349,7 @@ namespace VoxelsEngine.Voxels.Scripts
             
             VoxelsChunk voxelsChunk = GetVoxelsChunk();
 
-            TimeUtil.GetExecutionTime(() =>
+            TimeUtil.GetExecutionTime("fill voxels data", () =>
             {
                 if (useJobs)
                 {
@@ -365,14 +372,15 @@ namespace VoxelsEngine.Voxels.Scripts
                     
                     filterVisibleVoxelsJobHandle.Complete();
                     
-                    voxelsChunk.data = fillVoxelDataJob.voxelsData.ToArray();
+                    voxelsChunk.data = voxelsData.ToArray();
                     
                     voxelsChunk.activeVoxelsIndices.Clear();
                     voxelsChunk.activeVoxelsIndices.AddRange(activeVoxelsIndices.ToArray());
 
+                    voxelsChunk.GenerateMeshDataJob(activeVoxelsIndices);
+
                     voxelsData.Dispose();
                     activeVoxelsIndices.Dispose();
-                    
                 }
                 else
                 {
@@ -405,14 +413,16 @@ namespace VoxelsEngine.Voxels.Scripts
                 return;
             }
 
-            TimeUtil.GetExecutionTime(voxelsChunk.GenerateMeshDataFast);
+            // TimeUtil.GetExecutionTime(voxelsChunk.GenerateMeshDataFast);
             UpdateSubMeshes(voxelsChunk);
 
             if (!Application.IsPlaying(this))
             {
                 UpdateMaterials(voxelsChunk);
+#if UNITY_EDITOR
                 EditorUtility.SetDirty(voxelsChunk);
                 EditorUtility.SetDirty(this);
+#endif
             }
         }
 
@@ -536,20 +546,6 @@ namespace VoxelsEngine.Voxels.Scripts
         {
             VoxelsChunk voxelsChunk = GetVoxelsChunk();
             // colliderController.ResizeBoxColliders(voxelsChunk.activeVoxelsCoordinates);
-        }
-
-        public void ToughTask()
-        {
-            for (int i = 0; i < 100; i++)
-            {
-                float value = Mathf.Sqrt(Mathf.Exp(i));
-            }
-        }
-
-        [ContextMenu("TestExecutionTime")]
-        public void TestExecutionTime()
-        {
-            TimeUtil.GetExecutionTime(ToughTask);
         }
     }
 }

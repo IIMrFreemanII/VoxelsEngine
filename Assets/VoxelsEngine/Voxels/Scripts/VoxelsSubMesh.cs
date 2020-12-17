@@ -4,6 +4,12 @@ using UnityEngine;
 
 namespace VoxelsEngine.Voxels.Scripts
 {
+    // public struct VoxelsJobSubMesh
+    // {
+    //     public int subMeshIndex;
+    //     
+    // }
+    
     [Serializable]
     public class VoxelsSubMesh
     {

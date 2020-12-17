@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+using UnityEditor;
 using UnityEngine;
 
 namespace VoxelsEngine.Utils
@@ -83,3 +84,4 @@ namespace VoxelsEngine.Utils
         };
     }
 }
+#endif

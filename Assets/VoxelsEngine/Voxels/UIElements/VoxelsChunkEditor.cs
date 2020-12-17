@@ -1,4 +1,4 @@
-﻿using ReactElements;
+﻿#if  UNITY_EDITOR
 using ReactElements.Core;
 using ReactElements.Libraries.ReactTabs;
 using Sirenix.Utilities;
@@ -60,3 +60,4 @@ namespace VoxelsEngine.Voxels.UIElements
         }
     }
 }
+#endif

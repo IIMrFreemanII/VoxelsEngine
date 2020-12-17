@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Unity.Collections;
 using UnityEngine;
 
 namespace VoxelsEngine.Voxels.Scripts
@@ -19,7 +20,7 @@ namespace VoxelsEngine.Voxels.Scripts
             Direction.Down
         };
 
-        public static readonly int DirectionsAmount = 6;
+        public const int DirectionsAmount = 6;
 
         public static readonly Vector3[] Vertices =
         {
@@ -32,7 +33,7 @@ namespace VoxelsEngine.Voxels.Scripts
             new Vector3(1, -1, -1),
             new Vector3(-1, -1, -1),
         };
-        
+
         public const int VerticesPerVoxel = 24;
         public const int TrianglesPerVoxel = 36;
         public const int TrianglesPerFace = 6;
@@ -46,6 +47,16 @@ namespace VoxelsEngine.Voxels.Scripts
             new[] {1, 4, 7, 2},
             new[] {5, 4, 1, 0},
             new[] {3, 2, 7, 6},
+        };
+
+        public static readonly int[] FaceTriangles1D =
+        {
+            0, 1, 2, 3,
+            5, 0, 3, 6,
+            4, 5, 6, 7,
+            1, 4, 7, 2,
+            5, 4, 1, 0,
+            3, 2, 7, 6,
         };
 
         public static Vector3[] FaceVertices(int dir, float adjustedScale, Vector3 pos)

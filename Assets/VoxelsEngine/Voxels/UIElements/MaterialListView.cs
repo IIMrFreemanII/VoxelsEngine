@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+
+using System;
 using System.Collections.Generic;
 using ReactElements.Core;
 using UnityEngine;
@@ -147,3 +149,5 @@ namespace VoxelsEngine.Voxels.UIElements
         }
     }
 }
+
+#endif

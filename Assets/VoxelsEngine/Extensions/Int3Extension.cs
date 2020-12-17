@@ -9,5 +9,9 @@ namespace VoxelsEngine.Extensions
         {
             return new Vector3Int(value.x, value.y, value.z);
         }
+        public static Vector3 ToVector3(this int3 value)
+        {
+            return new Vector3(value.x, value.y, value.z);
+        }
     }
 }
